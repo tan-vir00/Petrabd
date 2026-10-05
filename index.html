@@ -1,0 +1,504 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PETRA Software Solutions</title>
+<meta name="description" content="PETRA Software Solutions builds custom software, enterprise systems, web and mobile apps, cloud, AI, GIS and ERP solutions for businesses in Bangladesh.">
+<meta name="theme-color" content="#1F4FE0">
+<meta property="og:title" content="PETRA Software Solutions">
+<meta property="og:description" content="PETRA Software Solutions builds custom software, enterprise systems, web and mobile apps, cloud, AI, GIS and ERP solutions for businesses in Bangladesh.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9.5v13L16 30 3 22.5v-13z' fill='%231F4FE0'/%3E%3Cpath d='M11 22V10h6.2a4.3 4.3 0 0 1 0 8.6H11' fill='none' stroke='white' stroke-width='2.6' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Organization", "name": "PETRA Software Solutions", "email": "letterbox5509@gmail.com", "telephone": "+8801609347600", "address": {"@type": "PostalAddress", "addressCountry": "BD"}}</script>
+<style>
+[hidden]{display:none!important}
+img{max-width:100%}
+/* Layout: single long marketing page, 1200px column, alternating ground bands; inquiry form is the closing section */
+:root{
+  --bg:#F6F7F9; --sf:#FFFFFF; --sf2:#EDF0F5; --ink:#0B1220; --mu:#4A5568; --ln:#E1E5EC;
+  --ac:#1F4FE0; --aci:#FFFFFF; --acs:#E9EEFF; --ac2:#0E8A7E; --bad:#C2352B; --ok:#0F7A55;
+  --grid:rgba(11,18,32,.06); --glass:rgba(255,255,255,.74); --gl:rgba(255,255,255,.92); --navbg:rgba(246,247,249,.82);
+  --shadow:rgba(11,18,32,.32); --cta:#0B1220; --cta-ink:#F3F6FC; --cta-mu:#B9C4D8; --cta-ac:#9DB4FF;
+  --sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#070B14; --sf:#0D1320; --sf2:#151D2E; --ink:#EDF1F8; --mu:#A1ACC0; --ln:#1E2738;
+  --ac:#7C9DFF; --aci:#06102A; --acs:#16224A; --ac2:#3CC4B4; --bad:#FF8073; --ok:#43CF95;
+  --grid:rgba(255,255,255,.05); --glass:rgba(17,24,40,.72); --gl:rgba(255,255,255,.08); --navbg:rgba(7,11,20,.8);
+  --shadow:rgba(0,0,0,.8); --cta:#111C3D; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#070B14; --sf:#0D1320; --sf2:#151D2E; --ink:#EDF1F8; --mu:#A1ACC0; --ln:#1E2738;
+  --ac:#7C9DFF; --aci:#06102A; --acs:#16224A; --ac2:#3CC4B4; --bad:#FF8073; --ok:#43CF95;
+  --grid:rgba(255,255,255,.05); --glass:rgba(17,24,40,.72); --gl:rgba(255,255,255,.08); --navbg:rgba(7,11,20,.8);
+  --shadow:rgba(0,0,0,.8); --cta:#111C3D; color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:76px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans);-webkit-font-smoothing:antialiased;transition:background .3s,color .3s}
+a{color:var(--ac)}
+h1,h2,h3{margin:0;text-wrap:balance}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--ac);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1200px;margin:0 auto;padding-inline:24px}
+.mono{font-family:var(--mono)}
+.eyebrow{font:500 13px var(--mono);color:var(--ac);letter-spacing:.06em;text-transform:uppercase}
+.h2{font-size:clamp(30px,4vw,48px);line-height:1.08;letter-spacing:-.03em;font-weight:700;margin-top:14px}
+.lede{color:var(--mu);font-size:17px;line-height:1.65;max-width:560px}
+.sec{padding-block:112px}
+.band{background:var(--sf);border-block:1px solid var(--ln)}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:20px 40px;margin-bottom:52px}
+.sec-head>div{max-width:680px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:0 22px;border-radius:13px;font-weight:600;font-size:15.5px;text-decoration:none;border:1px solid var(--ln);background:var(--sf);color:var(--ink);cursor:pointer;transition:transform .2s,filter .2s,border-color .2s}
+.btn:hover{border-color:var(--ink);color:var(--ink)}
+.btn.p{background:var(--ac);border-color:var(--ac);color:var(--aci)}
+.btn.p:hover{filter:brightness(1.1);transform:translateY(-1px);color:var(--aci)}
+.btn.sm{min-height:42px;padding:0 16px;font-size:14px;border-radius:11px}
+
+/* Nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--navbg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--ln)}
+.nav .wrap{display:flex;align-items:center;gap:28px;min-height:68px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo b{font-size:18px;letter-spacing:.14em}
+.links{display:flex;gap:26px;flex:1;font-size:14.5px;font-weight:500}
+.links a{color:var(--mu);text-decoration:none}.links a:hover{color:var(--ink)}
+.nav-r{display:flex;gap:10px;align-items:center;margin-left:auto}
+.ibtn{width:44px;height:44px;border-radius:12px;border:1px solid var(--ln);background:var(--sf);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.menu{display:none}
+.mobile-nav{display:none;border-top:1px solid var(--ln);padding:8px 24px 16px}
+.mobile-nav a{display:block;padding:12px 0;color:var(--ink);text-decoration:none;font-weight:500;border-bottom:1px solid var(--ln)}
+.mobile-nav.open{display:block}
+@media (max-width:900px){.links,.nav-cta{display:none}.menu{display:grid}}
+
+/* Hero */
+.hero{position:relative;overflow:hidden;padding-block:88px 100px;border-bottom:1px solid var(--ln)}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse 70% 60% at 70% 40%,#000 30%,transparent 75%);mask-image:radial-gradient(ellipse 70% 60% at 70% 40%,#000 30%,transparent 75%)}
+.hero .wrap{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:64px;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 12px;border:1px solid var(--ln);border-radius:999px;background:var(--sf);font:500 12.5px var(--mono);color:var(--mu)}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--ac);animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 var(--ac)}100%{box-shadow:0 0 0 10px transparent}}
+.hero h1{margin-top:26px;font-size:clamp(40px,5.4vw,72px);line-height:1.02;letter-spacing:-.035em;font-weight:700}
+.hero h1 span{color:var(--ac)}
+.hero .lede{margin-top:24px;font-size:18.5px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
+.tags{display:flex;flex-wrap:wrap;gap:8px 20px;margin-top:40px;font:12.5px var(--mono);color:var(--mu)}
+.rise{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.32s}
+@keyframes rise{from{opacity:.001;transform:translateY(16px)}to{opacity:1;transform:none}}
+.vis{position:relative;min-height:480px}
+.win{position:absolute;inset:20px 30px 60px 10px;border-radius:22px;border:1px solid var(--ln);background:var(--sf);box-shadow:0 40px 80px -40px var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+.win-bar{display:flex;align-items:center;gap:8px;padding:14px 18px;border-bottom:1px solid var(--ln);font:12px var(--mono);color:var(--mu)}
+.win-bar i{width:10px;height:10px;border-radius:50%;background:var(--ln)}
+.win-body{flex:1;display:grid;grid-template-columns:110px 1fr}
+.win-side{border-right:1px solid var(--ln);padding:16px 12px;display:flex;flex-direction:column;gap:10px}
+.win-side i{display:block;height:8px;border-radius:4px;background:var(--sf2)}
+.win-main{padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.mini div{border:1px solid var(--ln);border-radius:12px;padding:12px;font-size:11px;color:var(--mu)}
+.mini b{display:block;margin-top:10px;height:6px;border-radius:3px;background:var(--sf2);overflow:hidden}
+.mini b i{display:block;height:100%;background:var(--ac)}
+.plot{flex:1;min-height:140px;border:1px solid var(--ln);border-radius:14px;padding:14px;position:relative;font-size:11px;color:var(--mu)}
+.plot svg{position:absolute;left:14px;right:14px;bottom:12px;width:calc(100% - 28px);height:70%}
+.draw{stroke-dasharray:600;animation:draw 2.4s .4s ease-out both}
+@keyframes draw{from{stroke-dashoffset:600}to{stroke-dashoffset:0}}
+.float{position:absolute;padding:14px 16px;border-radius:16px;border:1px solid var(--gl);background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);box-shadow:0 24px 48px -24px var(--shadow);animation:float 7s ease-in-out infinite}
+.float.b{animation-delay:-3s}
+@keyframes float{50%{transform:translateY(-10px)}}
+.flow{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600}
+.flow span{padding:6px 10px;border-radius:8px;background:var(--sf2)}
+.flow span.on{background:var(--ac);color:var(--aci)}
+@media (max-width:560px){.vis{min-height:400px}.win{inset:10px 0 70px 0}.win-side{display:none}.win-body{grid-template-columns:1fr}.float.map{display:none}}
+
+/* Audience strip */
+.strip{padding-block:30px;background:var(--sf);border-bottom:1px solid var(--ln)}
+.strip .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 32px;color:var(--mu);font-weight:600}
+.strip .wrap span:first-child{font:500 12.5px var(--mono);text-transform:uppercase;letter-spacing:.08em}
+
+/* Cards */
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(min(100%,265px),1fr))}
+.card{padding:28px;border-radius:20px;border:1px solid var(--ln);background:var(--sf);display:flex;flex-direction:column;gap:16px;transition:transform .28s cubic-bezier(.2,.7,.2,1),border-color .28s,box-shadow .28s}
+.card:hover{transform:translateY(-4px);border-color:var(--ac);box-shadow:0 22px 48px -28px var(--shadow)}
+.card .top{display:flex;justify-content:space-between;align-items:flex-start}
+.ico{width:48px;height:48px;border-radius:14px;background:var(--acs);color:var(--ac);display:grid;place-items:center}
+.card h3{font-size:19.5px;line-height:1.25;letter-spacing:-.01em}
+.card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:14.5px;color:var(--mu)}
+.card li{display:flex;gap:10px;align-items:center}
+.card li::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--ac);flex:none}
+.card .ask{margin-top:auto;font-weight:600;font-size:14px;text-decoration:none;display:inline-flex;gap:6px;align-items:center}
+
+/* Industries */
+.ind{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:28px;align-items:start}
+.ind-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));gap:12px}
+.ind-list button{text-align:left;min-height:62px;padding:14px 16px;border-radius:14px;border:1px solid var(--ln);background:var(--bg);font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:12px;transition:border-color .2s,background .2s}
+.ind-list button span{font:500 11.5px var(--mono);color:var(--mu)}
+.ind-list button:hover{border-color:var(--ac)}
+.ind-list button[aria-pressed="true"]{border-color:var(--ac);background:var(--acs)}
+.ind-panel{position:sticky;top:96px;padding:34px;border-radius:22px;border:1px solid var(--ln);background:var(--bg)}
+.ind-panel h3{font-size:30px;letter-spacing:-.02em;margin-top:10px}
+.ind-panel p{color:var(--mu);margin-top:12px}
+.sol{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.sol span{padding:8px 12px;border-radius:10px;background:var(--acs);font-size:14px;font-weight:500}
+
+/* Why */
+.why{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr));border-top:1px solid var(--ln);border-left:1px solid var(--ln)}
+.why div{padding:30px 26px;border-right:1px solid var(--ln);border-bottom:1px solid var(--ln)}
+.why h3{font-size:18px;margin-bottom:8px}
+.why p{color:var(--mu);font-size:15px}
+
+/* Work */
+.work{border-radius:20px;border:1px solid var(--ln);background:var(--bg);overflow:hidden;display:flex;flex-direction:column;transition:transform .28s,border-color .28s,box-shadow .28s}
+.work:hover{transform:translateY(-4px);border-color:var(--ac);box-shadow:0 22px 48px -28px var(--shadow)}
+.work .shot{height:160px;padding:18px;background:var(--sf2);border-bottom:1px solid var(--ln)}
+.work .shot div{height:100%;border-radius:12px;background:var(--sf);border:1px solid var(--ln);padding:14px;display:flex;align-items:flex-end;gap:6px}
+.work .shot i{flex:1;border-radius:4px 4px 2px 2px;background:var(--acs)}
+.work .shot i.hi{background:var(--ac)}
+.work .body{padding:22px;display:flex;flex-direction:column;gap:8px;flex:1}
+.work .tag{font:500 11.5px var(--mono);color:var(--ac);letter-spacing:.04em}
+.work h3{font-size:19px}
+.work p{color:var(--mu);font-size:14.5px;flex:1}
+.stack{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.stack span{padding:4px 9px;border-radius:7px;border:1px solid var(--ln);font:11.5px var(--mono);color:var(--mu)}
+
+/* Tech */
+.tech{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr))}
+.tech>div{padding:22px;border-radius:20px;border:1px solid var(--ln);background:var(--sf)}
+.tech h3{font:500 12px var(--mono);color:var(--mu);letter-spacing:.06em;margin-bottom:14px}
+.tech ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.tech li{display:flex;align-items:center;gap:12px;padding:9px;border-radius:12px;background:var(--bg);border:1px solid var(--ln);font-weight:600;font-size:15px}
+.tech li span{width:34px;height:34px;border-radius:9px;background:var(--acs);color:var(--ac);display:grid;place-items:center;font:500 12px var(--mono)}
+
+/* Process */
+.proc{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:28px 0}
+.proc li{padding-right:18px}
+.proc .n{display:flex;align-items:center}
+.proc .n span{width:44px;height:44px;flex:none;border-radius:50%;border:1.5px solid var(--ac);background:var(--bg);color:var(--ac);display:grid;place-items:center;font:500 13px var(--mono)}
+.proc .n::after{content:"";flex:1;height:1.5px;background:var(--ln);margin-left:8px}
+.proc h3{font-size:18px;margin-top:18px}
+.proc p{color:var(--mu);font-size:14.5px;margin-top:6px}
+
+/* Facts */
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));border:1px solid var(--ln);border-radius:24px;overflow:hidden;background:var(--sf)}
+.facts div{padding:34px 30px;border-right:1px solid var(--ln)}
+.facts b{display:block;font-size:clamp(34px,4vw,48px);letter-spacing:-.04em;line-height:1.1}
+.facts span{color:var(--mu);font-size:15px}
+.pay{display:flex;height:12px;border-radius:6px;overflow:hidden;gap:3px;margin:14px 0 8px}
+.pay i{display:block;background:var(--ac)}.pay i:nth-child(2){background:var(--ac2)}.pay i:nth-child(3){background:var(--ink)}
+
+/* Contact / inquiry */
+.cta{border-radius:28px;background:var(--cta);color:var(--cta-ink);padding:clamp(32px,6vw,72px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:48px;position:relative;overflow:hidden}
+.cta::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:48px 48px;-webkit-mask-image:radial-gradient(ellipse 50% 80% at 10% 30%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse 50% 80% at 10% 30%,#000 10%,transparent 70%);pointer-events:none}
+.cta>*{position:relative;min-width:0}
+.cta .eyebrow{color:var(--cta-ac)}
+.cta h2{font-size:clamp(32px,4.2vw,52px);line-height:1.05;letter-spacing:-.035em;margin-top:16px}
+.cta .lede{color:var(--cta-mu);margin-top:18px}
+.cinfo{display:flex;flex-direction:column;gap:14px;margin-top:34px}
+.cinfo div{display:flex;gap:12px;align-items:center;color:var(--cta-ink)}
+.cinfo svg{color:var(--cta-ac);flex:none}
+.cinfo a{color:var(--cta-ink);text-decoration:none;font-weight:600}
+.cinfo small{display:block;color:var(--cta-mu);font-size:12.5px}
+.form{background:var(--sf);color:var(--ink);border-radius:22px;padding:28px;display:flex;flex-direction:column;gap:16px;box-shadow:0 30px 60px -30px rgba(0,0,0,.5)}
+.form h3{font-size:20px}
+.seg{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.seg label{display:flex;align-items:center;gap:10px;min-height:46px;padding:8px 12px;border:1px solid var(--ln);border-radius:12px;cursor:pointer;font-size:14px;font-weight:500}
+.seg input{accent-color:var(--ac);width:16px;height:16px;flex:none}
+.seg label:has(input:checked){border-color:var(--ac);background:var(--acs)}
+.row2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:14px}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fld label{font-size:13px;font-weight:600;color:var(--mu)}
+.fld label em{font-style:normal;color:var(--bad)}
+.inp{width:100%;min-height:46px;padding:10px 13px;border-radius:12px;border:1px solid var(--ln);background:var(--bg);outline:none}
+.inp:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--acs)}
+textarea.inp{min-height:110px;resize:vertical}
+.inp[aria-invalid="true"]{border-color:var(--bad)}
+.err{color:var(--bad);font-size:13.5px;min-height:1px}
+.small{font-size:12.5px;color:var(--mu)}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.done{text-align:center;padding:24px 8px;display:flex;flex-direction:column;gap:12px;align-items:center}
+.done .tick{width:60px;height:60px;border-radius:50%;background:var(--acs);color:var(--ok);display:grid;place-items:center}
+.done .ref{font:600 18px var(--mono);color:var(--ac);padding:10px 16px;border:1px dashed var(--ac);border-radius:12px}
+
+/* Footer */
+footer{border-top:1px solid var(--ln);background:var(--sf);padding-block:64px 32px}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr));gap:36px}
+.fgrid h4{margin:0 0 14px;font-size:15px}
+.fgrid nav{display:flex;flex-direction:column;gap:10px;font-size:14.5px}
+.fgrid a{color:var(--mu);text-decoration:none}.fgrid a:hover{color:var(--ink)}
+.fbot{margin-top:48px;padding-top:22px;border-top:1px solid var(--ln);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;color:var(--mu);font-size:13.5px}
+.fbot a{color:var(--mu)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:80;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;font-weight:500;max-width:calc(100vw - 32px)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="PETRA home"><svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9.5v13L16 30 3 22.5v-13z" fill="var(--ac)"></path><path d="M11 22V10h6.2a4.3 4.3 0 0 1 0 8.6H11" fill="none" stroke="var(--aci)" stroke-width="2.6" stroke-linejoin="round"></path></svg><b>PETRA</b></a>
+    <nav class="links" aria-label="Primary"><a href="#services">Services</a><a href="#industries">Industries</a><a href="#work">Work</a><a href="#stack">Technology</a><a href="#process">Process</a><a href="#contact">Contact</a></nav>
+    <div class="nav-r">
+      <button class="ibtn" id="theme" type="button" aria-label="Switch colour theme"></button>
+      <a class="btn p sm nav-cta" href="#contact" data-type="Book consultation">Book a Consultation</a>
+      <button class="ibtn menu" id="menu" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mnav"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"></path></svg></button>
+    </div>
+  </div>
+  <nav class="mobile-nav" id="mnav" aria-label="Mobile"><a href="#services">Services</a><a href="#industries">Industries</a><a href="#work">Work</a><a href="#process">Process</a><a href="#contact">Contact</a><a href="#contact" data-type="Book consultation">Book a Consultation</a></nav>
+</header>
+<main id="main">
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="chip rise"><i></i>Software &amp; technology solutions · Bangladesh</div>
+      <h1 class="rise d1">Building Software That Powers <span>Modern Businesses</span></h1>
+      <p class="lede rise d2">PETRA designs, builds and supports the systems organisations depend on: custom software, enterprise platforms, web and mobile products, cloud infrastructure, AI and automation, GIS and end-to-end digital transformation.</p>
+      <div class="ctas rise d3"><a class="btn p" href="#contact" data-type="Book consultation">Book a Consultation <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a><a class="btn" href="#services">View Services</a></div>
+      <div class="tags rise d3"><span>Custom software</span><span>Cloud</span><span>AI &amp; data</span><span>GIS</span><span>ERP</span><span>Mobile</span></div>
+    </div>
+    <div class="vis rise d2" role="img" aria-label="Illustration of a connected business platform with a dashboard, a deployment notice, a workflow and a live map">
+      <div class="win"><div class="win-bar"><i></i><i></i><i></i><span style="margin-left:10px">operations / overview</span></div>
+        <div class="win-body"><div class="win-side"><i style="width:70%;background:var(--acs)"></i><i style="width:85%"></i><i style="width:60%"></i><i style="width:75%"></i><i style="width:55%"></i></div>
+          <div class="win-main"><div class="mini"><div>Throughput<b><i style="width:72%"></i></b></div><div>Uptime<b><i style="width:94%;background:var(--ac2)"></i></b></div><div>Automation<b><i style="width:58%"></i></b></div></div>
+            <div class="plot">Demand forecast<svg viewBox="0 0 400 140" preserveAspectRatio="none" aria-hidden="true"><path d="M0 35H400M0 70H400M0 105H400" stroke="var(--ln)" fill="none"></path><path class="draw" d="M0 110 C40 100 60 80 100 86 S160 60 200 64 S260 30 300 38 S360 18 400 14" fill="none" stroke="var(--ac)" stroke-width="3" stroke-linecap="round"></path><path d="M0 120 C50 116 90 104 140 106 S220 90 270 92 S350 80 400 74" fill="none" stroke="var(--ac2)" stroke-width="2" stroke-dasharray="5 6"></path></svg></div>
+          </div></div></div>
+      <div class="float" style="right:0;top:0;width:236px"><div style="display:flex;gap:10px;align-items:center"><span class="ico" style="width:32px;height:32px;border-radius:9px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6 9.5 4.25 4.25 0 0 0 7 18z"></path></svg></span><div><div style="font-size:13px;font-weight:600">Deployed to production</div><div class="mono small" style="font-size:11px">pipeline · all checks passed</div></div></div></div>
+      <div class="float b" style="left:-6px;bottom:0"><div class="mono small" style="font-size:11px;margin-bottom:10px">workflow · purchase order</div><div class="flow"><span>Request</span>→<span>Approve</span>→<span class="on">Invoice</span></div></div>
+      <div class="float map" style="right:6px;bottom:26px;width:170px;height:128px;padding:0;overflow:hidden;background:var(--sf);border-color:var(--ln)"><svg viewBox="0 0 170 128" width="170" height="128" aria-hidden="true"><path d="M0 30 C40 20 60 50 100 40 S150 20 170 30M0 80 C30 70 70 100 110 86 S150 70 170 84" fill="none" stroke="var(--ln)" stroke-width="10"></path><path d="M60 0 L70 128M130 0 L118 128" stroke="var(--ln)" stroke-width="2"></path><circle cx="48" cy="56" r="13" fill="var(--ac)" opacity=".18"></circle><circle cx="48" cy="56" r="5" fill="var(--ac)"></circle><circle cx="112" cy="40" r="5" fill="var(--ac2)"></circle><circle cx="96" cy="98" r="5" fill="var(--ac)"></circle></svg><span class="mono small" style="position:absolute;left:10px;top:8px;font-size:10.5px">assets · live</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="strip" aria-label="Who we work with"><div class="wrap"><span>Built for</span><span>Enterprises</span><span>Startups</span><span>NGOs</span><span>Universities &amp; schools</span><span>Industrial operators</span><span>Government agencies</span></div></section>
+
+<section class="sec" id="services"><div class="wrap">
+  <div class="sec-head"><div><div class="eyebrow">Services</div><h2 class="h2">End-to-end engineering, from first idea to production</h2></div><p class="lede">Eight practices under one roof, so strategy, build, infrastructure and support answer to a single team.</p></div>
+  <div class="grid"><article class="card"><div class="top"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 9l-4 3 4 3M16 9l4 3-4 3M13.5 6l-3 12"></path></svg></span><span class="mono small">01</span></div>
+  <h3>Custom Software Development</h3><ul><li>Desktop Applications</li><li>Enterprise Systems</li><li>Business Management Software</li><li>Workflow Automation</li></ul>
+  <a class="ask" href="#contact" data-service="Custom Software Development">Ask about this <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></article><article class="card"><div class="top"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v14H3zM3 9h18M6.5 7h.01M9 7h.01"></path></svg></span><span class="mono small">02</span></div>
+  <h3>Web Development</h3><ul><li>Corporate Websites</li><li>Web Portals</li><li>SaaS Platforms</li><li>E-commerce Solutions</li></ul>
+  <a class="ask" href="#contact" data-service="Web Development">Ask about this <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></article><article class="card"><div class="top"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2h8a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H8a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM11 18h2"></path></svg></span><span class="mono small">03</span></div>
+  <h3>Mobile App Development</h3><ul><li>Android Applications</li><li>iOS Applications</li><li>Cross-platform Apps</li></ul>
+  <a class="ask" href="#contact" data-service="Mobile App Development">Ask about this <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></article><article class="card"><div class="top"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18h10a4 4 0 0 0 .5-7.97A6 6 0 0 0 6 9.5 4.25 4.25 0 0 0 7 18z"></path></svg></span><span class="mono small">04</span></div>
+  <h3>Cloud Solutions</h3><ul><li>Cloud Migration</li><li>Cloud Infrastructure</li><li>Backup Systems</li><li>Deployment Services</li></ul>
+  <a class="ask" href="#contact" data-service="Cloud Solutions">Ask about this <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></article><article class="card"><div class="top"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V11M10 20V5M16 20v-6M22 20H2M16 9l4-4"></path></svg></span><span class="mono small">05</span></div>
+  <h3>AI &amp; Data Analytics</h3><ul><li>Machine Learning Solutions</li><li>Predictive Analytics</li><li>Business Intelligence Dashboards</li><li>Data Visualization</li></ul>
+  <a class="ask" href="#contact" data-service="AI &amp; Data Analytics">Ask about this <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></article><article class="card"><div class="top"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"></path></svg></span><span class="mono small">06</span></div>
+  <h3>GIS &amp; Geospatial Solutions</h3><ul><li>Mapping Platforms</li><li>Spatial Analytics</li><li>Remote Sensing Applications</li><li>Asset Monitoring Systems</li></ul>
+  <a class="ask" href="#contact" data-service="GIS &amp; Geospatial Solutions">Ask about this <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></article><article class="card"><div class="top"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"></path></svg></span><span class="mono small">07</span></div>
+  <h3>ERP &amp; Business Automation</h3><ul><li>Inventory Systems</li><li>HR Management</li><li>Accounting Solutions</li><li>CRM Platforms</li></ul>
+  <a class="ask" href="#contact" data-service="ERP &amp; Business Automation">Ask about this <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></article><article class="card"><div class="top"><span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6zM9 12l2 2 4-4"></path></svg></span><span class="mono small">08</span></div>
+  <h3>Cybersecurity &amp; IT Consulting</h3><ul><li>Security Audits</li><li>Infrastructure Planning</li><li>IT Strategy</li><li>Technical Support</li></ul>
+  <a class="ask" href="#contact" data-service="Cybersecurity &amp; IT Consulting">Ask about this <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></article></div>
+</div></section>
+
+<section class="sec band" id="industries"><div class="wrap">
+  <div class="sec-head"><div><div class="eyebrow">Industries we serve</div><h2 class="h2">Domain knowledge across the sectors that run the economy</h2></div><p class="lede">Select an industry to see where we typically help.</p></div>
+  <div class="ind"><div class="ind-list" role="group" aria-label="Industries"><button type="button" data-ind="0" aria-pressed="true"><span>01</span>Hospitality &amp; Tourism</button><button type="button" data-ind="1" aria-pressed="false"><span>02</span>Oil &amp; Gas</button><button type="button" data-ind="2" aria-pressed="false"><span>03</span>Mining</button><button type="button" data-ind="3" aria-pressed="false"><span>04</span>Energy &amp; Utilities</button><button type="button" data-ind="4" aria-pressed="false"><span>05</span>Education</button><button type="button" data-ind="5" aria-pressed="false"><span>06</span>Healthcare</button><button type="button" data-ind="6" aria-pressed="false"><span>07</span>Manufacturing</button><button type="button" data-ind="7" aria-pressed="false"><span>08</span>Retail &amp; E-commerce</button><button type="button" data-ind="8" aria-pressed="false"><span>09</span>NGOs &amp; Development</button><button type="button" data-ind="9" aria-pressed="false"><span>10</span>Government Agencies</button><button type="button" data-ind="10" aria-pressed="false"><span>11</span>Logistics &amp; Transportation</button><button type="button" data-ind="11" aria-pressed="false"><span>12</span>Real Estate &amp; Construction</button></div>
+    <div class="ind-panel" aria-live="polite"><div class="mono small" id="ind-n">01 / 12</div><h3 id="ind-name"></h3><p id="ind-desc"></p><div class="mono small" style="margin-top:24px;letter-spacing:.05em">TYPICAL SOLUTIONS</div><div class="sol" id="ind-sol"></div>
+      <a href="#contact" id="ind-cta" style="display:inline-flex;gap:8px;align-items:center;margin-top:28px;font-weight:600;text-decoration:none"></a></div></div>
+</div></section>
+
+<section class="sec" id="why"><div class="wrap">
+  <div class="sec-head"><div><div class="eyebrow">Why choose PETRA</div><h2 class="h2">A partner engineered for reliability, not just delivery</h2></div></div>
+  <div class="why"><div><h3>Industry-Focused Solutions</h3><p>Software shaped around how your sector actually operates, not generic templates.</p></div><div><h3>Modern Technology Stack</h3><p>Current, well-supported frameworks that keep your systems maintainable for years.</p></div><div><h3>Scalable Architecture</h3><p>Designed to grow from one site to many, and from hundreds of users to thousands.</p></div><div><h3>Dedicated Support</h3><p>A named team that knows your system, with clear response commitments.</p></div><div><h3>Secure Development Practices</h3><p>Access control, encryption, code review and audits built into every release.</p></div><div><h3>Cost-Effective Delivery</h3><p>Enterprise-grade engineering at a cost structure that fits local and regional budgets.</p></div><div><h3>Agile Development Process</h3><p>Short iterations, working software early, and full visibility into progress.</p></div><div><h3>Long-Term Partnership Approach</h3><p>We stay after launch: maintenance, upgrades and new capabilities as you grow.</p></div></div>
+</div></section>
+
+<section class="sec band" id="work"><div class="wrap">
+  <div class="sec-head"><div><div class="eyebrow">Portfolio</div><h2 class="h2">Products and platforms we build</h2></div><p class="lede">Our own products, alongside the kinds of solutions we deliver for clients.</p></div>
+  <div class="grid"><article class="work"><div class="shot" aria-hidden="true"><div><i class="" style="height:40%"></i><i class="" style="height:62%"></i><i class="" style="height:48%"></i><i class="" style="height:80%"></i><i class="" style="height:55%"></i><i class="" style="height:70%"></i><i class="hi" style="height:90%"></i></div></div><div class="body"><div class="tag">IN-HOUSE PRODUCT · RETAIL &amp; PHARMACY</div><h3>PetraPOS</h3><p>Point-of-sale and inventory software for pharmacies and retail stores, with billing, stock control and reporting.</p><div class="stack"><span>Electron</span><span>SQLite</span><span>TypeScript</span></div></div></article><article class="work"><div class="shot" aria-hidden="true"><div><i class="" style="height:55%"></i><i class="" style="height:70%"></i><i class="" style="height:60%"></i><i class="hi" style="height:85%"></i><i class="" style="height:65%"></i><i class="" style="height:75%"></i><i class="" style="height:50%"></i></div></div><div class="body"><div class="tag">IN-HOUSE PRODUCT · HOSPITALITY</div><h3>PetraPMS</h3><p>Property management for 3- and 4-star hotels: reservations, front desk, housekeeping and billing over a hotel LAN.</p><div class="stack"><span>Electron</span><span>SQLite</span><span>PostgreSQL</span></div></div></article><article class="work"><div class="shot" aria-hidden="true"><div><i class="" style="height:30%"></i><i class="" style="height:45%"></i><i class="" style="height:60%"></i><i class="" style="height:52%"></i><i class="" style="height:74%"></i><i class="" style="height:66%"></i><i class="hi" style="height:82%"></i></div></div><div class="body"><div class="tag">SOLUTION · ENTERPRISE</div><h3>Enterprise ERP Platform</h3><p>Finance, HR, procurement and inventory unified in one system with role-based access and audit trails.</p><div class="stack"><span>.NET</span><span>PostgreSQL</span><span>React</span></div></div></article><article class="work"><div class="shot" aria-hidden="true"><div><i class="" style="height:60%"></i><i class="" style="height:48%"></i><i class="" style="height:72%"></i><i class="" style="height:58%"></i><i class="hi" style="height:84%"></i><i class="" style="height:62%"></i><i class="" style="height:76%"></i></div></div><div class="body"><div class="tag">SOLUTION · COMMERCE</div><h3>E-commerce Marketplace</h3><p>Multi-vendor marketplace with catalog, payments, order management and seller dashboards.</p><div class="stack"><span>Next.js</span><span>Node.js</span><span>MySQL</span></div></div></article><article class="work"><div class="shot" aria-hidden="true"><div><i class="" style="height:70%"></i><i class="" style="height:52%"></i><i class="" style="height:64%"></i><i class="" style="height:40%"></i><i class="" style="height:58%"></i><i class="hi" style="height:80%"></i><i class="" style="height:46%"></i></div></div><div class="body"><div class="tag">SOLUTION · GEOSPATIAL</div><h3>GIS Analytics Dashboard</h3><p>Interactive maps layering assets, field data and remote sensing for spatial decision-making.</p><div class="stack"><span>Python</span><span>PostgreSQL</span><span>React</span></div></div></article><article class="work"><div class="shot" aria-hidden="true"><div><i class="" style="height:45%"></i><i class="" style="height:58%"></i><i class="" style="height:50%"></i><i class="" style="height:66%"></i><i class="" style="height:72%"></i><i class="" style="height:60%"></i><i class="hi" style="height:78%"></i></div></div><div class="body"><div class="tag">SOLUTION · OPERATIONS</div><h3>Inventory Management System</h3><p>Multi-warehouse stock, batch and expiry tracking with reorder alerts and supplier management.</p><div class="stack"><span>Node.js</span><span>PostgreSQL</span><span>React</span></div></div></article><article class="work"><div class="shot" aria-hidden="true"><div><i class="" style="height:50%"></i><i class="" style="height:66%"></i><i class="" style="height:42%"></i><i class="hi" style="height:74%"></i><i class="" style="height:60%"></i><i class="" style="height:52%"></i><i class="" style="height:68%"></i></div></div><div class="body"><div class="tag">SOLUTION · MOBILE</div><h3>Mobile Service Application</h3><p>Field-service app for job dispatch, offline data capture, photos and customer sign-off.</p><div class="stack"><span>React Native</span><span>Node.js</span><span>AWS</span></div></div></article><article class="work"><div class="shot" aria-hidden="true"><div><i class="" style="height:38%"></i><i class="" style="height:54%"></i><i class="" style="height:68%"></i><i class="" style="height:60%"></i><i class="" style="height:82%"></i><i class="" style="height:74%"></i><i class="hi" style="height:88%"></i></div></div><div class="body"><div class="tag">SOLUTION · LOGISTICS</div><h3>Logistics Tracking Platform</h3><p>Live shipment and fleet tracking with route planning, proof of delivery and client portals.</p><div class="stack"><span>Next.js</span><span>Python</span><span>Azure</span></div></div></article></div>
+</div></section>
+
+<section class="sec" id="stack"><div class="wrap">
+  <div class="sec-head"><div><div class="eyebrow">Technology</div><h2 class="h2">A modern, proven stack chosen for longevity</h2></div></div>
+  <div class="tech"><div><h3>FRONTEND</h3><ul><li><span>Re</span>React</li><li><span>Nx</span>Next.js</li><li><span>El</span>Electron</li><li><span>TS</span>TypeScript</li></ul></div><div><h3>BACKEND</h3><ul><li><span>Nd</span>Node.js</li><li><span>Py</span>Python</li><li><span>.N</span>.NET</li></ul></div><div><h3>DATABASES</h3><ul><li><span>Pg</span>PostgreSQL</li><li><span>Sq</span>SQLite</li><li><span>My</span>MySQL</li></ul></div><div><h3>CLOUD</h3><ul><li><span>AW</span>AWS</li><li><span>Az</span>Azure</li><li><span>Dk</span>Docker</li><li><span>K8</span>Kubernetes</li></ul></div><div><h3>DATA & AI</h3><ul><li><span>Py</span>Python</li><li><span>TF</span>TensorFlow</li><li><span>SK</span>Scikit-Learn</li><li><span>BI</span>Power BI</li></ul></div></div>
+</div></section>
+
+<section class="sec band" id="process"><div class="wrap">
+  <div class="sec-head"><div><div class="eyebrow">Development process</div><h2 class="h2">A transparent path from discovery to long-term support</h2></div></div>
+  <ol class="proc"><li><div class="n"><span>01</span></div><h3>Discovery</h3><p>Understand goals, users, constraints and success measures.</p></li><li><div class="n"><span>02</span></div><h3>Planning</h3><p>Scope, architecture, milestones and a clear estimate.</p></li><li><div class="n"><span>03</span></div><h3>Design</h3><p>UX flows, interface design and technical design.</p></li><li><div class="n"><span>04</span></div><h3>Development</h3><p>Iterative builds with regular demos and reviews.</p></li><li><div class="n"><span>05</span></div><h3>Testing</h3><p>Functional, performance and security testing.</p></li><li><div class="n"><span>06</span></div><h3>Deployment</h3><p>Release, data migration, training and handover.</p></li><li><div class="n"><span>07</span></div><h3>Support &amp; Maintenance</h3><p>Monitoring, fixes, upgrades and new features.</p></li></ol>
+</div></section>
+
+<section class="sec" aria-label="How we work"><div class="wrap">
+  <div class="facts">
+    <div><b>8</b><span>Service practices under one team</span></div>
+    <div><b>12</b><span>Industries served</span></div>
+    <div><b>30·30·40</b><div class="pay" aria-hidden="true"><i style="flex:3"></i><i style="flex:3"></i><i style="flex:4"></i></div><span>Milestone billing: advance, midway, delivery</span></div>
+    <div><b>3 months</b><span>Bug-fix support included after launch</span></div>
+  </div>
+</div></section>
+
+<section class="sec" id="contact" style="padding-top:0"><div class="wrap">
+  <div class="cta">
+    <div>
+      <div class="eyebrow">Let's build</div>
+      <h2>Ready to Transform Your Business with Technology?</h2>
+      <p class="lede">Tell us what you need. We reply within one working day with next steps, and for project requests, a clear scope and estimate.</p>
+      <div class="cinfo">
+        <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM22 6l-10 7L2 6"></path></svg><div><small>Email</small><a href="mailto:letterbox5509@gmail.com">letterbox5509@gmail.com</a></div></div>
+        <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"></path></svg><div><small>Phone</small><a href="tel:+8801609347600">01609347600</a></div></div>
+        <div><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11zM12 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"></path></svg><div><small>Office</small><span style="font-weight:600">[Office address], Bangladesh</span></div></div>
+      </div>
+    </div>
+    <div class="form" id="form-box">
+      <form id="inq" novalidate>
+        <div style="display:flex;flex-direction:column;gap:16px">
+        <h3>Send an inquiry</h3>
+        <fieldset style="border:0;padding:0;margin:0"><legend class="small" style="font-weight:600;margin-bottom:8px">What do you need?</legend>
+          <div class="seg">
+            <label><input type="radio" name="type" value="Project inquiry" checked> Project inquiry</label>
+            <label><input type="radio" name="type" value="Request quotation"> Request a quotation</label>
+            <label><input type="radio" name="type" value="Book consultation"> Book a consultation</label>
+            <label><input type="radio" name="type" value="Custom requirements"> Custom requirements</label>
+          </div></fieldset>
+        <div class="row2">
+          <div class="fld"><label for="f-name">Full name <em>*</em></label><input class="inp" id="f-name" name="name" autocomplete="name" required></div>
+          <div class="fld"><label for="f-company">Company name</label><input class="inp" id="f-company" name="company" autocomplete="organization"></div>
+          <div class="fld"><label for="f-email">Email <em>*</em></label><input class="inp" id="f-email" name="email" type="email" autocomplete="email" required></div>
+          <div class="fld"><label for="f-phone">Phone number <em>*</em></label><input class="inp" id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="01XXXXXXXXX" required></div>
+        </div>
+        <div class="fld"><label for="f-service">Service required <em>*</em></label><select class="inp" id="f-service" name="service"><option>Custom Software Development</option><option>Web Development</option><option>Mobile App Development</option><option>Cloud Solutions</option><option>AI &amp; Data Analytics</option><option>GIS &amp; Geospatial Solutions</option><option>ERP &amp; Business Automation</option><option>Cybersecurity &amp; IT Consulting</option><option>Not sure yet</option></select></div>
+        <div class="row2" id="consult-row" hidden>
+          <div class="fld"><label for="f-date">Preferred date</label><input class="inp" id="f-date" name="preferredDate" type="date"></div>
+          <div class="fld"><label for="f-time">Preferred time</label><select class="inp" id="f-time" name="preferredTime"><option>Morning (10am–1pm)</option><option>Afternoon (2pm–5pm)</option><option>Evening (6pm–8pm)</option></select></div>
+        </div>
+        <div class="fld"><label for="f-desc" id="f-desc-l">Project description <em>*</em></label><textarea class="inp" id="f-desc" name="description" required placeholder="What should the system do, who will use it, and what do you use today?"></textarea></div>
+        <div class="row2">
+          <div class="fld"><label for="f-budget">Estimated budget</label><select class="inp" id="f-budget" name="budget"><option value="">Select a range</option><option>Under ৳ 1 lakh</option><option>৳ 1–3 lakh</option><option>৳ 3–5 lakh</option><option>৳ 5–10 lakh</option><option>Above ৳ 10 lakh</option><option>Not sure yet</option></select></div>
+          <div class="fld"><label for="f-timeline">Preferred timeline</label><select class="inp" id="f-timeline" name="timeline"><option value="">Select</option><option>As soon as possible</option><option>Within 1 month</option><option>1–3 months</option><option>3–6 months</option><option>Flexible</option></select></div>
+        </div>
+        <div class="fld"><label for="f-file">File attachment</label><input class="inp" id="f-file" name="attachment" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.png,.jpg,.jpeg,.zip,.txt"><span class="small">Requirement document, sketch or spreadsheet, up to 10 MB</span></div>
+        <div class="fld"><label for="f-notes">Additional notes</label><input class="inp" id="f-notes" name="notes"></div>
+        <div class="fld"><label for="f-source">How did you hear about us?</label><select class="inp" id="f-source" name="source"><option>Website</option><option>Referral</option><option>Facebook</option><option>LinkedIn</option><option>Event</option></select></div>
+        <div class="hp" aria-hidden="true"><label for="f-web">Leave this empty</label><input id="f-web" name="website" tabindex="-1" autocomplete="off"></div>
+        <div class="err" id="f-err" role="alert"></div>
+        <button class="btn p" type="submit" style="width:100%">Send inquiry <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+        <p class="small">We use your details only to reply to this inquiry.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="fgrid">
+    <div style="grid-column:span 2;max-width:360px;min-width:0">
+      <a class="logo" href="#top"><svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9.5v13L16 30 3 22.5v-13z" fill="var(--ac)"></path><path d="M11 22V10h6.2a4.3 4.3 0 0 1 0 8.6H11" fill="none" stroke="var(--aci)" stroke-width="2.6" stroke-linejoin="round"></path></svg><b>PETRA</b></a>
+      <p class="small" style="font-size:14.5px;margin-top:16px;line-height:1.6">PETRA Software Solutions is a Bangladesh-based software and technology company helping organisations digitise operations, automate workflows and build scalable digital products.</p>
+    </div>
+    <div><h4>Services</h4><nav aria-label="Services"><a href="#services">Custom Software</a><a href="#services">Web &amp; Mobile</a><a href="#services">Cloud Solutions</a><a href="#services">AI &amp; Data</a><a href="#services">GIS &amp; Geospatial</a><a href="#services">ERP &amp; Automation</a></nav></div>
+    <div><h4>Company</h4><nav aria-label="Company"><a href="#why">About PETRA</a><a href="#industries">Industries</a><a href="#work">Portfolio</a><a href="#contact" data-type="Project inquiry">Careers</a><a href="#process">How we work</a></nav></div>
+    <div><h4>Contact</h4><nav aria-label="Contact"><a href="mailto:letterbox5509@gmail.com">letterbox5509@gmail.com</a><a href="tel:+8801609347600">01609347600</a><span class="small" style="font-size:14.5px">[Office address], Bangladesh</span><a href="#contact" data-type="Book consultation">Book a consultation</a></nav></div>
+  </div>
+  <div class="fbot"><span>© <span id="yr">2026</span> PETRA Software Solutions. All rights reserved.</span><a href="admin.html" style="display:inline-flex;gap:6px;align-items:center;text-decoration:none"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4"></path></svg> Staff sign-in</a></div>
+</div></footer>
+<div id="toast" aria-live="polite"></div>
+
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const IND = [["Hospitality & Tourism", "hospitality", "Property operations, reservations and guest experience systems for hotels, resorts and travel operators.", ["Property management (PMS)", "Booking engines", "Front desk & housekeeping", "Guest analytics"]], ["Oil & Gas", "oil & gas", "Digital tools for upstream and downstream operations, from field data capture to production reporting.", ["Production dashboards", "Asset & pipeline GIS", "Maintenance tracking", "HSE reporting"]], ["Mining", "mining", "Systems that connect site operations, equipment and compliance into one reliable view.", ["Fleet & equipment tracking", "Geospatial site mapping", "Shift & safety logs", "Output analytics"]], ["Energy & Utilities", "energy", "Platforms for grid, metering and field-service operations that must run without interruption.", ["Smart metering portals", "Outage & field service", "Network GIS", "Consumption forecasting"]], ["Education", "education", "Learning and administration platforms for schools, colleges and universities.", ["Student information systems", "Learning portals", "Exam & result management", "Admissions workflows"]], ["Healthcare", "healthcare", "Secure clinical and operational software for clinics, hospitals and pharmacies.", ["Pharmacy POS & inventory", "Patient records", "Appointment scheduling", "Billing & claims"]], ["Manufacturing", "manufacturing", "Production, quality and supply visibility from the shop floor to management.", ["Production planning", "Quality control", "Inventory & procurement", "OEE dashboards"]], ["Retail & E-commerce", "retail", "Commerce systems that unify store, warehouse and online channels.", ["Point of sale", "Online storefronts", "Omnichannel inventory", "Loyalty & CRM"]], ["NGOs & Development", "NGO", "Program, field-data and donor-reporting tools built for accountability.", ["Beneficiary databases", "Mobile field data", "M&E dashboards", "Donor reporting"]], ["Government Agencies", "public sector", "Citizen services and internal systems built for security, scale and accessibility.", ["e-Service portals", "Case management", "Records digitization", "Spatial planning"]], ["Logistics & Transportation", "logistics", "Real-time visibility across fleets, shipments and warehouses.", ["Shipment tracking", "Fleet management", "Route optimization", "Warehouse systems"]], ["Real Estate & Construction", "construction", "Project, property and asset management from site to sale.", ["Project controls", "Property portals", "Site progress GIS", "Contractor management"]]];
+const INBOX_KEY = 'petra-inbox', EMAIL = "letterbox5509@gmail.com";
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const SUN = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>';
+const MOON = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"></path></svg>';
+
+/* Theme */
+function setTheme(t) {
+  if (t) document.documentElement.setAttribute('data-theme', t); else document.documentElement.removeAttribute('data-theme');
+  const dark = t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  $('#theme').innerHTML = dark ? SUN : MOON; $('#theme').setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+}
+let saved = null; try { saved = localStorage.getItem('petra-theme'); } catch (e) {}
+setTheme(saved);
+$('#theme').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const next = cur === 'dark' ? 'light' : 'dark'; setTheme(next); try { localStorage.setItem('petra-theme', next); } catch (e) {}
+});
+
+/* Mobile menu */
+$('#menu').addEventListener('click', () => { const o = $('#mnav').classList.toggle('open'); $('#menu').setAttribute('aria-expanded', o); });
+$('#mnav').addEventListener('click', e => { if (e.target.closest('a')) { $('#mnav').classList.remove('open'); $('#menu').setAttribute('aria-expanded', 'false'); } });
+
+/* Industries */
+function showInd(k) {
+  const x = IND[k];
+  document.querySelectorAll('[data-ind]').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.ind === k)));
+  $('#ind-n').textContent = String(k + 1).padStart(2, '0') + ' / 12';
+  $('#ind-name').textContent = x[0]; $('#ind-desc').textContent = x[2];
+  $('#ind-sol').innerHTML = x[3].map(s => `<span>${esc(s)}</span>`).join('');
+  $('#ind-cta').innerHTML = `Discuss a ${esc(x[1])} project <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>`;
+}
+document.querySelectorAll('[data-ind]').forEach(b => b.addEventListener('click', () => showInd(+b.dataset.ind)));
+showInd(0);
+
+/* Prefill form from links */
+function setType(v) { const r = document.querySelector(`input[name="type"][value="${v}"]`); if (r) { r.checked = true; onType(); } }
+function onType() {
+  const t = new FormData($('#inq')).get('type');
+  $('#consult-row').hidden = t !== 'Book consultation';
+  $('#f-desc-l').innerHTML = (t === 'Book consultation' ? 'What would you like to discuss?' : t === 'Custom requirements' ? 'Your requirements' : 'Project description') + ' <em>*</em>';
+}
+document.addEventListener('click', e => {
+  const a = e.target.closest('a[data-type], a[data-service]'); if (!a || !$('#inq')) return;
+  if (a.dataset.type) setType(a.dataset.type);
+  if (a.dataset.service) { $('#f-service').value = a.dataset.service; setType('Project inquiry'); }
+});
+$('#inq').addEventListener('change', e => { if (e.target.name === 'type') onType(); });
+const dt = new Date(); dt.setDate(dt.getDate() + 1);
+$('#f-date').min = dt.toISOString().slice(0, 10);
+$('#yr').textContent = new Date().getFullYear();
+
+/* Submit */
+function makeRef() {
+  const d = new Date(), y = String(d.getFullYear()).slice(2), p = n => String(n).padStart(2, '0');
+  const letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ'; let s = '';
+  const rnd = crypto.getRandomValues(new Uint8Array(4)); rnd.forEach(b => { s += letters[b % letters.length]; });
+  return `INQ-W${y}${p(d.getMonth() + 1)}${p(d.getDate())}-${s}`;
+}
+let lastSent = 0;
+$('#inq').addEventListener('submit', e => {
+  e.preventDefault();
+  const f = e.target, fd = new FormData(f), d = Object.fromEntries(fd), err = $('#f-err');
+  f.querySelectorAll('[aria-invalid]').forEach(x => x.removeAttribute('aria-invalid'));
+  const bad = (id, msg) => { const el = $('#' + id); el.setAttribute('aria-invalid', 'true'); el.focus(); err.textContent = msg; };
+  if (d.website) return; // bot trap
+  if (!d.name.trim()) return bad('f-name', 'Enter your full name.');
+  if (!/^\S+@\S+\.\S{2,}$/.test(d.email.trim())) return bad('f-email', 'Enter a valid email address, like name@company.com.');
+  if (d.phone.replace(/\D/g, '').length < 10) return bad('f-phone', 'Enter a phone number with at least 10 digits.');
+  if (d.description.trim().length < 10) return bad('f-desc', 'Add a few words about what you need (at least 10 characters).');
+  const file = fd.get('attachment');
+  if (file && file.size > 10 * 1024 * 1024) return bad('f-file', 'That file is over 10 MB. Attach a smaller file or email it to us.');
+  if (Date.now() - lastSent < 20000) { err.textContent = 'Your inquiry was just sent. Wait a few seconds before sending another.'; return; }
+  err.textContent = '';
+  const today = new Date(); const iso = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+  const inq = {
+    id: makeRef(), type: d.type, name: d.name.trim(), company: d.company.trim(), email: d.email.trim(), phone: d.phone.trim(),
+    service: d.service, description: d.description.trim(), budget: d.budget, timeline: d.timeline, source: d.source,
+    preferredDate: d.type === 'Book consultation' ? d.preferredDate : '', preferredTime: d.type === 'Book consultation' ? d.preferredTime : '',
+    attachment: file && file.name ? file.name : '', notes: d.notes.trim(), status: 'New', date: iso,
+  };
+  try { const box = JSON.parse(localStorage.getItem(INBOX_KEY) || '[]'); box.push(inq); localStorage.setItem(INBOX_KEY, JSON.stringify(box)); } catch (x) {}
+  lastSent = Date.now();
+  const body = `Reference: ${inq.id}\nRequest: ${inq.type}\nName: ${inq.name}\nCompany: ${inq.company}\nEmail: ${inq.email}\nPhone: ${inq.phone}\nService: ${inq.service}\nBudget: ${inq.budget || '-'}\nTimeline: ${inq.timeline || '-'}${inq.preferredDate ? `\nPreferred consultation: ${inq.preferredDate}, ${inq.preferredTime}` : ''}\n\n${inq.description}${inq.notes ? `\n\nNotes: ${inq.notes}` : ''}${inq.attachment ? `\n\n(Attachment to follow: ${inq.attachment})` : ''}`;
+  const mailto = `mailto:${EMAIL}?subject=${encodeURIComponent(`${inq.type}: ${inq.service} (${inq.id})`)}&body=${encodeURIComponent(body)}`;
+  $('#form-box').innerHTML = `<div class="done">
+    <span class="tick"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+    <h3 style="font-size:22px">Thank you, ${esc(inq.name.split(' ')[0])}</h3>
+    <p class="small" style="font-size:15px">Your ${esc(inq.type.toLowerCase())} has been recorded. Keep this reference number:</p>
+    <div class="ref">${inq.id}</div>
+    <p class="small" style="font-size:14.5px;max-width:380px">To make sure it reaches us right away, send the same details by email${inq.attachment ? ' and attach your file' : ''}.</p>
+    <a class="btn p" href="${mailto}">Email it to PETRA</a>
+    <p class="small">Or call <a href="tel:+8801609347600">01609347600</a>. You can also write to ${EMAIL}.</p>
+    <button class="btn sm" type="button" id="again">Send another inquiry</button></div>`;
+  $('#again').addEventListener('click', () => location.reload());
+});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1767 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>PETRA CRM</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#1F4FE0">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 2 29 9.5v13L16 30 3 22.5v-13z' fill='%231F4FE0'/%3E%3Cpath d='M11 22V10h6.2a4.3 4.3 0 0 1 0 8.6H11' fill='none' stroke='white' stroke-width='2.6' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+<style>
+[hidden]{display:none!important}
+img{max-width:100%}
+/* Layout: fixed left sidebar + fluid workspace; documents (slips, quotations) are fixed light A4 sheets */
+:root{
+  --bg:#F4F6F9; --panel:#FFFFFF; --panel2:#EEF1F6; --ink:#0D1424; --mu:#566173; --ln:#E1E6ED; --ln2:#CDD4DF;
+  --ac:#1F4FE0; --aci:#FFFFFF; --acs:#E8EEFF; --ac2:#0E7C72;
+  --ok:#0F7A55; --oks:#E2F4EB; --warn:#9A5800; --warns:#FFF1D9; --bad:#C2352B; --bads:#FDE8E6; --vio:#5B3FD1; --vios:#EEEAFE;
+  --shadow:0 1px 2px rgba(13,20,36,.05),0 10px 28px -14px rgba(13,20,36,.18);
+  --overlay:rgba(9,14,26,.45);
+  --sans:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:12px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#080C14; --panel:#0F1522; --panel2:#161E2E; --ink:#E8EDF5; --mu:#9BA7B9; --ln:#212B3C; --ln2:#2E3A4F;
+  --ac:#7C9DFF; --aci:#07112C; --acs:#172350; --ac2:#3CC4B4;
+  --ok:#43CF95; --oks:#0F2A20; --warn:#F2B356; --warns:#2D2311; --bad:#FF8073; --bads:#311614; --vio:#B4A3FF; --vios:#221B45;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -14px rgba(0,0,0,.7); --overlay:rgba(0,0,0,.6); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#080C14; --panel:#0F1522; --panel2:#161E2E; --ink:#E8EDF5; --mu:#9BA7B9; --ln:#212B3C; --ln2:#2E3A4F;
+  --ac:#7C9DFF; --aci:#07112C; --acs:#172350; --ac2:#3CC4B4;
+  --ok:#43CF95; --oks:#0F2A20; --warn:#F2B356; --warns:#2D2311; --bad:#FF8073; --bads:#311614; --vio:#B4A3FF; --vios:#221B45;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -14px rgba(0,0,0,.7); --overlay:rgba(0,0,0,.6); color-scheme:dark}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--ac)}
+h1,h2,h3{text-wrap:balance;margin:0;letter-spacing:-.015em}
+.mono{font-family:var(--mono)}
+.num{font-variant-numeric:tabular-nums}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px;border-radius:6px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* Shell */
+.app{display:flex;min-height:100%}
+.side{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;width:248px;flex:none;background:var(--panel);border-right:1px solid var(--ln);display:flex;flex-direction:column;padding:18px 14px;gap:6px;z-index:40}
+.brand{display:flex;align-items:center;gap:10px;padding:4px 8px 18px;text-decoration:none;color:var(--ink)}
+.brand b{font-size:16px;letter-spacing:.14em}
+.brand small{display:block;font:500 11px var(--mono);color:var(--mu);letter-spacing:.02em}
+.navgroup{font:500 11px var(--mono);color:var(--mu);text-transform:uppercase;letter-spacing:.08em;padding:14px 10px 6px}
+.nav a{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:9px;color:var(--mu);text-decoration:none;font-weight:500;min-height:38px}
+.nav a:hover{background:var(--panel2);color:var(--ink)}
+.nav a.on{background:var(--acs);color:var(--ink)}
+.nav a.on svg{color:var(--ac)}
+.nav a .cnt{margin-left:auto;font:500 11px var(--mono);background:var(--ac);color:var(--aci);border-radius:999px;padding:1px 7px}
+.side-foot{margin-top:auto;padding:12px 10px;border-top:1px solid var(--ln);display:flex;align-items:center;gap:10px}
+.avatar{width:34px;height:34px;border-radius:10px;background:var(--acs);color:var(--ac);display:grid;place-items:center;font-weight:700;font-size:13px;flex:none}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--ln);display:flex;align-items:center;gap:12px;padding:12px 28px}
+.top .crumb{font-weight:600;font-size:15px}
+.top .crumb span{color:var(--mu);font-weight:500}
+.top .sp{flex:1}
+.demo{font:500 11px var(--mono);color:var(--warn);background:var(--warns);border-radius:999px;padding:4px 10px;letter-spacing:.04em}
+.iconbtn{width:40px;height:40px;border-radius:10px;border:1px solid var(--ln);background:var(--panel);display:grid;place-items:center;cursor:pointer;color:var(--ink)}
+.iconbtn:hover{border-color:var(--ln2)}
+.menu-btn{display:none}
+.view{padding:28px;display:flex;flex-direction:column;gap:22px;max-width:1440px;width:100%}
+.scrim{display:none}
+@media (max-width:960px){
+  .side{position:fixed;left:0;top:0;bottom:0;height:auto;transform:translateX(-102%);transition:transform .25s;box-shadow:var(--shadow)}
+  .side.open{transform:none}
+  .scrim.open{display:block;position:fixed;inset:0;background:var(--overlay);z-index:35}
+  .menu-btn{display:grid}
+  .top{padding:10px 16px}
+  .view{padding:18px 16px}
+  .top .demo{display:none}
+}
+
+/* Headings */
+.ph{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:14px}
+.ph h1{font-size:26px;font-weight:650}
+.ph p{margin:4px 0 0;color:var(--mu);max-width:640px}
+.ph .acts{display:flex;flex-wrap:wrap;gap:8px}
+
+/* Buttons & form */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:40px;padding:0 15px;border-radius:10px;border:1px solid var(--ln);background:var(--panel);color:var(--ink);font-weight:600;font-size:13.5px;cursor:pointer;text-decoration:none;white-space:nowrap}
+.btn:hover{border-color:var(--ln2);background:var(--panel2)}
+.btn.p{background:var(--ac);border-color:var(--ac);color:var(--aci)}
+.btn.p:hover{filter:brightness(1.08)}
+.btn.sm{min-height:32px;padding:0 10px;font-size:12.5px;border-radius:8px}
+.btn.ghost{border-color:transparent;background:transparent}
+.btn.ghost:hover{background:var(--panel2)}
+.btn.danger{color:var(--bad)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+.field label{font-size:12.5px;font-weight:600;color:var(--mu)}
+.inp{width:100%;min-height:40px;padding:8px 12px;border-radius:10px;border:1px solid var(--ln);background:var(--panel);outline:none}
+.inp:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--acs)}
+textarea.inp{min-height:84px;resize:vertical}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px}
+.hint{font-size:12px;color:var(--mu)}
+.search{position:relative;flex:1;min-width:200px;max-width:360px}
+.search svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--mu)}
+.search .inp{padding-left:36px}
+
+/* Cards / panels */
+.panel{background:var(--panel);border:1px solid var(--ln);border-radius:16px}
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px;border-bottom:1px solid var(--ln)}
+.panel-h h2{font-size:15px;font-weight:650}
+.panel-h .hint{margin:0}
+.panel-b{padding:18px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:14px}
+.kpi{background:var(--panel);border:1px solid var(--ln);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.kpi .l{font-size:12.5px;color:var(--mu);font-weight:500;display:flex;align-items:center;gap:8px}
+.kpi .l i{width:8px;height:8px;border-radius:2px;background:var(--ac);display:inline-block}
+.kpi .v{font-size:24px;font-weight:650;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi .s{font-size:12px;color:var(--mu)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:18px}
+.cols3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px;align-items:start}
+
+/* Tables */
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;padding:14px 16px;border-bottom:1px solid var(--ln)}
+.toolbar select.inp{width:auto;min-width:150px}
+.tw{overflow-x:auto}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+.t th{text-align:left;font:500 11.5px var(--mono);color:var(--mu);text-transform:uppercase;letter-spacing:.06em;padding:11px 14px;border-bottom:1px solid var(--ln);white-space:nowrap;background:var(--panel)}
+.t td{padding:12px 14px;border-bottom:1px solid var(--ln);vertical-align:middle;white-space:nowrap}
+.t tbody tr{cursor:pointer}
+.t tbody tr:hover td{background:var(--panel2)}
+.t tr.static{cursor:default}
+.t .r{text-align:right}
+.t .wrap{white-space:normal;min-width:180px}
+.t .sub{display:block;color:var(--mu);font-size:12px}
+.id{font:500 12.5px var(--mono);color:var(--mu)}
+.pager{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;color:var(--mu);font-size:12.5px;flex-wrap:wrap}
+.pager .pg{display:flex;gap:6px}
+.empty{padding:40px 16px;text-align:center;color:var(--mu)}
+
+/* Pills */
+.pill{display:inline-flex;align-items:center;gap:6px;padding:3px 9px 3px 8px;border-radius:999px;font-size:12px;font-weight:600;background:var(--panel2);color:var(--mu);white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.pill.ac{background:var(--acs);color:var(--ac)}
+.pill.ok{background:var(--oks);color:var(--ok)}
+.pill.warn{background:var(--warns);color:var(--warn)}
+.pill.bad{background:var(--bads);color:var(--bad)}
+.pill.vio{background:var(--vios);color:var(--vio)}
+.prog{display:flex;align-items:center;gap:8px;min-width:140px}
+.bar{flex:1;height:6px;border-radius:3px;background:var(--panel2);overflow:hidden;display:flex}
+.bar i{display:block;height:100%;background:var(--ok)}
+.bar i.part{background:var(--warn)}
+
+/* 30-30-40 stage strip */
+.stages{display:grid;grid-template-columns:3fr 3fr 4fr;gap:6px}
+.stage{border:1px solid var(--ln);border-radius:12px;padding:12px;background:var(--panel);display:flex;flex-direction:column;gap:4px;min-width:0}
+.stage .k{font:500 11px var(--mono);color:var(--mu);text-transform:uppercase;letter-spacing:.06em;display:flex;justify-content:space-between;gap:6px}
+.stage .a{font-size:18px;font-weight:650;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.stage .m{font-size:12px;color:var(--mu)}
+.stage.paid{border-color:var(--ok);background:var(--oks)}
+.stage.part{border-color:var(--warn);background:var(--warns)}
+.stage.over{border-color:var(--bad)}
+@media (max-width:560px){.stages{grid-template-columns:1fr}}
+
+/* Charts */
+.chart text{fill:var(--mu);font:11px var(--mono)}
+.chart .gl{stroke:var(--ln)}
+.chart .ln{stroke:var(--ac);fill:none;stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round}
+.chart .ar{fill:var(--ac);opacity:.12}
+.chart .pt{fill:var(--panel);stroke:var(--ac);stroke-width:2}
+.hb{display:flex;flex-direction:column;gap:11px}
+.hb .row{display:grid;grid-template-columns:minmax(90px,150px) 1fr auto;gap:10px;align-items:center;font-size:13px}
+.hb .row span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hb .trk{height:10px;border-radius:5px;background:var(--panel2);overflow:hidden}
+.hb .trk i{display:block;height:100%;border-radius:5px;background:var(--ac)}
+.hb .val{font:500 12px var(--mono);color:var(--mu);min-width:64px;text-align:right}
+.stack{display:flex;height:14px;border-radius:7px;overflow:hidden;gap:2px;margin:6px 0 16px}
+.stack i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12.5px;color:var(--mu)}
+.legend span{display:inline-flex;align-items:center;gap:7px}
+.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
+.list{display:flex;flex-direction:column}
+.list .it{display:flex;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--ln)}
+.list .it:last-child{border-bottom:0}
+.list .it .grow{flex:1;min-width:0}
+.list .it .grow b{display:block;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.list .it .grow small{color:var(--mu)}
+
+/* Modal */
+.modal-wrap{position:fixed;inset:0;background:var(--overlay);z-index:60;display:flex;align-items:flex-start;justify-content:center;padding:6vh 16px 24px;overflow-y:auto}
+.modal{background:var(--panel);border:1px solid var(--ln);border-radius:18px;width:100%;max-width:560px;box-shadow:var(--shadow);animation:pop .18s ease-out}
+.modal.lg{max-width:900px}
+.modal-h{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:18px 20px;border-bottom:1px solid var(--ln)}
+.modal-h h2{font-size:17px}
+.modal-h p{margin:3px 0 0;color:var(--mu);font-size:13px}
+.modal-b{padding:20px;display:flex;flex-direction:column;gap:16px}
+.modal-f{display:flex;justify-content:flex-end;flex-wrap:wrap;gap:8px;padding:14px 20px;border-top:1px solid var(--ln)}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.99)}to{opacity:1;transform:none}}
+.dl{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:14px 20px}
+.dl div{min-width:0}
+.dl dt{font-size:12px;color:var(--mu);font-weight:500}
+.dl dd{margin:2px 0 0;font-weight:600;overflow-wrap:anywhere}
+
+.toast{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:80;background:var(--ink);color:var(--bg);padding:12px 16px;border-radius:12px;font-weight:500;box-shadow:var(--shadow);max-width:calc(100vw - 40px);animation:pop .2s ease-out}
+
+/* Slip generator layout */
+.gen{display:grid;grid-template-columns:minmax(0,360px) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:1100px){.gen{grid-template-columns:1fr}}
+.sheet-wrap{background:var(--panel2);border:1px solid var(--ln);border-radius:16px;padding:20px;overflow-x:auto}
+.sheet-scale{width:794px;margin:0 auto;box-shadow:0 20px 50px -24px rgba(0,0,0,.35)}
+.sheet-wrap.fit{overflow:hidden}
+
+/* Printable document — deliberately fixed light palette */
+.doc{--d-ink:#0D1424;--d-mu:#5A6576;--d-ln:#DDE3EB;--d-soft:#F3F6FA;--d-ac:#1F4FE0;--d-acs:#E8EEFF;--d-ok:#0F7A55;--d-warn:#9A5800;--d-bad:#C2352B;
+  width:794px;min-height:1123px;background:#FFFFFF;color:var(--d-ink);font:12.5px/1.5 var(--sans);padding:56px 60px 48px;display:flex;flex-direction:column;gap:26px;position:relative}
+.doc .hd{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;padding-bottom:22px;border-bottom:2px solid var(--d-ink)}
+.doc .co{display:flex;gap:14px;align-items:flex-start}
+.doc .co img{width:48px;height:48px;object-fit:contain}
+.doc .co b{display:block;font-size:17px;letter-spacing:.01em}
+.doc .co span{display:block;color:var(--d-mu);font-size:11.5px}
+.doc .ttl{text-align:right}
+.doc .ttl h1{font-size:24px;letter-spacing:.12em;font-weight:700;margin:0}
+.doc .ttl .no{font:600 13px var(--mono);color:var(--d-ac);margin-top:4px}
+.doc .ttl .dt{color:var(--d-mu);font-size:11.5px}
+.doc .two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.doc .box{border:1px solid var(--d-ln);border-radius:10px;padding:14px 16px}
+.doc .lbl{font:600 10px var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--d-mu);margin-bottom:8px}
+.doc .box b{display:block;font-size:14px}
+.doc .box span{display:block;color:var(--d-mu)}
+.doc .kv{display:grid;grid-template-columns:auto 1fr;gap:3px 14px}
+.doc .kv span{color:var(--d-mu)}
+.doc .kv strong{font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.doc table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.doc th{font:600 10px var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--d-mu);text-align:left;padding:9px 10px;border-bottom:1.5px solid var(--d-ink)}
+.doc td{padding:10px;border-bottom:1px solid var(--d-ln)}
+.doc .r{text-align:right;white-space:nowrap}
+.doc tr.cur td{background:var(--d-acs);font-weight:600}
+.doc tfoot td{font-weight:700;border-bottom:0;border-top:1.5px solid var(--d-ink)}
+.doc .due{display:grid;grid-template-columns:repeat(4,1fr);border:1.5px solid var(--d-ink);border-radius:12px;overflow:hidden}
+.doc .due div{padding:14px 16px;border-right:1px solid var(--d-ln)}
+.doc .due div:last-child{border-right:0;background:var(--d-ink);color:#fff}
+.doc .due div:last-child .lbl{color:#B9C3D4}
+.doc .due strong{display:block;font-size:17px;font-variant-numeric:tabular-nums}
+.doc .note{background:var(--d-soft);border-radius:10px;padding:14px 16px;white-space:pre-line}
+.doc .sig{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:auto;padding-top:36px}
+.doc .sig div{border-top:1px solid var(--d-ink);padding-top:8px;color:var(--d-mu);font-size:11.5px}
+.doc .ft{border-top:1px solid var(--d-ln);padding-top:12px;display:flex;justify-content:space-between;gap:16px;color:var(--d-mu);font-size:10.5px}
+.doc .stamp{display:inline-block;margin-top:10px;transform:rotate(-6deg);border:3px solid currentColor;border-radius:10px;padding:3px 12px;font:700 15px var(--mono);letter-spacing:.14em;opacity:.8}
+.doc .stamp.ok{color:var(--d-ok)}.doc .stamp.warn{color:var(--d-warn)}.doc .stamp.bad{color:var(--d-bad)}
+.doc .scope{white-space:pre-line}
+
+#print-root{display:none}
+#pdf-stage{position:fixed;left:-10000px;top:0}
+#pdf-stage .doc{min-height:1110px}
+@media (max-width:600px){#top-pay span{display:none}#top-pay{padding:0 11px}}
+@media print{
+  @page{size:A4;margin:0}
+  html,body{background:#fff!important;height:auto}
+  .app,.modal-wrap,.toast,.scrim{display:none!important}
+  #print-root{display:block}
+  #print-root .doc{min-height:1090px;height:auto;page-break-after:always}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* Sign-in */
+.auth{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 16px;background:var(--bg)}
+.auth-card{width:100%;max-width:400px;background:var(--panel);border:1px solid var(--ln);border-radius:20px;padding:32px;box-shadow:var(--shadow)}
+.auth-form{display:flex;flex-direction:column;gap:14px}
+.auth-card .brand{display:flex}
+
+</style>
+</head>
+<body>
+<div id="auth" class="auth" hidden></div>
+<div class="app" id="app" hidden>
+  <aside class="side" id="side" aria-label="Main navigation">
+    <a class="brand" href="#dashboard" id="brand"></a>
+    <nav class="nav" id="nav"></nav>
+    <div class="side-foot">
+      <div class="avatar" id="who-av" aria-hidden="true">SA</div>
+      <div style="min-width:0;flex:1">
+        <div style="font-weight:600;font-size:13px" id="who-name">Super Admin</div>
+        <div class="hint" id="who-role"></div>
+      </div>
+      <button class="iconbtn" id="logout-btn" data-action="logout" aria-label="Sign out" title="Sign out"></button>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim"></div>
+  <div class="main">
+    <header class="top">
+      <button class="iconbtn menu-btn" id="menu-btn" aria-label="Open navigation"></button>
+      <div class="crumb" id="crumb"></div>
+      <div class="sp"></div>
+      <span class="demo" title="Records are sample data kept in this browser">DEMO DATA</span>
+      <button class="btn p" data-action="new-payment" id="top-pay"></button>
+      <button class="iconbtn" id="theme-btn" aria-label="Switch colour theme"></button>
+    </header>
+    <main class="view" id="view"></main>
+  </div>
+</div>
+<div id="modal-root"></div>
+<div id="toast-root" aria-live="polite"></div>
+<div id="print-root"></div>
+<div id="pdf-stage" aria-hidden="true"></div>
+
+<script>
+(() => {
+'use strict';
+
+/* ───────────────────────── Constants ───────────────────────── */
+const STORE_KEY = 'petra-crm-v1';
+const THEME_KEY = 'petra-theme';
+const SERVICES = ['Custom Software Development','Web Development','Mobile App Development','Cloud Solutions','AI & Data Analytics','GIS & Geospatial Solutions','ERP & Business Automation','Cybersecurity & IT Consulting'];
+const BOOKING_STATUSES = ['Inquiry','Quotation Sent','Approved','In Progress','Testing','Delivered','Completed','Cancelled'];
+const CONTRACTED = ['Approved','In Progress','Testing','Delivered','Completed'];
+const ACTIVE = ['Approved','In Progress','Testing'];
+const STATUS_TONE = {'Inquiry':'','Quotation Sent':'vio','Approved':'ac','In Progress':'warn','Testing':'vio','Delivered':'ok','Completed':'ok','Cancelled':'bad'};
+/* The payment rule: 30% advance, 30% midway, 40% final */
+const STAGES = [
+  { n:1, label:'Advance',       pct:30 },
+  { n:2, label:'Midway',        pct:30 },
+  { n:3, label:'Final Payment', pct:40 },
+];
+const METHODS = ['Bank Transfer','bKash','Nagad','Cash','Cheque'];
+const INQ_STATUSES = ['New','Contacted','Quoted','Converted','Closed'];
+const INQ_TONE = {New:'ac',Contacted:'vio',Quoted:'warn',Converted:'ok',Closed:''};
+const SOURCES = ['Website','Referral','Facebook','LinkedIn','Event','Direct Call'];
+const Q_STATUSES = ['Draft','Sent','Accepted','Rejected'];
+const Q_TONE = {Draft:'',Sent:'vio',Accepted:'ok',Rejected:'bad'};
+const PAGE = 8;
+const AUTH_KEY = 'petra-auth', SESSION_KEY = 'petra-session', INBOX_KEY = 'petra-inbox';
+const SESSION_HOURS = 8;
+/* Default account: admin. Only a salted hash of the starting password is stored; it must be changed at first sign-in. */
+const DEFAULT_AUTH = { users: [{ username: 'admin', name: 'Super Admin', role: 'Super Admin', salt: 'petra-default-salt', hash: '89ed78c3df4945de32df373aabc5338f88f0f4b418f225acc6afcce817513f91', mustChange: true }] };
+
+/* ───────────────────────── Helpers ───────────────────────── */
+const $ = (s, r = document) => r.querySelector(s);
+const pad = n => String(n).padStart(2, '0');
+const iso = d => d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+const today = () => iso(new Date());
+const parse = s => { const [y, m, d] = String(s).split('-').map(Number); return new Date(y, (m || 1) - 1, d || 1); };
+const addDays = (s, n) => { const d = parse(s); d.setDate(d.getDate() + n); return iso(d); };
+const diffDays = (a, b) => Math.round((parse(b) - parse(a)) / 864e5);
+const fdate = s => s ? parse(s).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }) : '—';
+const money = n => '৳ ' + Math.round(n || 0).toLocaleString('en-IN');
+const plainMoney = n => 'BDT ' + Math.round(n || 0).toLocaleString('en-IN');
+const moneyShort = n => n >= 1e7 ? '৳ ' + (n / 1e7).toFixed(2) + ' Cr' : n >= 1e5 ? '৳ ' + (n / 1e5).toFixed(2) + ' L' : money(n);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const opts = (list, sel) => list.map(v => `<option${v === sel ? ' selected' : ''}>${esc(v)}</option>`).join('');
+const sum = (arr, f) => arr.reduce((s, x) => s + (f ? f(x) : x), 0);
+
+function nextId(prefix, list, withYear = true) {
+  let max = 0;
+  list.forEach(x => { const m = String(x.id || x.no || '').match(/(\d+)$/); if (m) max = Math.max(max, +m[1]); });
+  const n = String(max + 1).padStart(4, '0');
+  return withYear ? `${prefix}-${new Date().getFullYear()}-${n}` : `${prefix}-${n}`;
+}
+
+const ICONS = {
+  dash:'M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 3v6h8V3z',
+  inbox:'M22 12h-6l-2 3h-4l-2-3H2M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z',
+  users:'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75',
+  cal:'M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z',
+  file:'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 13h8M8 17h5',
+  wallet:'M20 7H5a2 2 0 0 1 0-4h13v4M3 5v14a2 2 0 0 0 2 2h15V7M16 14h.01',
+  receipt:'M4 2v20l3-2 3 2 3-2 3 2 3-2 1 .7V2l-3 2-3-2-3 2-3-2-3 2zM8 8h8M8 12h8M8 16h5',
+  chart:'M3 3v18h18M7 15l4-4 3 3 5-6',
+  gear:'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z',
+  search:'M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.35-4.35',
+  plus:'M12 5v14M5 12h14',
+  x:'M18 6 6 18M6 6l12 12',
+  menu:'M3 6h18M3 12h18M3 18h18',
+  sun:'M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4',
+  moon:'M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z',
+  print:'M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z',
+  download:'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3',
+  mail:'M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM22 6l-10 7L2 6',
+  left:'M15 18l-6-6 6-6', right:'M9 18l6-6-6-6',
+  trash:'M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6',
+  arrow:'M5 12h14M13 6l6 6-6 6',
+  globe:'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20',
+  logout:'M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9',
+  copy:'M9 9h11v11H9zM5 15H4V4h11v1',
+  check:'M20 6 9 17l-5-5',
+  upload:'M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12',
+};
+const ic = (n, s = 18) => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ICONS[n]}"></path></svg>`;
+const logoMark = (s = 32, fill = 'var(--ac)', ink = 'var(--aci)') =>
+  `<svg width="${s}" height="${s}" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 2 29 9.5v13L16 30 3 22.5v-13z" fill="${fill}"></path><path d="M11 22V10h6.2a4.3 4.3 0 0 1 0 8.6H11" fill="none" stroke="${ink}" stroke-width="2.6" stroke-linejoin="round"></path></svg>`;
+
+/* ───────────────────────── Password hashing ───────────────────────── */
+function sha256(str) {
+  const msg = new TextEncoder().encode(str);
+  const K = new Uint32Array([0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2]);
+  const H = new Uint32Array([0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]);
+  const l = msg.length, size = ((l + 9 + 63) >> 6) << 6;
+  const buf = new Uint8Array(size); buf.set(msg); buf[l] = 0x80;
+  const dv = new DataView(buf.buffer);
+  dv.setUint32(size - 4, (l * 8) >>> 0); dv.setUint32(size - 8, Math.floor(l * 8 / 4294967296));
+  const W = new Uint32Array(64);
+  const r = (x, n) => (x >>> n) | (x << (32 - n));
+  for (let i = 0; i < size; i += 64) {
+    for (let t = 0; t < 16; t++) W[t] = dv.getUint32(i + t * 4);
+    for (let t = 16; t < 64; t++) { const x = W[t - 15], y = W[t - 2]; W[t] = (W[t - 16] + (r(x, 7) ^ r(x, 18) ^ (x >>> 3)) + W[t - 7] + (r(y, 17) ^ r(y, 19) ^ (y >>> 10))) >>> 0; }
+    let a = H[0], b = H[1], c = H[2], d = H[3], e = H[4], f = H[5], g = H[6], h = H[7];
+    for (let t = 0; t < 64; t++) {
+      const t1 = (h + (r(e, 6) ^ r(e, 11) ^ r(e, 25)) + ((e & f) ^ (~e & g)) + K[t] + W[t]) >>> 0;
+      const t2 = ((r(a, 2) ^ r(a, 13) ^ r(a, 22)) + ((a & b) ^ (a & c) ^ (b & c))) >>> 0;
+      h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+    }
+    H[0] += a; H[1] += b; H[2] += c; H[3] += d; H[4] += e; H[5] += f; H[6] += g; H[7] += h;
+  }
+  return Array.from(H, x => x.toString(16).padStart(8, '0')).join('');
+}
+function hashPassword(pw, salt) { let h = sha256(salt + ':' + pw); for (let i = 0; i < 3000; i++) h = sha256(h + salt); return h; }
+
+/* ───────────────────────── Auth ───────────────────────── */
+let MEM_AUTH = null, MEM_SESSION = null, failCount = 0, lockUntil = 0;
+function getAuth() {
+  try { const a = JSON.parse(localStorage.getItem(AUTH_KEY)); if (a && a.users && a.users.length) return a; } catch (e) {}
+  return MEM_AUTH || JSON.parse(JSON.stringify(DEFAULT_AUTH));
+}
+function setAuth(a) { MEM_AUTH = a; try { localStorage.setItem(AUTH_KEY, JSON.stringify(a)); } catch (e) {} }
+function getSession() {
+  try { const s = JSON.parse(sessionStorage.getItem(SESSION_KEY)); if (s && s.exp > Date.now()) return s; } catch (e) {}
+  return MEM_SESSION && MEM_SESSION.exp > Date.now() ? MEM_SESSION : null;
+}
+function setSession(s) { MEM_SESSION = s; try { if (s) sessionStorage.setItem(SESSION_KEY, JSON.stringify(s)); else sessionStorage.removeItem(SESSION_KEY); } catch (e) {} }
+const randomSalt = () => Array.from(crypto.getRandomValues(new Uint8Array(16)), b => b.toString(16).padStart(2, '0')).join('');
+function passwordProblem(pw, confirm, username) {
+  if (pw.length < 8) return 'Use at least 8 characters.';
+  if (!/[A-Za-z]/.test(pw) || !/\d/.test(pw)) return 'Use both letters and numbers.';
+  if (hashPassword(pw, DEFAULT_AUTH.users[0].salt) === DEFAULT_AUTH.users[0].hash) return 'Choose a password different from the default one.';
+  if (username && pw.toLowerCase().includes(username.toLowerCase())) return 'Do not include the username in the password.';
+  if (pw !== confirm) return 'The two passwords do not match.';
+  return '';
+}
+function authCard(inner) {
+  return `<div class="auth-card"><a class="brand" href="index.html" style="padding:0 0 20px">${logoMark(34)}<div><b>PETRA</b><small>CRM &amp; Bookings</small></div></a>${inner}</div>
+    <p class="hint" style="text-align:center;margin:18px 0 0"><a href="index.html">← Back to the website</a></p>`;
+}
+function showAuth(mode, msg = '') {
+  $('#app').hidden = true; $('#auth').hidden = false; closeModal();
+  if (mode === 'change') {
+    const s = getSession();
+    $('#auth').innerHTML = authCard(`<h1 style="font-size:22px">Set a new password</h1>
+      <p class="hint" style="margin:6px 0 20px">You signed in with the default password. Choose a new one to continue.</p>
+      <form data-form="first-password" class="auth-form" novalidate>
+        ${field('Username', `<input class="inp" id="ap-user" value="${esc(s ? s.u : '')}" readonly>`, 'ap-user')}
+        ${field('New password', input('ap-new', 'pw', '', 'password', 'autocomplete="new-password" required'), 'ap-new', 'At least 8 characters, with letters and numbers')}
+        ${field('Confirm new password', input('ap-confirm', 'confirm', '', 'password', 'autocomplete="new-password" required'), 'ap-confirm')}
+        <div class="hint" id="ap-err" style="color:var(--bad)" role="alert">${esc(msg)}</div>
+        <button class="btn p" type="submit" style="width:100%">Save password and continue</button>
+        <button class="btn ghost" type="button" data-action="logout" style="width:100%">Sign out</button>
+      </form>`);
+    $('#ap-new').focus();
+  } else {
+    $('#auth').innerHTML = authCard(`<h1 style="font-size:22px">Sign in</h1>
+      <p class="hint" style="margin:6px 0 20px">Staff access for bookings, payments and payment slips.</p>
+      <form data-form="login" class="auth-form" novalidate>
+        ${field('Username', input('al-user', 'username', '', 'text', 'autocomplete="username" autocapitalize="off" spellcheck="false" required'), 'al-user')}
+        ${field('Password', input('al-pass', 'password', '', 'password', 'autocomplete="current-password" required'), 'al-pass')}
+        <div class="hint" id="al-err" style="color:var(--bad)" role="alert">${esc(msg)}</div>
+        <button class="btn p" type="submit" style="width:100%">Sign in</button>
+      </form>
+      <p class="hint" style="margin:16px 0 0">Forgot your password? Contact the system administrator.</p>`);
+    $('#al-user').focus();
+  }
+}
+let booted = false;
+function enterApp() {
+  const s = getSession(); if (!s) return showAuth('login');
+  const u = getAuth().users.find(x => x.username === s.u);
+  if (!u) { setSession(null); return showAuth('login'); }
+  if (u.mustChange) return showAuth('change');
+  $('#auth').hidden = true; $('#app').hidden = false; $('#auth').innerHTML = '';
+  $('#who-name').textContent = u.name || u.username; $('#who-role').textContent = u.role || 'Admin';
+  $('#who-av').textContent = (u.name || u.username).split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+  if (!booted) { booted = true; load(); save(); }
+  const n = importInbox(); render();
+  if (n) toast(`${n} new website inquir${n === 1 ? 'y' : 'ies'} added`);
+}
+function importInbox() {
+  let inbox = [];
+  try { inbox = JSON.parse(localStorage.getItem(INBOX_KEY) || '[]'); } catch (e) {}
+  if (!Array.isArray(inbox) || !inbox.length || !S) return 0;
+  let n = 0;
+  inbox.forEach(i => { if (i && i.id && !S.inquiries.some(x => x.id === i.id)) { S.inquiries.push({ status: 'New', notes: '', attachment: '', source: 'Website', ...i }); n++; } });
+  try { localStorage.removeItem(INBOX_KEY); } catch (e) {}
+  save(); return n;
+}
+
+/* ───────────────────────── Storage ───────────────────────── */
+let S;
+function load() {
+  try { const raw = localStorage.getItem(STORE_KEY); if (raw) { S = JSON.parse(raw); if (S && S.bookings) return; } } catch (e) {}
+  S = seed();
+}
+function save() { try { localStorage.setItem(STORE_KEY, JSON.stringify(S)); } catch (e) {} }
+
+const getB = id => S.bookings.find(b => b.id === id);
+const getC = id => S.clients.find(c => c.id === id) || { id, name:'Unknown client', company:'—', email:'', phone:'', address:'' };
+const getQ = id => S.quotations.find(q => q.id === id);
+const getI = id => S.inquiries.find(q => q.id === id);
+function logClient(clientId, type, text, date = today()) {
+  const c = S.clients.find(x => x.id === clientId); if (!c) return;
+  (c.log = c.log || []).unshift({ date, type, text });
+}
+
+/* ───────────────────────── 30 / 30 / 40 engine ───────────────────────── */
+/* Amounts are whole taka. Stage 1 and 2 are rounded; stage 3 takes the remainder so the three always add up to the project value exactly. */
+function splitStages(total) {
+  const t = Math.round(total || 0);
+  const a = Math.round(t * 0.30), m = Math.round(t * 0.30);
+  return [a, m, t - a - m];
+}
+/* Advance is due at start, midway halfway through, final on delivery. */
+function stageDueDates(b) {
+  const span = Math.max(0, diffDays(b.start, b.delivery));
+  return [b.start, addDays(b.start, Math.round(span / 2)), b.delivery];
+}
+const paidFor = (bid, n) => sum(S.payments.filter(p => p.bookingId === bid && p.stage === n), p => p.amount);
+function stagesOf(b) {
+  const amts = splitStages(b.cost), dues = stageDueDates(b), t = today();
+  return STAGES.map((st, i) => {
+    const amount = amts[i];
+    const paid = Math.min(paidFor(b.id, st.n), amount);
+    const balance = Math.max(0, amount - paid);
+    const status = amount > 0 && balance === 0 ? 'Paid' : paid > 0 ? 'Partial' : 'Pending';
+    const overdue = balance > 0 && dues[i] < t && CONTRACTED.includes(b.status);
+    return { ...st, amount, paid, balance, due: dues[i], status, overdue };
+  });
+}
+function summaryOf(b) {
+  const stages = stagesOf(b);
+  const total = Math.round(b.cost || 0);
+  const received = sum(stages, s => s.paid);
+  const outstanding = Math.max(0, total - received);
+  const next = stages.find(s => s.balance > 0) || null;
+  const status = received === 0 ? 'Pending' : outstanding === 0 ? 'Paid' : 'Partial';
+  return { stages, total, received, outstanding, next, status, pct: total ? received / total : 0, overdue: stages.filter(s => s.overdue) };
+}
+const contracted = () => S.bookings.filter(b => CONTRACTED.includes(b.status));
+
+/* ───────────────────────── Demo data ───────────────────────── */
+function seed() {
+  const T = today();
+  const settings = {
+    company: 'PETRA Software Solutions',
+    tagline: 'Software & Technology Solutions',
+    email: 'letterbox5509@gmail.com',
+    phone: '01609347600',
+    address: '[Office address], Bangladesh',
+    website: '',
+    taxLabel: 'VAT', taxRate: 0,
+    payInfo: 'Bank: [Bank name], A/C: [Account number], Branch: [Branch]\nbKash / Nagad: [Merchant number]\nPlease write the slip number as the payment reference.',
+    terms: '1. Payment schedule: 30% advance on approval, 30% at the midway milestone, 40% on final delivery.\n2. Work begins once the advance payment is received.\n3. This quotation is valid for 30 days from the issue date.\n4. Work outside the agreed scope is quoted separately.\n5. Includes 3 months of bug-fix support after delivery.',
+    logo: '',
+  };
+  const clients = [
+    ['CL-0001','Nadia Rahman','Kaptai Hotels & Resorts','nadia.rahman@example.com','01700-000101','Rangamati, Chattogram','Two lakeside properties. Prefers WhatsApp for quick updates.'],
+    ['CL-0002','Arif Hossain','Delta Pharma Retail','arif.hossain@example.com','01800-000202','Mirpur 10, Dhaka','Chain of six pharmacies.'],
+    ['CL-0003','Farhana Akter','Sylhet Polytechnic Institute','farhana.akter@example.com','01900-000303','Kumargaon, Sylhet','Admissions office; approvals go through the principal.'],
+    ['CL-0004','Tanvir Ahmed','Padma Logistics','tanvir.ahmed@example.com','01600-000404','Narayanganj','Fleet of 40 trucks.'],
+    ['CL-0005','Sabrina Chowdhury','GreenRoots Foundation','sabrina.c@example.com','01500-000505','Mohammadpur, Dhaka','NGO. Invoices must quote the grant code.'],
+    ['CL-0006','Imran Kabir','Jamuna Steel Works','imran.kabir@example.com','01700-000606','Tongi, Gazipur','Phase 2 ERP expected next year.'],
+    ['CL-0007','Rafiq Islam','Bay Realty & Construction','rafiq.islam@example.com','01800-000707','Agrabad, Chattogram',''],
+    ['CL-0008','Mehnaz Sultana','Haor Energy Services','mehnaz.s@example.com','01900-000808','Sunamganj','GIS asset mapping for substations.'],
+  ].map(([id, name, company, email, phone, address, notes]) => ({ id, name, company, email, phone, address, notes, created: addDays(T, -340), log: [] }));
+
+  // id, client, project, service index, value, start offset, duration, status, paid fraction per stage, created offset
+  const plan = [
+    ['BK-2026-0001','CL-0001','PetraPMS rollout, Kaptai Lake Resort',6,450000,-320,120,'Completed',[1,1,1]],
+    ['BK-2026-0002','CL-0002','Pharmacy POS & inventory, 6 branches',6,380000,-260,110,'Completed',[1,1,1]],
+    ['BK-2026-0003','CL-0003','Admissions & results portal',1,520000,-200,150,'Delivered',[1,1,.5]],
+    ['BK-2026-0004','CL-0004','Fleet tracking platform',4,1200000,-150,180,'In Progress',[1,.6,0]],
+    ['BK-2026-0005','CL-0005','Field data collection app',2,275000,-110,100,'Testing',[1,1,0]],
+    ['BK-2026-0006','CL-0008','Substation asset GIS dashboard',5,640000,-80,140,'In Progress',[1,0,0]],
+    ['BK-2026-0007','CL-0006','Manufacturing ERP, phase 1',6,980000,-40,200,'Approved',[.5,0,0]],
+    ['BK-2026-0008','CL-0007','Corporate website & property portal',1,185000,-2,60,'Approved',[1,0,0],-3],
+    ['BK-2026-0009','CL-0001','Guest mobile app',2,320000,10,120,'Quotation Sent',[0,0,0],-1],
+    ['BK-2026-0010','CL-0004','Cloud migration & backup',3,240000,20,45,'Inquiry',[0,0,0],0],
+    ['BK-2026-0011','CL-0003','Network security audit',7,95000,-300,30,'Completed',[1,1,1]],
+    ['BK-2026-0012','CL-0005','Donor reporting dashboard',4,150000,-190,60,'Cancelled',[1,0,0]],
+  ];
+  const bookings = [], payments = [];
+  let pay = 0;
+  plan.forEach(([id, clientId, project, si, cost, so, dur, status, fr, co]) => {
+    const start = addDays(T, so);
+    const b = { id, clientId, project, service: SERVICES[si], cost, start, delivery: addDays(start, dur), status, created: addDays(T, co ?? so - 7), notes: '' };
+    bookings.push(b);
+    const amts = splitStages(cost);
+    const dues = stageDueDates(b);
+    fr.forEach((f, i) => {
+      if (!f) return;
+      pay++;
+      let d = addDays(dues[i], -2 + (pay % 5));
+      if (d > T) d = T;
+      payments.push({ id: 'PAY-' + pad(pay).padStart(4, '0'), bookingId: id, stage: i + 1, amount: Math.round(amts[i] * f), date: d, method: METHODS[pay % METHODS.length], ref: 'TRX' + (48210 + pay * 37), note: '' });
+    });
+  });
+
+  const inq = [
+    ['Nusrat Jahan','Shapla Garments','nusrat.j@example.com','01700-111001',6,'৳ 8–12 lakh','4–6 months','Referral','New',1,'ERP for a 900-worker garment unit: payroll, inventory and production planning.'],
+    ['Kamrul Hasan','Meghdut Travels','kamrul.h@example.com','01800-111002',1,'৳ 2–3 lakh','2 months','Website','New',2,'Tour booking website with online payment.'],
+    ['Shirin Akhter','Bright Future School','shirin.a@example.com','01900-111003',1,'৳ 1.5 lakh','6 weeks','Facebook','Contacted',6,'School website with notice board and result lookup.'],
+    ['Mahmud Karim','Rupsha Fisheries','mahmud.k@example.com','01600-111004',4,'৳ 4 lakh','3 months','LinkedIn','Quoted',12,'Demand forecasting for cold storage capacity.'],
+    ['Tahmina Begum','CareLine Diagnostics','tahmina.b@example.com','01500-111005',0,'৳ 6 lakh','4 months','Website','Quoted',18,'Lab report management with SMS delivery.'],
+    ['Rezaul Karim','Karnaphuli Shipping','rezaul.k@example.com','01700-111006',3,'৳ 3.5 lakh','2 months','Event','Contacted',22,'Move on-prem servers to cloud with nightly backup.'],
+    ['Nadia Rahman','Kaptai Hotels & Resorts','nadia.rahman@example.com','01700-000101',2,'৳ 3 lakh','4 months','Direct Call','Converted',35,'Guest app for room service and bookings.'],
+    ['Imran Kabir','Jamuna Steel Works','imran.kabir@example.com','01700-000606',6,'৳ 10 lakh','6 months','Referral','Converted',70,'Manufacturing ERP.'],
+    ['Sajib Das','Lalon Crafts','sajib.d@example.com','01800-111009',1,'৳ 1 lakh','1 month','Facebook','Closed',90,'Small e-commerce shop.'],
+    ['Faria Islam','UrbanNest Properties','faria.i@example.com','01900-111010',5,'৳ 5 lakh','3 months','Website','New',0,'Map of listed properties with area analytics.'],
+    ['Abdul Mannan','Upazila Health Office','mannan.a@example.com','01600-111011',7,'৳ 2 lakh','1 month','Event','Contacted',40,'Security review of the patient records system.'],
+    ['Riya Sen','Sundarban Eco Tours','riya.s@example.com','01500-111012',2,'৳ 2.5 lakh','3 months','Website','Closed',120,'Android app for tour itineraries.'],
+    ['Hasan Mahmud','Teesta Agro','hasan.m@example.com','01700-111013',6,'৳ 4 lakh','3 months','LinkedIn','Quoted',150,'Procurement and inventory for agro inputs.'],
+    ['Lubna Yasmin','Bhola Gas Fields Contractor','lubna.y@example.com','01800-111014',5,'৳ 7 lakh','5 months','Referral','Contacted',200,'Pipeline asset monitoring map.'],
+  ].map((x, i) => ({ id: 'INQ-' + new Date().getFullYear() + '-' + pad(i + 1).padStart(4, '0'), name:x[0], company:x[1], email:x[2], phone:x[3], service:SERVICES[x[4]], budget:x[5], timeline:x[6], source:x[7], status:x[8], date:addDays(T, -x[9]), description:x[10], attachment: i % 3 === 0 ? 'requirements.pdf' : '', notes:'' }));
+
+  const quotations = [
+    { id:'QT-2026-0001', clientId:'CL-0001', bookingId:'BK-2026-0009', project:'Guest mobile app', service:SERVICES[2], date:addDays(T,-2), validDays:30, status:'Sent', discount:0, taxRate:0,
+      scope:'Android and iOS guest app for Kaptai Lake Resort.\n• Room booking and availability\n• Room service and restaurant orders\n• Push notifications for offers\n• Integration with PetraPMS',
+      timeline:'16 weeks from advance payment', items:[{d:'UX research & UI design',qty:1,rate:60000},{d:'Mobile app development (Android & iOS)',qty:1,rate:200000},{d:'PetraPMS integration',qty:1,rate:40000},{d:'Testing, store release & training',qty:1,rate:20000}], terms:settings.terms },
+    { id:'QT-2026-0002', clientId:'CL-0006', bookingId:'BK-2026-0007', project:'Manufacturing ERP, phase 1', service:SERVICES[6], date:addDays(T,-48), validDays:30, status:'Accepted', discount:20000, taxRate:0,
+      scope:'Phase 1 of the Jamuna Steel ERP.\n• Inventory and warehouse\n• Procurement and supplier management\n• Production planning\n• Accounts integration and management dashboards',
+      timeline:'28 weeks', items:[{d:'Business analysis & process mapping',qty:1,rate:120000},{d:'ERP modules: inventory, procurement, production',qty:3,rate:220000},{d:'Accounts integration',qty:1,rate:90000},{d:'Data migration & training',qty:1,rate:130000}], terms:settings.terms },
+    { id:'QT-2026-0003', clientId:'CL-0002', bookingId:'', project:'Customer loyalty module', service:SERVICES[6], date:addDays(T,-1), validDays:30, status:'Draft', discount:0, taxRate:0,
+      scope:'Loyalty points and SMS offers for PetraPOS across all branches.', timeline:'6 weeks', items:[{d:'Loyalty points engine',qty:1,rate:70000},{d:'SMS gateway integration',qty:1,rate:30000},{d:'Reports & training',qty:1,rate:20000}], terms:settings.terms },
+    { id:'QT-2026-0004', clientId:'CL-0007', bookingId:'', project:'Site progress GIS', service:SERVICES[5], date:addDays(T,-75), validDays:30, status:'Rejected', discount:10000, taxRate:0,
+      scope:'Drone imagery and progress maps for active construction sites.', timeline:'10 weeks', items:[{d:'GIS platform setup',qty:1,rate:120000},{d:'Imagery processing pipeline',qty:1,rate:100000}], terms:settings.terms },
+  ];
+
+  const st = { v:1, settings, clients, bookings, payments, inquiries:inq, quotations, slips:[] };
+  // Communication history
+  const hold = S; S = st;
+  payments.forEach(p => { const b = getB(p.bookingId); logClient(b.clientId, 'Payment', `${money(p.amount)} received for ${b.id}, stage ${p.stage} (${p.method})`, p.date); });
+  quotations.forEach(q => logClient(q.clientId, 'Quotation', `${q.id} created for ${q.project}`, q.date));
+  st.clients.forEach(c => c.log.sort((a, b) => b.date.localeCompare(a.date)));
+  st.slips.push(slipSnapshot('BK-2026-0004', 2, addDays(T, -5), null, ''));
+  st.slips[0].no = 'PS-' + new Date().getFullYear() + '-0001';
+  st.slips.unshift({ ...slipSnapshot('BK-2026-0003', 3, addDays(T, -1), null, 'Final instalment after delivery sign-off.'), no: 'PS-' + new Date().getFullYear() + '-0002' });
+  S = hold;
+  return st;
+}
+
+/* ───────────────────────── UI primitives ───────────────────────── */
+const pill = (text, tone = '') => `<span class="pill ${tone}">${esc(text)}</span>`;
+const statusPill = s => pill(s, STATUS_TONE[s] || '');
+const payPill = s => pill(s, s === 'Paid' ? 'ok' : s === 'Partial' ? 'warn' : '');
+const stagePill = st => st.overdue ? pill('Overdue', 'bad') : payPill(st.status);
+function progress(sm) {
+  const w = Math.round(sm.pct * 100);
+  return `<div class="prog"><div class="bar"><i class="${sm.status === 'Paid' ? '' : 'part'}" style="width:${w}%"></i></div><span class="mono hint num">${w}%</span></div>`;
+}
+function modalHead(title, sub) {
+  return `<div class="modal-h"><div style="min-width:0"><h2>${title}</h2>${sub ? `<p>${sub}</p>` : ''}</div><button class="iconbtn" data-action="close" aria-label="Close">${ic('x')}</button></div>`;
+}
+let CUR = null;
+function modal(html, size = '') {
+  $('#modal-root').innerHTML = `<div class="modal-wrap" data-modal-bg><div class="modal ${size}" role="dialog" aria-modal="true">${html}</div></div>`;
+  const f = $('#modal-root').querySelector('.modal-b input, .modal-b select, .modal-b textarea');
+  if (f && !f.readOnly) f.focus({ preventScroll: true });
+}
+function closeModal() { $('#modal-root').innerHTML = ''; CUR = null; }
+let toastTimer;
+function toast(msg) {
+  $('#toast-root').innerHTML = `<div class="toast">${esc(msg)}</div>`;
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => { $('#toast-root').innerHTML = ''; }, 3200);
+}
+function field(label, inner, id, hint = '') {
+  return `<div class="field"><label for="${id}">${label}</label>${inner}${hint ? `<div class="hint">${hint}</div>` : ''}</div>`;
+}
+const input = (id, name, val = '', type = 'text', extra = '') => `<input class="inp" id="${id}" name="${name}" type="${type}" value="${esc(val)}" ${extra}>`;
+const select = (id, name, list, sel, extra = '') => `<select class="inp" id="${id}" name="${name}" ${extra}>${opts(list, sel)}</select>`;
+const area = (id, name, val = '', extra = '') => `<textarea class="inp" id="${id}" name="${name}" ${extra}>${esc(val)}</textarea>`;
+function bookingLabel(b) { const c = getC(b.clientId); return `${b.id} · ${c.company} · ${b.project}`; }
+function bookingOptions(list, sel) { return list.map(b => `<option value="${b.id}"${b.id === sel ? ' selected' : ''}>${esc(bookingLabel(b))}</option>`).join(''); }
+
+/* Generic table with search, filters and pagination */
+const TS = {};
+function tstate(key) { return TS[key] || (TS[key] = { q:'', f:{}, page:1 }); }
+function table({ key, rows, cols, filters = [], open, empty = 'No records match.', extra = '', size = PAGE }) {
+  const st = tstate(key);
+  let list = rows;
+  const q = st.q.trim().toLowerCase();
+  if (q) list = list.filter(r => r._s.toLowerCase().includes(q));
+  filters.forEach(f => { const v = st.f[f.k]; if (v) list = list.filter(r => f.test(r, v)); });
+  const pages = Math.max(1, Math.ceil(list.length / size));
+  st.page = Math.min(st.page, pages);
+  const slice = list.slice((st.page - 1) * size, st.page * size);
+  const from = list.length ? (st.page - 1) * size + 1 : 0, to = Math.min(st.page * size, list.length);
+  return `<div class="toolbar">
+      <div class="search">${ic('search', 16)}<input class="inp" id="ts-${key}" data-tsearch="${key}" type="search" placeholder="Search" value="${esc(st.q)}" aria-label="Search"></div>
+      ${filters.map(f => `<select class="inp" id="tf-${key}-${f.k}" data-tfilter="${key}" data-fk="${f.k}" aria-label="${esc(f.label)}"><option value="">${esc(f.label)}: All</option>${f.options.map(o => `<option${st.f[f.k] === o ? ' selected' : ''}>${esc(o)}</option>`).join('')}</select>`).join('')}
+      ${extra}
+    </div>
+    <div class="tw"><table class="t"><thead><tr>${cols.map(c => `<th class="${c.cls || ''}">${c.h}</th>`).join('')}</tr></thead>
+    <tbody>${slice.length ? slice.map(r => `<tr ${open ? open(r) : 'class="static"'}>${cols.map(c => `<td class="${c.cls || ''}">${c.v(r)}</td>`).join('')}</tr>`).join('') : `<tr class="static"><td colspan="${cols.length}"><div class="empty">${empty}</div></td></tr>`}</tbody></table></div>
+    <div class="pager"><span class="num">${from}–${to} of ${list.length}</span>
+      <div class="pg"><button class="btn sm" data-action="page" data-key="${key}" data-dir="-1" ${st.page <= 1 ? 'disabled' : ''} aria-label="Previous page">${ic('left', 15)}</button>
+      <span class="btn sm ghost num" style="cursor:default">${st.page} / ${pages}</span>
+      <button class="btn sm" data-action="page" data-key="${key}" data-dir="1" ${st.page >= pages ? 'disabled' : ''} aria-label="Next page">${ic('right', 15)}</button></div></div>`;
+}
+
+/* Charts */
+function niceMax(v) { if (v <= 0) return 1; const p = Math.pow(10, Math.floor(Math.log10(v))); for (const m of [1, 2, 2.5, 5, 10]) if (m * p >= v) return m * p; return 10 * p; }
+const axisFmt = v => v === 0 ? '0' : v >= 1e7 ? (v / 1e7).toFixed(v % 1e7 ? 1 : 0) + 'Cr' : v >= 1e5 ? (+(v / 1e5).toFixed(1)) + 'L' : (v / 1e3) + 'k';
+function lineChart(points) {
+  const W = 680, H = 240, L = 48, R = 14, T = 14, B = 28;
+  const max = niceMax(Math.max(...points.map(p => p.v), 1));
+  const x = i => L + i * (W - L - R) / (points.length - 1);
+  const y = v => T + (H - T - B) * (1 - v / max);
+  const ticks = [0, .25, .5, .75, 1].map(f => f * max);
+  const path = points.map((p, i) => (i ? 'L' : 'M') + x(i).toFixed(1) + ' ' + y(p.v).toFixed(1)).join(' ');
+  const area = path + ` L${x(points.length - 1)} ${y(0)} L${x(0)} ${y(0)} Z`;
+  const last = points.length - 1;
+  return `<svg class="chart" viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Revenue received per month for the last 12 months">
+    ${ticks.map(t => `<line class="gl" x1="${L}" x2="${W - R}" y1="${y(t)}" y2="${y(t)}"></line><text x="${L - 8}" y="${y(t) + 4}" text-anchor="end">${axisFmt(t)}</text>`).join('')}
+    <path class="ar" d="${area}"></path><path class="ln" d="${path}"></path>
+    ${points.map((p, i) => `<circle class="pt" cx="${x(i)}" cy="${y(p.v)}" r="${i === last ? 5 : 3}"><title>${p.l}: ${money(p.v)}</title></circle><text x="${x(i)}" y="${H - 8}" text-anchor="middle">${p.l}</text>`).join('')}
+  </svg>`;
+}
+function hbars(items, fmt = v => v) {
+  const max = Math.max(...items.map(i => i.v), 1);
+  return `<div class="hb">${items.map(i => `<div class="row"><span title="${esc(i.l)}">${esc(i.l)}</span><div class="trk"><i style="width:${Math.max(2, i.v / max * 100)}%"></i></div><span class="val num">${fmt(i.v)}</span></div>`).join('')}</div>`;
+}
+function last12() {
+  const now = new Date(), out = [];
+  for (let i = 11; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); out.push({ key: d.getFullYear() + '-' + pad(d.getMonth() + 1), l: d.toLocaleDateString('en-GB', { month: 'short' }), long: d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }) }); }
+  return out;
+}
+
+/* ───────────────────────── Views ───────────────────────── */
+const NAV = [
+  ['Overview', [['dashboard', 'Dashboard', 'dash']]],
+  ['Sales', [['inquiries', 'Inquiries', 'inbox'], ['clients', 'Clients', 'users'], ['quotations', 'Quotations', 'file']]],
+  ['Projects', [['bookings', 'Bookings', 'cal']]],
+  ['Finance', [['payments', 'Payments', 'wallet'], ['slips', 'Payment Slips', 'receipt'], ['reports', 'Reports', 'chart']]],
+  ['System', [['settings', 'Settings', 'gear']]],
+];
+const TITLES = Object.fromEntries(NAV.flatMap(g => g[1].map(i => [i[0], i[1]])));
+const route = () => { const h = location.hash.replace('#', ''); return TITLES[h] ? h : 'dashboard'; };
+
+const V = {};
+
+V.dashboard = () => {
+  const T = today(), mk = T.slice(0, 7);
+  const con = contracted();
+  const sums = con.map(b => ({ b, s: summaryOf(b) }));
+  const revenue = sum(S.payments, p => p.amount);
+  const overdueStages = sums.flatMap(x => x.s.overdue.map(o => ({ b: x.b, o })));
+  const dueAmt = sum(overdueStages, x => x.o.balance);
+  const monthSales = sum(con.filter(b => (b.created || '').slice(0, 7) === mk), b => b.cost);
+  const pendQ = S.quotations.filter(q => q.status === 'Draft' || q.status === 'Sent');
+  const newInq = S.inquiries.filter(i => i.status === 'New');
+  const kpis = [
+    ['Total Leads', S.inquiries.length, `${S.inquiries.filter(i => i.date.slice(0, 7) === mk).length} received this month`],
+    ['Active Projects', S.bookings.filter(b => ACTIVE.includes(b.status)).length, 'Approved, in progress or testing'],
+    ['Pending Quotations', pendQ.length, moneyShort(sum(pendQ, q => calcQuote(q).total)) + ' in value'],
+    ['Total Revenue', moneyShort(revenue), 'All payments received'],
+    ['Due Payments', moneyShort(dueAmt), `${overdueStages.length} overdue stage${overdueStages.length === 1 ? '' : 's'}`, 'bad'],
+    ['Monthly Sales', moneyShort(monthSales), 'New bookings this month'],
+    ['New Inquiries', newInq.length, 'Waiting for first contact', 'ac2'],
+  ];
+  const months = last12().map(m => ({ l: m.l, v: sum(S.payments.filter(p => p.date.slice(0, 7) === m.key), p => p.amount) }));
+  const allSt = sums.flatMap(x => x.s.stages);
+  const cnt = {
+    Paid: allSt.filter(s => s.status === 'Paid').length,
+    Partial: allSt.filter(s => s.status === 'Partial' && !s.overdue).length,
+    Overdue: allSt.filter(s => s.overdue).length,
+    Pending: allSt.filter(s => s.status === 'Pending' && !s.overdue).length,
+  };
+  const totalSt = Math.max(1, sum(Object.values(cnt)));
+  const segs = [['Paid', 'var(--ok)'], ['Partial', 'var(--warn)'], ['Overdue', 'var(--bad)'], ['Pending', 'var(--ln2)']];
+  const src = SOURCES.map(s => ({ l: s, v: S.inquiries.filter(i => i.source === s).length })).sort((a, b) => b.v - a.v);
+  const svc = SERVICES.map(s => ({ l: s, v: sum(con.filter(b => b.service === s), b => b.cost) })).filter(x => x.v > 0).sort((a, b) => b.v - a.v);
+  const upcoming = sums.flatMap(x => x.s.stages.filter(s => s.balance > 0).map(s => ({ b: x.b, s }))).sort((a, b) => a.s.due.localeCompare(b.s.due)).slice(0, 6);
+  const recvSum = sum(sums, x => x.s.received), outSum = sum(sums, x => x.s.outstanding);
+  return `
+  <div class="ph"><div><h1>Dashboard</h1><p>${parse(T).toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' })} · sales, projects and collections at a glance</p></div>
+    <div class="acts"><button class="btn" data-action="new-booking">${ic('plus', 16)} New booking</button><a class="btn" href="#slips">${ic('receipt', 16)} Payment slip</a></div></div>
+  <div class="kpis">${kpis.map(k => `<div class="kpi"><div class="l"><i style="background:var(--${k[3] || 'ac'})"></i>${k[0]}</div><div class="v">${k[1]}</div><div class="s">${k[2]}</div></div>`).join('')}</div>
+  <div class="cols">
+    <section class="panel"><div class="panel-h"><h2>Revenue trend</h2><span class="hint">Payments received, last 12 months</span></div><div class="panel-b">${lineChart(months)}</div></section>
+    <section class="panel"><div class="panel-h"><h2>Payment status</h2><span class="hint">${allSt.length} stages across ${con.length} contracted projects</span></div>
+      <div class="panel-b">
+        <div class="stack" role="img" aria-label="Payment stages by status">${segs.map(([k, c]) => cnt[k] ? `<i style="width:${cnt[k] / totalSt * 100}%;background:${c}" title="${k}: ${cnt[k]}"></i>` : '').join('')}</div>
+        <div class="legend">${segs.map(([k, c]) => `<span><i style="background:${c}"></i>${k} <b class="num" style="color:var(--ink)">${cnt[k]}</b></span>`).join('')}</div>
+        <div class="dl" style="margin-top:22px">
+          <div><dt>Contract value</dt><dd class="num">${money(recvSum + outSum)}</dd></div>
+          <div><dt>Received</dt><dd class="num" style="color:var(--ok)">${money(recvSum)}</dd></div>
+          <div><dt>Outstanding</dt><dd class="num">${money(outSum)}</dd></div>
+        </div>
+      </div></section>
+  </div>
+  <div class="cols3">
+    <section class="panel"><div class="panel-h"><h2>Inquiry sources</h2><span class="hint">${S.inquiries.length} leads</span></div><div class="panel-b">${hbars(src)}</div></section>
+    <section class="panel"><div class="panel-h"><h2>Service distribution</h2><span class="hint">Contract value</span></div><div class="panel-b">${hbars(svc, v => axisFmt(v))}</div></section>
+    <section class="panel"><div class="panel-h"><h2>Next payments due</h2><a class="hint" href="#payments">All payments</a></div>
+      <div class="list">${upcoming.map(({ b, s }) => `<div class="it" data-action="open-booking" data-id="${b.id}" style="cursor:pointer">
+        <div class="grow"><b>${esc(getC(b.clientId).company)}</b><small>${b.id} · Stage ${s.n} ${s.label} · ${fdate(s.due)}</small></div>
+        <div style="text-align:right"><div class="num" style="font-weight:600">${money(s.balance)}</div>${s.overdue ? pill('Overdue', 'bad') : ''}</div></div>`).join('') || '<div class="empty">Nothing due.</div>'}</div></section>
+  </div>`;
+};
+
+V.bookings = () => {
+  const rows = S.bookings.slice().sort((a, b) => b.id.localeCompare(a.id)).map(b => { const c = getC(b.clientId); return { b, c, sm: summaryOf(b), _s: [b.id, b.project, c.name, c.company, b.service, b.status].join(' ') }; });
+  return `<div class="ph"><div><h1>Bookings</h1><p>Every project, its 30 / 30 / 40 payment schedule and delivery status.</p></div>
+    <div class="acts"><button class="btn p" data-action="new-booking">${ic('plus', 16)} New booking</button></div></div>
+  <section class="panel">${table({ key:'bookings', rows,
+    filters:[{ k:'status', label:'Status', options:BOOKING_STATUSES, test:(r, v) => r.b.status === v }, { k:'service', label:'Service', options:SERVICES, test:(r, v) => r.b.service === v }],
+    open: r => `data-action="open-booking" data-id="${r.b.id}"`,
+    cols:[
+      { h:'Booking', v:r => `<span class="id">${r.b.id}</span>` },
+      { h:'Client / Project', cls:'wrap', v:r => `<b>${esc(r.c.company)}</b><span class="sub">${esc(r.b.project)}</span>` },
+      { h:'Service', v:r => esc(r.b.service) },
+      { h:'Value', cls:'r num', v:r => money(r.b.cost) },
+      { h:'Start', v:r => fdate(r.b.start) },
+      { h:'Delivery', v:r => fdate(r.b.delivery) },
+      { h:'Status', v:r => statusPill(r.b.status) },
+      { h:'Collected', v:r => CONTRACTED.includes(r.b.status) || r.sm.received ? progress(r.sm) : '<span class="hint">Not started</span>' },
+    ] })}</section>`;
+};
+
+V.payments = () => {
+  const con = contracted().map(b => ({ b, c: getC(b.clientId), sm: summaryOf(b) }));
+  const tot = sum(con, x => x.sm.total), rec = sum(con, x => x.sm.received), out = sum(con, x => x.sm.outstanding);
+  const od = sum(con, x => sum(x.sm.overdue, s => s.balance));
+  const rows = con.map(x => ({ ...x, _s: [x.b.id, x.b.project, x.c.company, x.c.name].join(' ') }));
+  const ledger = S.payments.slice().sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id)).map(p => { const b = getB(p.bookingId) || {}; const c = getC(b.clientId); return { p, b, c, _s: [p.id, p.ref, p.method, b.id, c.company].join(' ') }; });
+  return `<div class="ph"><div><h1>Payments</h1><p>Collections tracked against the 30% advance, 30% midway and 40% final stages.</p></div>
+    <div class="acts"><button class="btn p" data-action="new-payment">${ic('plus', 16)} Record payment</button></div></div>
+  <div class="kpis">
+    <div class="kpi"><div class="l"><i></i>Total amount</div><div class="v num">${money(tot)}</div><div class="s">${con.length} contracted projects</div></div>
+    <div class="kpi"><div class="l"><i style="background:var(--ok)"></i>Amount received</div><div class="v num">${money(rec)}</div><div class="s">${tot ? Math.round(rec / tot * 100) : 0}% collected</div></div>
+    <div class="kpi"><div class="l"><i style="background:var(--warn)"></i>Outstanding</div><div class="v num">${money(out)}</div><div class="s">Still to collect</div></div>
+    <div class="kpi"><div class="l"><i style="background:var(--bad)"></i>Overdue</div><div class="v num">${money(od)}</div><div class="s">Past the stage due date</div></div>
+  </div>
+  <section class="panel"><div class="panel-h"><h2>Payment tracking</h2><span class="hint">Select a project to see its stages</span></div>
+  ${table({ key:'paytrack', rows,
+    filters:[{ k:'status', label:'Payment', options:['Pending','Partial','Paid'], test:(r, v) => r.sm.status === v }, { k:'od', label:'Due', options:['Overdue only'], test:r => r.sm.overdue.length > 0 }],
+    open: r => `data-action="open-booking" data-id="${r.b.id}"`,
+    cols:[
+      { h:'Booking', cls:'wrap', v:r => `<b>${esc(r.c.company)}</b><span class="sub">${r.b.id} · ${esc(r.b.project)}</span>` },
+      { h:'Total', cls:'r num', v:r => money(r.sm.total) },
+      { h:'Received', cls:'r num', v:r => money(r.sm.received) },
+      { h:'Outstanding', cls:'r num', v:r => money(r.sm.outstanding) },
+      { h:'Progress', v:r => progress(r.sm) },
+      { h:'Next due', v:r => r.sm.next ? `<span class="num">${money(r.sm.next.balance)}</span><span class="sub">Stage ${r.sm.next.n} · ${r.sm.next.label} · ${fdate(r.sm.next.due)}</span>` : '<span class="hint">Fully paid</span>' },
+      { h:'Status', v:r => r.sm.overdue.length ? pill('Overdue', 'bad') : payPill(r.sm.status) },
+    ] })}</section>
+  <section class="panel"><div class="panel-h"><h2>Payments received</h2><span class="hint">${S.payments.length} receipts</span></div>
+  ${table({ key:'ledger', rows:ledger,
+    filters:[{ k:'m', label:'Method', options:METHODS, test:(r, v) => r.p.method === v }],
+    open: r => `data-action="slip-for" data-id="${r.p.bookingId}" data-stage="${r.p.stage}" title="Open the payment slip for this stage"`,
+    cols:[
+      { h:'Receipt', v:r => `<span class="id">${r.p.id}</span>` },
+      { h:'Date', v:r => fdate(r.p.date) },
+      { h:'Client / Booking', cls:'wrap', v:r => `<b>${esc(r.c.company)}</b><span class="sub">${r.b.id || ''}</span>` },
+      { h:'Stage', v:r => `${r.p.stage} · ${STAGES[r.p.stage - 1].label}` },
+      { h:'Method', v:r => esc(r.p.method) },
+      { h:'Reference', v:r => `<span class="mono hint">${esc(r.p.ref || '—')}</span>` },
+      { h:'Amount', cls:'r num', v:r => `<b>${money(r.p.amount)}</b>` },
+    ] })}</section>`;
+};
+
+/* Slip generator state */
+const G = { bookingId:'', stage:0, issue:'', due:'', note:'', loaded:null };
+V.slips = () => {
+  const pool = S.bookings.filter(b => b.status !== 'Cancelled');
+  if (!G.bookingId || !getB(G.bookingId)) { const f = contracted().find(b => summaryOf(b).outstanding > 0) || pool[0]; G.bookingId = f ? f.id : ''; }
+  const b = getB(G.bookingId);
+  if (!b) return `<div class="ph"><div><h1>Payment Slips</h1><p>Add a booking first.</p></div></div>`;
+  const sm = summaryOf(b);
+  if (!G.stage) G.stage = sm.next ? sm.next.n : 1;
+  if (!G.issue) G.issue = today();
+  const st = sm.stages[G.stage - 1];
+  const snap = G.loaded || slipSnapshot(b.id, G.stage, G.issue, G.due || null, G.note);
+  const issued = !!G.loaded;
+  const rows = S.slips.map(s => ({ s, _s: [s.no, s.bookingId, s.client.company, s.client.name, s.project].join(' ') }));
+  return `<div class="ph"><div><h1>Payment Slips</h1><p>Pick a booking and stage. Amounts come straight from the 30 / 30 / 40 schedule and the payments recorded so far.</p></div>
+    <div class="acts">${issued ? `<button class="btn" data-action="slip-new">${ic('plus', 16)} New slip</button>` : ''}</div></div>
+  <div class="gen">
+    <section class="panel">
+      <div class="panel-h"><h2>${issued ? 'Issued slip ' + esc(snap.no) : 'Generate slip'}</h2>${issued ? pill('Issued', 'ok') : pill('Draft', '')}</div>
+      <form class="panel-b" style="display:flex;flex-direction:column;gap:14px" data-form="slip-noop">
+        ${issued ? `<div class="dl"><div><dt>Booking</dt><dd>${esc(snap.bookingId)}</dd></div><div><dt>Stage</dt><dd>${snap.stage} · ${esc(snap.stageLabel)}</dd></div><div><dt>Issued</dt><dd>${fdate(snap.issued)}</dd></div></div>
+          <p class="hint" style="margin:0">Issued slips keep the figures from the day they were issued. Start a new slip to reflect later payments.</p>` : `
+        ${field('Booking', `<select class="inp" id="sg-booking" data-live="slip-booking">${bookingOptions(pool, b.id)}</select>`, 'sg-booking')}
+        ${field('Payment stage', `<select class="inp" id="sg-stage" data-live="slip-field">${sm.stages.map(s => `<option value="${s.n}"${s.n === G.stage ? ' selected' : ''}>Stage ${s.n} · ${s.label} (${s.pct}%) · ${s.status === 'Paid' ? 'paid' : money(s.balance) + ' due'}</option>`).join('')}</select>`, 'sg-stage')}
+        <div class="grid2">
+          ${field('Issue date', input('sg-issue', 'issue', G.issue, 'date', 'data-live="slip-field"'), 'sg-issue')}
+          ${field('Due date', input('sg-due', 'due', G.due || st.due, 'date', 'data-live="slip-field"'), 'sg-due', 'Defaults to the stage due date')}
+        </div>
+        ${field('Note on slip (optional)', area('sg-note', 'note', G.note, 'data-live="slip-field" rows="3" placeholder="e.g. Midway milestone: admin panel delivered"'), 'sg-note')}`}
+        <div style="border:1px solid var(--ln);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between"><span class="hint">Stage amount (${snap.pct}% of ${money(snap.cost)})</span><b class="num">${money(snap.amountDue)}</b></div>
+          <div style="display:flex;justify-content:space-between"><span class="hint">Already paid</span><b class="num" style="color:var(--ok)">${money(snap.amountPaid)}</b></div>
+          <div style="display:flex;justify-content:space-between;border-top:1px solid var(--ln);padding-top:8px"><span style="font-weight:600">Balance payable</span><b class="num" style="font-size:17px">${money(snap.balance)}</b></div>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          ${issued ? '' : `<button type="button" class="btn p" data-action="slip-issue">${ic('check', 16)} Issue slip</button>`}
+          <button type="button" class="btn" data-action="slip-print">${ic('print', 16)} Print</button>
+          <button type="button" class="btn" data-action="slip-pdf">${ic('download', 16)} Download PDF</button>
+          <button type="button" class="btn" data-action="slip-email">${ic('mail', 16)} Email client</button>
+        </div>
+        ${issued ? '' : '<p class="hint" style="margin:0">Print, PDF and email issue the slip first, so every slip that leaves the office has a number on record.</p>'}
+      </form>
+    </section>
+    <section class="sheet-wrap" aria-label="Slip preview"><div class="sheet-scale" id="slip-preview">${slipDoc(snap, !issued)}</div></section>
+  </div>
+  <section class="panel"><div class="panel-h"><h2>Issued slips</h2><span class="hint">${S.slips.length} on record</span></div>
+  ${table({ key:'slips', rows, size:6,
+    open: r => `data-action="slip-load" data-no="${r.s.no}"`,
+    cols:[
+      { h:'Slip no.', v:r => `<span class="id">${r.s.no}</span>` },
+      { h:'Issued', v:r => fdate(r.s.issued) },
+      { h:'Client / Booking', cls:'wrap', v:r => `<b>${esc(r.s.client.company)}</b><span class="sub">${r.s.bookingId} · ${esc(r.s.project)}</span>` },
+      { h:'Stage', v:r => `${r.s.stage} · ${esc(r.s.stageLabel)} (${r.s.pct}%)` },
+      { h:'Amount due', cls:'r num', v:r => money(r.s.amountDue) },
+      { h:'Paid', cls:'r num', v:r => money(r.s.amountPaid) },
+      { h:'Balance', cls:'r num', v:r => `<b>${money(r.s.balance)}</b>` },
+      { h:'Due date', v:r => fdate(r.s.due) },
+    ] })}</section>`;
+};
+
+V.quotations = () => {
+  const rows = S.quotations.slice().sort((a, b) => b.id.localeCompare(a.id)).map(q => { const c = getC(q.clientId); return { q, c, t: calcQuote(q), _s: [q.id, q.project, c.company, c.name, q.status].join(' ') }; });
+  return `<div class="ph"><div><h1>Quotations</h1><p>Build a quotation, send it, and turn an accepted one into a booking with its payment schedule.</p></div>
+    <div class="acts"><button class="btn p" data-action="new-quote">${ic('plus', 16)} New quotation</button></div></div>
+  <section class="panel">${table({ key:'quotes', rows,
+    filters:[{ k:'s', label:'Status', options:Q_STATUSES, test:(r, v) => r.q.status === v }],
+    open: r => `data-action="open-quote" data-id="${r.q.id}"`,
+    cols:[
+      { h:'Quotation', v:r => `<span class="id">${r.q.id}</span>` },
+      { h:'Client / Project', cls:'wrap', v:r => `<b>${esc(r.c.company)}</b><span class="sub">${esc(r.q.project)}</span>` },
+      { h:'Service', v:r => esc(r.q.service) },
+      { h:'Total', cls:'r num', v:r => `<b>${money(r.t.total)}</b>` },
+      { h:'Issued', v:r => fdate(r.q.date) },
+      { h:'Valid until', v:r => fdate(addDays(r.q.date, r.q.validDays || 30)) },
+      { h:'Status', v:r => pill(r.q.status, Q_TONE[r.q.status]) },
+    ] })}</section>`;
+};
+
+V.clients = () => {
+  const rows = S.clients.map(c => { const bs = S.bookings.filter(b => b.clientId === c.id); const con = bs.filter(b => CONTRACTED.includes(b.status)).map(summaryOf); return { c, n: bs.length, billed: sum(con, s => s.total), out: sum(con, s => s.outstanding), _s: [c.id, c.name, c.company, c.email, c.phone].join(' ') }; });
+  return `<div class="ph"><div><h1>Clients</h1><p>Profiles with projects, quotations, payments and communication history.</p></div>
+    <div class="acts"><button class="btn p" data-action="new-client">${ic('plus', 16)} New client</button></div></div>
+  <section class="panel">${table({ key:'clients', rows,
+    open: r => `data-action="open-client" data-id="${r.c.id}"`,
+    cols:[
+      { h:'Client ID', v:r => `<span class="id">${r.c.id}</span>` },
+      { h:'Name / Company', cls:'wrap', v:r => `<b>${esc(r.c.name)}</b><span class="sub">${esc(r.c.company)}</span>` },
+      { h:'Email', v:r => esc(r.c.email) },
+      { h:'Phone', v:r => `<span class="num">${esc(r.c.phone)}</span>` },
+      { h:'Projects', cls:'r num', v:r => r.n },
+      { h:'Billed', cls:'r num', v:r => money(r.billed) },
+      { h:'Outstanding', cls:'r num', v:r => r.out ? `<b>${money(r.out)}</b>` : '<span class="hint">—</span>' },
+    ] })}</section>`;
+};
+
+V.inquiries = () => {
+  const rows = S.inquiries.slice().sort((a, b) => b.date.localeCompare(a.date)).map(i => ({ i, _s: [i.id, i.name, i.company, i.email, i.service, i.description].join(' ') }));
+  return `<div class="ph"><div><h1>Inquiries</h1><p>Leads from the website form, referrals and calls.</p></div>
+    <div class="acts"><button class="btn p" data-action="new-inquiry">${ic('plus', 16)} Add inquiry</button></div></div>
+  <section class="panel">${table({ key:'inq', rows,
+    filters:[{ k:'s', label:'Status', options:INQ_STATUSES, test:(r, v) => r.i.status === v }, { k:'src', label:'Source', options:SOURCES, test:(r, v) => r.i.source === v }],
+    open: r => `data-action="open-inquiry" data-id="${r.i.id}"`,
+    cols:[
+      { h:'Inquiry', v:r => `<span class="id">${r.i.id}</span>` },
+      { h:'Name / Company', cls:'wrap', v:r => `<b>${esc(r.i.name)}</b><span class="sub">${esc(r.i.company)}</span>` },
+      { h:'Request', cls:'wrap', v:r => `${esc(r.i.service)}<span class="sub">${esc(r.i.type || 'Project inquiry')}</span>` },
+      { h:'Budget', v:r => esc(r.i.budget || '—') },
+      { h:'Source', v:r => esc(r.i.source) },
+      { h:'Received', v:r => fdate(r.i.date) },
+      { h:'Status', v:r => pill(r.i.status, INQ_TONE[r.i.status]) },
+    ] })}</section>`;
+};
+
+V.reports = () => {
+  const months = last12().map(m => { const ps = S.payments.filter(p => p.date.slice(0, 7) === m.key); return { ...m, n: ps.length, v: sum(ps, p => p.amount) }; });
+  const con = contracted().map(b => ({ b, c: getC(b.clientId), sm: summaryOf(b) }));
+  const statusCounts = BOOKING_STATUSES.map(s => ({ l: s, v: S.bookings.filter(b => b.status === s).length }));
+  const qStats = Q_STATUSES.map(s => { const qs = S.quotations.filter(q => q.status === s); return { s, n: qs.length, v: sum(qs, q => calcQuote(q).total) }; });
+  const decided = S.quotations.filter(q => q.status === 'Accepted' || q.status === 'Rejected');
+  const winRate = decided.length ? Math.round(S.quotations.filter(q => q.status === 'Accepted').length / decided.length * 100) : 0;
+  const outRows = con.filter(x => x.sm.outstanding > 0).sort((a, b) => b.sm.outstanding - a.sm.outstanding);
+  const cliRows = S.clients.map(c => { const xs = con.filter(x => x.b.clientId === c.id); return { c, n: S.bookings.filter(b => b.clientId === c.id).length, total: sum(xs, x => x.sm.total), rec: sum(xs, x => x.sm.received), out: sum(xs, x => x.sm.outstanding) }; }).sort((a, b) => b.total - a.total);
+  const btns = k => `<div style="display:flex;gap:6px"><button class="btn sm" data-action="report-csv" data-r="${k}">${ic('download', 14)} Excel (CSV)</button><button class="btn sm" data-action="report-pdf" data-r="${k}">${ic('print', 14)} PDF</button></div>`;
+  return `<div class="ph"><div><h1>Reports</h1><p>Export any report to Excel (CSV) or print it as a PDF.</p></div></div>
+  <div class="cols">
+    <section class="panel"><div class="panel-h"><h2>Monthly revenue</h2>${btns('revenue')}</div>
+      <div class="panel-b">${hbars(months.slice().reverse().map(m => ({ l: m.long, v: m.v })), v => axisFmt(v))}</div>
+      <div class="panel-b" style="border-top:1px solid var(--ln);display:flex;justify-content:space-between"><span class="hint">12-month total</span><b class="num">${money(sum(months, m => m.v))}</b></div></section>
+    <section class="panel"><div class="panel-h"><h2>Sales performance</h2>${btns('sales')}</div>
+      <div class="tw"><table class="t"><thead><tr><th>Quotation status</th><th class="r">Count</th><th class="r">Value</th></tr></thead><tbody>${qStats.map(q => `<tr class="static"><td>${pill(q.s, Q_TONE[q.s])}</td><td class="r num">${q.n}</td><td class="r num">${money(q.v)}</td></tr>`).join('')}</tbody></table></div>
+      <div class="panel-b" style="display:flex;justify-content:space-between"><span class="hint">Win rate on decided quotations</span><b class="num">${winRate}%</b></div></section>
+  </div>
+  <section class="panel"><div class="panel-h"><h2>Outstanding payments</h2>${btns('outstanding')}</div>
+    <div class="tw"><table class="t"><thead><tr><th>Booking</th><th>Client</th><th class="r">Total</th><th class="r">Received</th><th class="r">Outstanding</th><th>Next due</th></tr></thead><tbody>
+    ${outRows.map(x => `<tr data-action="open-booking" data-id="${x.b.id}"><td><span class="id">${x.b.id}</span></td><td>${esc(x.c.company)}</td><td class="r num">${money(x.sm.total)}</td><td class="r num">${money(x.sm.received)}</td><td class="r num"><b>${money(x.sm.outstanding)}</b></td><td>${x.sm.next ? `Stage ${x.sm.next.n} · ${fdate(x.sm.next.due)} ${x.sm.next.overdue ? pill('Overdue', 'bad') : ''}` : ''}</td></tr>`).join('') || '<tr class="static"><td colspan="6"><div class="empty">No outstanding payments.</div></td></tr>'}
+    </tbody></table></div></section>
+  <div class="cols">
+    <section class="panel"><div class="panel-h"><h2>Client summary</h2>${btns('clients')}</div>
+      <div class="tw"><table class="t"><thead><tr><th>Client</th><th class="r">Projects</th><th class="r">Billed</th><th class="r">Outstanding</th></tr></thead><tbody>
+      ${cliRows.map(x => `<tr data-action="open-client" data-id="${x.c.id}"><td><b>${esc(x.c.company)}</b><span class="sub">${esc(x.c.name)}</span></td><td class="r num">${x.n}</td><td class="r num">${money(x.total)}</td><td class="r num">${x.out ? money(x.out) : '—'}</td></tr>`).join('')}
+      </tbody></table></div></section>
+    <section class="panel"><div class="panel-h"><h2>Project status</h2>${btns('status')}</div><div class="panel-b">${hbars(statusCounts)}</div></section>
+  </div>`;
+};
+
+V.settings = () => {
+  const s = S.settings;
+  return `<div class="ph"><div><h1>Settings</h1><p>Company details printed on quotations and payment slips.</p></div></div>
+  <form class="panel" data-form="settings">
+    <div class="panel-h"><h2>Company</h2></div>
+    <div class="panel-b" style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+        <div style="width:64px;height:64px;border-radius:14px;border:1px solid var(--ln);display:grid;place-items:center;overflow:hidden;background:#fff">${s.logo ? `<img src="${esc(s.logo)}" alt="Company logo" style="width:100%;height:100%;object-fit:contain">` : logoMark(44, '#1F4FE0', '#fff')}</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><label class="btn" for="set-logo">${ic('upload', 16)} Upload logo</label><input id="set-logo" type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" data-live="logo" hidden>${s.logo ? '<button type="button" class="btn ghost" data-action="logo-clear">Use PETRA mark</button>' : ''}</div>
+        <span class="hint">PNG, JPG or SVG, under 300 KB</span>
+      </div>
+      <div class="grid2">
+        ${field('Company name', input('set-company', 'company', s.company, 'text', 'required'), 'set-company')}
+        ${field('Tagline', input('set-tagline', 'tagline', s.tagline), 'set-tagline')}
+        ${field('Email', input('set-email', 'email', s.email, 'email', 'required'), 'set-email')}
+        ${field('Phone', input('set-phone', 'phone', s.phone, 'tel', 'required'), 'set-phone')}
+        ${field('Website', input('set-web', 'website', s.website, 'text', 'placeholder="www.example.com"'), 'set-web')}
+        ${field('Address', input('set-address', 'address', s.address), 'set-address')}
+      </div>
+    </div>
+    <div class="panel-h" style="border-top:1px solid var(--ln)"><h2>Tax &amp; payments</h2></div>
+    <div class="panel-b" style="display:flex;flex-direction:column;gap:16px">
+      <div class="grid2">
+        ${field('Tax name', input('set-taxl', 'taxLabel', s.taxLabel), 'set-taxl')}
+        ${field('Tax rate (%)', input('set-taxr', 'taxRate', s.taxRate, 'number', 'min="0" max="100" step="0.01"'), 'set-taxr', 'Applied to new quotations')}
+      </div>
+      ${field('Payment instructions (printed on slips)', area('set-pay', 'payInfo', s.payInfo, 'rows="3"'), 'set-pay')}
+      ${field('Default terms &amp; conditions (quotations)', area('set-terms', 'terms', s.terms, 'rows="6"'), 'set-terms')}
+      <div><button class="btn p" type="submit">Save settings</button></div>
+    </div>
+  </form>
+  <form class="panel" data-form="password" novalidate>
+    <div class="panel-h"><h2>Admin password</h2><span class="hint">Signed in as ${esc((getSession() || {}).u || '')}</span></div>
+    <div class="panel-b" style="display:flex;flex-direction:column;gap:16px">
+      <div class="grid2">
+        ${field('Current password', input('pw-cur', 'current', '', 'password', 'autocomplete="current-password"'), 'pw-cur')}
+        ${field('New password', input('pw-new', 'pw', '', 'password', 'autocomplete="new-password"'), 'pw-new', 'At least 8 characters, letters and numbers')}
+        ${field('Confirm new password', input('pw-conf', 'confirm', '', 'password', 'autocomplete="new-password"'), 'pw-conf')}
+      </div>
+      <div class="hint" id="pw-err" style="color:var(--bad)" role="alert"></div>
+      <div><button class="btn" type="submit">Change password</button></div>
+    </div>
+  </form>
+  <section class="panel"><div class="panel-h"><h2>Data</h2><span class="hint">Records are saved in this browser</span></div>
+    <div class="panel-b" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+      <button class="btn" data-action="backup">${ic('download', 16)} Export backup (JSON)</button>
+      <label class="btn" for="restore-file">${ic('upload', 16)} Import backup</label><input id="restore-file" type="file" accept="application/json" data-live="restore" hidden>
+      <button class="btn danger" data-action="reset" id="reset-btn">Reset demo data</button>
+    </div></section>`;
+};
+
+/* ───────────────────────── Documents ───────────────────────── */
+function slipSnapshot(bookingId, stageN, issue, due, note) {
+  const b = getB(bookingId), c = getC(b.clientId), sm = summaryOf(b), st = sm.stages[stageN - 1];
+  return {
+    no: null, issued: issue, due: due || st.due, bookingId: b.id, project: b.project, service: b.service, cost: sm.total,
+    start: b.start, delivery: b.delivery,
+    client: { id: c.id, name: c.name, company: c.company, email: c.email, phone: c.phone, address: c.address },
+    stage: st.n, stageLabel: st.label, pct: st.pct, amountDue: st.amount, amountPaid: st.paid, balance: st.balance,
+    schedule: sm.stages.map(s => ({ n: s.n, label: s.label, pct: s.pct, amount: s.amount, paid: s.paid, balance: s.balance, due: s.due, status: s.status })),
+    totalReceived: sm.received, totalOutstanding: sm.outstanding, note: note || '',
+  };
+}
+function docHeader(title, no, dateLine, extra = '') {
+  const s = S.settings;
+  const logo = s.logo ? `<img src="${esc(s.logo)}" alt="">` : logoMark(48, '#1F4FE0', '#FFFFFF');
+  return `<div class="hd"><div class="co">${logo}<div><b>${esc(s.company)}</b><span>${esc(s.tagline)}</span><span>${esc(s.address)}</span><span>${esc(s.phone)} · ${esc(s.email)}${s.website ? ' · ' + esc(s.website) : ''}</span></div></div>
+    <div class="ttl"><h1>${title}</h1><div class="no">${no}</div><div class="dt">${dateLine}</div>${extra}</div></div>`;
+}
+function docFooter() {
+  const s = S.settings;
+  return `<div class="ft"><span>${esc(s.company)} · ${esc(s.phone)} · ${esc(s.email)}</span><span>Computer-generated document</span></div>`;
+}
+function slipDoc(d, draft) {
+  const no = d.no || (draft ? nextId('PS', S.slips) + ' (draft)' : '');
+  const stamp = d.balance === 0 ? ['PAID', 'ok'] : d.amountPaid > 0 ? ['PART PAID', 'warn'] : ['PAYMENT DUE', 'bad'];
+  return `<article class="doc">
+    ${docHeader('PAYMENT SLIP', esc(no), 'Issued ' + fdate(d.issued), `<div class="stamp ${stamp[1]}">${stamp[0]}</div>`)}
+    <div class="two">
+      <div class="box"><div class="lbl">Billed to</div><b>${esc(d.client.name)}</b><span>${esc(d.client.company)}</span><span>${esc(d.client.address)}</span><span>${esc(d.client.phone)} · ${esc(d.client.email)}</span><span>Client ID ${esc(d.client.id)}</span></div>
+      <div class="box"><div class="lbl">Project</div><b>${esc(d.project)}</b><span>${esc(d.service)}</span>
+        <div class="kv" style="margin-top:8px"><span>Booking ID</span><strong>${esc(d.bookingId)}</strong><span>Project value</span><strong>${plainMoney(d.cost)}</strong><span>Schedule</span><strong>${fdate(d.start)} – ${fdate(d.delivery)}</strong></div></div>
+    </div>
+    <div class="due">
+      <div><div class="lbl">Stage</div><strong>${d.stage} of 3</strong>${esc(d.stageLabel)} · ${d.pct}%</div>
+      <div><div class="lbl">Amount due</div><strong>${plainMoney(d.amountDue)}</strong>this stage</div>
+      <div><div class="lbl">Amount paid</div><strong>${plainMoney(d.amountPaid)}</strong>to date</div>
+      <div><div class="lbl">Balance payable</div><strong>${plainMoney(d.balance)}</strong>by ${fdate(d.due)}</div>
+    </div>
+    <div><div class="lbl">Payment schedule · 30 / 30 / 40</div>
+      <table><thead><tr><th>Stage</th><th>Description</th><th class="r">Share</th><th class="r">Amount</th><th class="r">Paid</th><th class="r">Balance</th><th class="r">Due date</th></tr></thead>
+      <tbody>${d.schedule.map(s => `<tr class="${s.n === d.stage ? 'cur' : ''}"><td>${s.n}</td><td>${esc(s.label)}${s.n === d.stage ? ' ← this slip' : ''}</td><td class="r">${s.pct}%</td><td class="r">${plainMoney(s.amount)}</td><td class="r">${plainMoney(s.paid)}</td><td class="r">${plainMoney(s.balance)}</td><td class="r">${fdate(s.due)}</td></tr>`).join('')}</tbody>
+      <tfoot><tr><td></td><td>Project total</td><td class="r">100%</td><td class="r">${plainMoney(d.cost)}</td><td class="r">${plainMoney(d.totalReceived)}</td><td class="r">${plainMoney(d.totalOutstanding)}</td><td></td></tr></tfoot></table></div>
+    <div class="two">
+      <div><div class="lbl">How to pay</div><div class="note">${esc(S.settings.payInfo)}</div></div>
+      <div><div class="lbl">Note</div><div class="note">${esc(d.note || 'Please quote ' + (d.no || 'the slip number') + ' with your payment.')}</div></div>
+    </div>
+    <div class="sig"><div>Received by (client)</div><div>Authorised signature, ${esc(S.settings.company)}</div></div>
+    ${docFooter()}
+  </article>`;
+}
+function calcQuote(q) {
+  const subtotal = sum(q.items || [], i => Math.round((+i.qty || 0) * (+i.rate || 0)));
+  const discount = Math.min(subtotal, Math.round(+q.discount || 0));
+  const taxRate = +(q.taxRate ?? S.settings.taxRate) || 0;
+  const tax = Math.round((subtotal - discount) * taxRate / 100);
+  return { subtotal, discount, taxRate, tax, total: subtotal - discount + tax };
+}
+function quoteDoc(q) {
+  const c = getC(q.clientId), t = calcQuote(q), sp = splitStages(t.total);
+  return `<article class="doc">
+    ${docHeader('QUOTATION', esc(q.id), 'Issued ' + fdate(q.date) + ' · valid until ' + fdate(addDays(q.date, q.validDays || 30)))}
+    <div class="two">
+      <div class="box"><div class="lbl">Prepared for</div><b>${esc(c.name)}</b><span>${esc(c.company)}</span><span>${esc(c.address)}</span><span>${esc(c.phone)} · ${esc(c.email)}</span></div>
+      <div class="box"><div class="lbl">Project</div><b>${esc(q.project)}</b><span>${esc(q.service)}</span><div class="kv" style="margin-top:8px"><span>Timeline</span><strong>${esc(q.timeline || '—')}</strong><span>Total</span><strong>${plainMoney(t.total)}</strong></div></div>
+    </div>
+    <div><div class="lbl">Scope of work</div><div class="scope">${esc(q.scope)}</div></div>
+    <div><div class="lbl">Cost breakdown</div>
+      <table><thead><tr><th>#</th><th>Description</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th></tr></thead>
+      <tbody>${(q.items || []).map((i, k) => `<tr><td>${k + 1}</td><td>${esc(i.d)}</td><td class="r">${+i.qty || 0}</td><td class="r">${plainMoney(i.rate)}</td><td class="r">${plainMoney((+i.qty || 0) * (+i.rate || 0))}</td></tr>`).join('')}
+      <tr><td></td><td colspan="3" class="r">Subtotal</td><td class="r">${plainMoney(t.subtotal)}</td></tr>
+      ${t.discount ? `<tr><td></td><td colspan="3" class="r">Discount</td><td class="r">− ${plainMoney(t.discount)}</td></tr>` : ''}
+      ${t.taxRate ? `<tr><td></td><td colspan="3" class="r">${esc(S.settings.taxLabel)} ${t.taxRate}%</td><td class="r">${plainMoney(t.tax)}</td></tr>` : ''}</tbody>
+      <tfoot><tr><td></td><td colspan="3" class="r">Total</td><td class="r">${plainMoney(t.total)}</td></tr></tfoot></table></div>
+    <div><div class="lbl">Payment schedule</div>
+      <table><thead><tr><th>Stage</th><th>When</th><th class="r">Share</th><th class="r">Amount</th></tr></thead><tbody>
+      ${STAGES.map((s, i) => `<tr><td>${s.n} · ${s.label}</td><td>${['On approval, before work starts', 'At the midway milestone', 'On final delivery'][i]}</td><td class="r">${s.pct}%</td><td class="r">${plainMoney(sp[i])}</td></tr>`).join('')}</tbody></table></div>
+    <div><div class="lbl">Terms &amp; conditions</div><div class="note">${esc(q.terms || S.settings.terms)}</div></div>
+    <div class="sig"><div>Accepted by (client), name, signature and date</div><div>For ${esc(S.settings.company)}</div></div>
+    ${docFooter()}
+  </article>`;
+}
+function reportDoc(title, headers, rows) {
+  return `<article class="doc">${docHeader(esc(title.toUpperCase()), 'REPORT', 'Generated ' + fdate(today()))}
+    <table><thead><tr>${headers.map((h, i) => `<th class="${i ? 'r' : ''}">${esc(h)}</th>`).join('')}</tr></thead>
+    <tbody>${rows.map(r => `<tr>${r.map((v, i) => `<td class="${i ? 'r' : ''}">${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>${docFooter()}</article>`;
+}
+function reportData(k) {
+  const con = contracted().map(b => ({ b, c: getC(b.clientId), sm: summaryOf(b) }));
+  if (k === 'revenue') return ['Monthly revenue', ['Month', 'Payments', 'Amount (BDT)'], last12().map(m => { const ps = S.payments.filter(p => p.date.slice(0, 7) === m.key); return [m.long, ps.length, sum(ps, p => p.amount)]; })];
+  if (k === 'sales') return ['Sales performance', ['Quotation status', 'Count', 'Value (BDT)'], Q_STATUSES.map(s => { const qs = S.quotations.filter(q => q.status === s); return [s, qs.length, sum(qs, q => calcQuote(q).total)]; })];
+  if (k === 'outstanding') return ['Outstanding payments', ['Booking', 'Client', 'Total (BDT)', 'Received (BDT)', 'Outstanding (BDT)', 'Next due'], con.filter(x => x.sm.outstanding > 0).map(x => [x.b.id, x.c.company, x.sm.total, x.sm.received, x.sm.outstanding, x.sm.next ? `Stage ${x.sm.next.n} ${x.sm.next.due}${x.sm.next.overdue ? ' (overdue)' : ''}` : ''])];
+  if (k === 'clients') return ['Client summary', ['Client', 'Projects', 'Billed (BDT)', 'Received (BDT)', 'Outstanding (BDT)'], S.clients.map(c => { const xs = con.filter(x => x.b.clientId === c.id); return [c.company, S.bookings.filter(b => b.clientId === c.id).length, sum(xs, x => x.sm.total), sum(xs, x => x.sm.received), sum(xs, x => x.sm.outstanding)]; })];
+  return ['Project status', ['Status', 'Projects', 'Value (BDT)'], BOOKING_STATUSES.map(s => { const bs = S.bookings.filter(b => b.status === s); return [s, bs.length, sum(bs, b => b.cost)]; })];
+}
+
+/* Output: print, PDF, download, email */
+function printDoc(html) {
+  $('#print-root').innerHTML = html;
+  setTimeout(() => { try { window.print(); } catch (e) { toast('Printing is not available here. Open the deployed page to print.'); } }, 60);
+}
+window.addEventListener('afterprint', () => { $('#print-root').innerHTML = ''; });
+function savePDF(html, filename) {
+  if (!window.html2pdf) { toast('PDF engine did not load. Use Print and choose "Save as PDF".'); return; }
+  const stage = $('#pdf-stage'); stage.innerHTML = html;
+  const el = stage.firstElementChild;
+  toast('Preparing PDF…');
+  window.html2pdf().set({ margin: 0, filename, image: { type: 'jpeg', quality: 0.96 }, html2canvas: { scale: 2, backgroundColor: '#ffffff', useCORS: true }, jsPDF: { unit: 'px', format: [794, 1123], hotfixes: ['px_scaling'] }, pagebreak: { mode: ['css', 'legacy'] } })
+    .from(el).save().then(() => { stage.innerHTML = ''; toast('Saved ' + filename); }, () => { stage.innerHTML = ''; toast('Could not create the PDF. Use Print instead.'); });
+}
+function download(name, text, type) {
+  try {
+    const url = URL.createObjectURL(new Blob([text], { type }));
+    const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+    toast('Downloaded ' + name);
+  } catch (e) { toast('Download blocked by this browser.'); }
+}
+const csvCell = v => /[",\n]/.test(String(v)) ? '"' + String(v).replace(/"/g, '""') + '"' : String(v);
+function emailModal({ to, subject, body, hint }) {
+  modal(`${modalHead('Email client', esc(hint || ''))}
+    <div class="modal-b">
+      ${field('To', input('em-to', 'to', to, 'email', 'data-live="email"'), 'em-to')}
+      ${field('Subject', input('em-sub', 'subject', subject, 'text', 'data-live="email"'), 'em-sub')}
+      ${field('Message', area('em-body', 'body', body, 'rows="12" data-live="email"'), 'em-body')}
+      <p class="hint" style="margin:0">Attach the downloaded PDF before you send.</p>
+    </div>
+    <div class="modal-f"><button class="btn" data-action="email-copy">${ic('copy', 16)} Copy message</button><a class="btn p" id="em-link" href="#" target="_blank" rel="noopener">${ic('mail', 16)} Open in email app</a></div>`);
+  updateMailto();
+}
+function updateMailto() {
+  const a = $('#em-link'); if (!a) return;
+  a.href = 'mailto:' + encodeURIComponent($('#em-to').value) + '?subject=' + encodeURIComponent($('#em-sub').value) + '&body=' + encodeURIComponent($('#em-body').value);
+}
+
+/* ───────────────────────── Modals ───────────────────────── */
+function bookingModal(id) {
+  const b = getB(id); if (!b) return;
+  const c = getC(b.clientId), sm = summaryOf(b);
+  CUR = { type: 'booking', id };
+  const pays = S.payments.filter(p => p.bookingId === id).sort((a, b) => b.date.localeCompare(a.date));
+  const quote = S.quotations.find(q => q.bookingId === id);
+  modal(`${modalHead(esc(b.project), `<span class="mono">${b.id}</span> · ${esc(c.company)}`)}
+  <div class="modal-b">
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">${statusPill(b.status)} ${sm.overdue.length ? pill('Payment overdue', 'bad') : payPill(sm.status)}</div>
+      <div style="display:flex;gap:8px;align-items:center"><label for="bm-status" class="hint">Status</label><select class="inp" id="bm-status" data-live="booking-status" data-id="${b.id}" style="width:auto">${opts(BOOKING_STATUSES, b.status)}</select></div>
+    </div>
+    <dl class="dl">
+      <div><dt>Client</dt><dd><a href="#clients" data-action="open-client" data-id="${c.id}">${esc(c.name)}</a><span class="hint" style="display:block;font-weight:400">${esc(c.company)}</span></dd></div>
+      <div><dt>Service category</dt><dd>${esc(b.service)}</dd></div>
+      <div><dt>Estimated cost</dt><dd class="num">${money(b.cost)}</dd></div>
+      <div><dt>Start date</dt><dd>${fdate(b.start)}</dd></div>
+      <div><dt>Delivery date</dt><dd>${fdate(b.delivery)}</dd></div>
+      <div><dt>Quotation</dt><dd>${quote ? `<a href="#quotations" data-action="open-quote" data-id="${quote.id}">${quote.id}</a>` : '—'}</dd></div>
+    </dl>
+    <div><div class="hint" style="margin-bottom:8px;font-weight:600">Payment schedule · 30 / 30 / 40</div>
+      <div class="stages">${sm.stages.map(s => `<div class="stage ${s.status === 'Paid' ? 'paid' : s.status === 'Partial' ? 'part' : ''} ${s.overdue ? 'over' : ''}">
+        <div class="k"><span>Stage ${s.n} · ${s.label}</span><span>${s.pct}%</span></div>
+        <div class="a">${money(s.amount)}</div>
+        <div class="m">Due ${fdate(s.due)}</div>
+        <div class="m">${s.status === 'Paid' ? 'Paid in full' : s.paid ? `${money(s.paid)} paid · ${money(s.balance)} left` : 'Not paid yet'}</div>
+        <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">${stagePill(s)}
+          ${s.balance > 0 && b.status !== 'Cancelled' ? `<button class="btn sm" data-action="new-payment" data-id="${b.id}" data-stage="${s.n}">Record</button>` : ''}
+          <button class="btn sm" data-action="slip-for" data-id="${b.id}" data-stage="${s.n}">Slip</button></div>
+      </div>`).join('')}</div></div>
+    <div class="dl" style="border:1px solid var(--ln);border-radius:12px;padding:14px">
+      <div><dt>Total amount</dt><dd class="num">${money(sm.total)}</dd></div>
+      <div><dt>Amount received</dt><dd class="num" style="color:var(--ok)">${money(sm.received)}</dd></div>
+      <div><dt>Outstanding</dt><dd class="num">${money(sm.outstanding)}</dd></div>
+      <div><dt>Next due payment</dt><dd class="num">${sm.next ? `${money(sm.next.balance)} <span class="hint" style="font-weight:400">· ${fdate(sm.next.due)}</span>` : 'None'}</dd></div>
+    </div>
+    <div><div class="hint" style="margin-bottom:8px;font-weight:600">Payments received</div>
+      ${pays.length ? `<div class="tw"><table class="t"><thead><tr><th>Receipt</th><th>Date</th><th>Stage</th><th>Method</th><th class="r">Amount</th><th></th></tr></thead><tbody>
+      ${pays.map(p => `<tr class="static"><td><span class="id">${p.id}</span></td><td>${fdate(p.date)}</td><td>${p.stage} · ${STAGES[p.stage - 1].label}</td><td>${esc(p.method)} <span class="hint mono">${esc(p.ref || '')}</span></td><td class="r num"><b>${money(p.amount)}</b></td><td class="r"><button class="btn sm ghost danger" data-action="del-payment" data-id="${p.id}" aria-label="Delete payment ${p.id}">${ic('trash', 14)}</button></td></tr>`).join('')}
+      </tbody></table></div>` : '<p class="hint" style="margin:0">No payments recorded yet.</p>'}</div>
+  </div>
+  <div class="modal-f"><button class="btn" data-action="edit-booking" data-id="${b.id}">Edit booking</button><button class="btn" data-action="slip-for" data-id="${b.id}">${ic('receipt', 16)} Payment slip</button>${b.status !== 'Cancelled' && sm.outstanding > 0 ? `<button class="btn p" data-action="new-payment" data-id="${b.id}">${ic('plus', 16)} Record payment</button>` : ''}</div>`, 'lg');
+}
+
+function bookingForm(id, preset = {}) {
+  const b = id ? getB(id) : { id: '', clientId: preset.clientId || (S.clients[0] || {}).id, project: preset.project || '', service: preset.service || SERVICES[0], cost: preset.cost || '', start: today(), delivery: addDays(today(), 90), status: preset.status || 'Approved', notes: '' };
+  modal(`${modalHead(id ? 'Edit booking' : 'New booking', id ? `<span class="mono">${id}</span>` : 'A 30 / 30 / 40 payment schedule is created from the estimated cost')}
+  <form data-form="booking" novalidate>
+    <input type="hidden" name="id" value="${esc(id || '')}"><input type="hidden" name="inquiryId" value="${esc(preset.inquiryId || '')}"><input type="hidden" name="quoteId" value="${esc(preset.quoteId || '')}">
+    <div class="modal-b">
+      ${field('Client', `<select class="inp" id="bf-client" name="clientId">${S.clients.map(c => `<option value="${c.id}"${c.id === b.clientId ? ' selected' : ''}>${esc(c.company)} · ${esc(c.name)}</option>`).join('')}</select>`, 'bf-client')}
+      <div class="grid2">
+        ${field('Project name', input('bf-project', 'project', b.project, 'text', 'required'), 'bf-project')}
+        ${field('Service category', select('bf-service', 'service', SERVICES, b.service), 'bf-service')}
+        ${field('Estimated cost (BDT)', input('bf-cost', 'cost', b.cost, 'number', 'min="1" step="1" required data-live="bf"'), 'bf-cost')}
+        ${field('Status', select('bf-status', 'status', BOOKING_STATUSES, b.status), 'bf-status')}
+        ${field('Start date', input('bf-start', 'start', b.start, 'date', 'required data-live="bf"'), 'bf-start')}
+        ${field('Delivery date', input('bf-delivery', 'delivery', b.delivery, 'date', 'required data-live="bf"'), 'bf-delivery')}
+      </div>
+      <div id="bf-preview">${schedulePreview(b.cost, b.start, b.delivery)}</div>
+      <div class="hint" id="bf-err" style="color:var(--bad)" role="alert"></div>
+    </div>
+    <div class="modal-f"><button type="button" class="btn" data-action="close">Cancel</button><button class="btn p" type="submit">${id ? 'Save changes' : 'Create booking'}</button></div>
+  </form>`);
+}
+function schedulePreview(cost, start, delivery) {
+  const amts = splitStages(+cost || 0);
+  const dues = start && delivery ? stageDueDates({ start, delivery }) : ['', '', ''];
+  return `<div class="hint" style="margin-bottom:8px;font-weight:600">Payment schedule</div><div class="stages">${STAGES.map((s, i) => `<div class="stage"><div class="k"><span>${s.label}</span><span>${s.pct}%</span></div><div class="a">${money(amts[i])}</div><div class="m">Due ${fdate(dues[i])}</div></div>`).join('')}</div>`;
+}
+
+function paymentModal(bookingId, stage, back) {
+  const pool = S.bookings.filter(b => b.status !== 'Cancelled' && summaryOf(b).outstanding > 0);
+  if (!pool.length) { toast('Every booking is fully paid.'); return; }
+  if (!bookingId || !pool.find(b => b.id === bookingId)) bookingId = pool[0].id;
+  const b = getB(bookingId), sm = summaryOf(b);
+  let st = sm.stages[(stage || 0) - 1];
+  if (!st || st.balance <= 0) st = sm.next;
+  CUR = { type: 'payment', back };
+  modal(`${modalHead('Record payment', 'The amount is applied to one stage of the 30 / 30 / 40 schedule')}
+  <form data-form="payment" novalidate>
+    <input type="hidden" name="back" value="${esc(back || '')}">
+    <div class="modal-b">
+      ${field('Booking', `<select class="inp" id="pf-booking" name="bookingId" data-live="pf">${bookingOptions(pool, b.id)}</select>`, 'pf-booking')}
+      ${field('Stage', `<select class="inp" id="pf-stage" name="stage" data-live="pf">${sm.stages.filter(s => s.balance > 0).map(s => `<option value="${s.n}"${s.n === st.n ? ' selected' : ''}>Stage ${s.n} · ${s.label} (${s.pct}%) · ${money(s.balance)} left of ${money(s.amount)}</option>`).join('')}</select>`, 'pf-stage')}
+      <div class="grid2">
+        ${field('Amount (BDT)', input('pf-amount', 'amount', st.balance, 'number', `min="1" max="${st.balance}" step="1" required`), 'pf-amount', `Up to ${money(st.balance)} for this stage`)}
+        ${field('Payment date', input('pf-date', 'date', today(), 'date', 'required'), 'pf-date')}
+        ${field('Method', select('pf-method', 'method', METHODS, 'Bank Transfer'), 'pf-method')}
+        ${field('Reference / Trx ID', input('pf-ref', 'ref', '', 'text', 'placeholder="e.g. 8N7X2K1Q"'), 'pf-ref')}
+      </div>
+      <div class="hint" id="pf-err" style="color:var(--bad)" role="alert"></div>
+    </div>
+    <div class="modal-f"><button type="button" class="btn" data-action="close">Cancel</button><button class="btn p" type="submit">Save payment</button></div>
+  </form>`);
+}
+
+function clientModal(id) {
+  const c = getC(id); CUR = { type: 'client', id };
+  const bs = S.bookings.filter(b => b.clientId === id);
+  const qs = S.quotations.filter(q => q.clientId === id);
+  const ps = S.payments.filter(p => bs.some(b => b.id === p.bookingId)).sort((a, b) => b.date.localeCompare(a.date));
+  const con = bs.filter(b => CONTRACTED.includes(b.status)).map(summaryOf);
+  modal(`${modalHead(esc(c.name), `<span class="mono">${c.id}</span> · ${esc(c.company)}`)}
+  <div class="modal-b">
+    <dl class="dl">
+      <div><dt>Email</dt><dd>${esc(c.email)}</dd></div><div><dt>Phone</dt><dd class="num">${esc(c.phone)}</dd></div><div><dt>Address</dt><dd>${esc(c.address)}</dd></div>
+      <div><dt>Billed</dt><dd class="num">${money(sum(con, s => s.total))}</dd></div><div><dt>Received</dt><dd class="num" style="color:var(--ok)">${money(sum(con, s => s.received))}</dd></div><div><dt>Outstanding</dt><dd class="num">${money(sum(con, s => s.outstanding))}</dd></div>
+    </dl>
+    ${c.notes ? `<div class="hint" style="background:var(--panel2);border-radius:10px;padding:10px 12px">${esc(c.notes)}</div>` : ''}
+    <div><div class="hint" style="margin-bottom:8px;font-weight:600">Projects</div>
+      ${bs.length ? `<div class="tw"><table class="t"><tbody>${bs.map(b => { const s = summaryOf(b); return `<tr data-action="open-booking" data-id="${b.id}"><td><span class="id">${b.id}</span></td><td class="wrap">${esc(b.project)}</td><td>${statusPill(b.status)}</td><td class="r num">${money(b.cost)}</td><td>${progress(s)}</td></tr>`; }).join('')}</tbody></table></div>` : '<p class="hint" style="margin:0">No projects yet.</p>'}</div>
+    <div class="cols" style="gap:16px">
+      <div><div class="hint" style="margin-bottom:8px;font-weight:600">Quotations</div>${qs.map(q => `<div style="display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--ln)"><a href="#quotations" data-action="open-quote" data-id="${q.id}">${q.id}</a>${pill(q.status, Q_TONE[q.status])}<span class="num">${money(calcQuote(q).total)}</span></div>`).join('') || '<p class="hint" style="margin:0">None</p>'}</div>
+      <div><div class="hint" style="margin-bottom:8px;font-weight:600">Payments</div>${ps.slice(0, 6).map(p => `<div style="display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid var(--ln)"><span>${fdate(p.date)} <span class="hint">· ${p.bookingId} S${p.stage}</span></span><b class="num">${money(p.amount)}</b></div>`).join('') || '<p class="hint" style="margin:0">None</p>'}</div>
+    </div>
+    <div><div class="hint" style="margin-bottom:8px;font-weight:600">Communication history</div>
+      <form data-form="client-note" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px"><input type="hidden" name="id" value="${c.id}">
+        <select class="inp" name="type" style="width:auto" aria-label="Type">${opts(['Call', 'Meeting', 'Email', 'Note'], 'Call')}</select>
+        <input class="inp" name="text" placeholder="Log a call, meeting or note" style="flex:1;min-width:180px" aria-label="Note" required>
+        <button class="btn" type="submit">Add</button></form>
+      <div style="max-height:220px;overflow:auto">${(c.log || []).map(l => `<div style="display:grid;grid-template-columns:96px 80px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--ln);font-size:13px"><span class="hint">${fdate(l.date)}</span><span>${pill(l.type)}</span><span style="min-width:0">${esc(l.text)}</span></div>`).join('') || '<p class="hint" style="margin:0">No history yet.</p>'}</div>
+    </div>
+  </div>
+  <div class="modal-f"><button class="btn" data-action="edit-client" data-id="${c.id}">Edit client</button><button class="btn" data-action="new-quote" data-client="${c.id}">New quotation</button><button class="btn p" data-action="new-booking" data-client="${c.id}">${ic('plus', 16)} New booking</button></div>`, 'lg');
+}
+function clientForm(id, preset = {}) {
+  const c = id ? getC(id) : { name: preset.name || '', company: preset.company || '', email: preset.email || '', phone: preset.phone || '', address: '', notes: '' };
+  modal(`${modalHead(id ? 'Edit client' : 'New client', id ? `<span class="mono">${id}</span>` : '')}
+  <form data-form="client" novalidate><input type="hidden" name="id" value="${esc(id || '')}"><input type="hidden" name="inquiryId" value="${esc(preset.inquiryId || '')}">
+    <div class="modal-b"><div class="grid2">
+      ${field('Name', input('cf-name', 'name', c.name, 'text', 'required'), 'cf-name')}
+      ${field('Company', input('cf-company', 'company', c.company, 'text', 'required'), 'cf-company')}
+      ${field('Email', input('cf-email', 'email', c.email, 'email', 'required'), 'cf-email')}
+      ${field('Phone', input('cf-phone', 'phone', c.phone, 'tel', 'required'), 'cf-phone')}
+    </div>
+    ${field('Address', input('cf-address', 'address', c.address), 'cf-address')}
+    ${field('Notes', area('cf-notes', 'notes', c.notes, 'rows="3"'), 'cf-notes')}
+    <div class="hint" id="cf-err" style="color:var(--bad)" role="alert"></div></div>
+    <div class="modal-f"><button type="button" class="btn" data-action="close">Cancel</button><button class="btn p" type="submit">${id ? 'Save changes' : 'Create client'}</button></div></form>`);
+}
+
+function inquiryModal(id) {
+  const i = getI(id); CUR = { type: 'inquiry', id };
+  const existing = S.clients.find(c => c.email.toLowerCase() === i.email.toLowerCase());
+  modal(`${modalHead(esc(i.name), `<span class="mono">${i.id}</span> · ${esc(i.company)} · received ${fdate(i.date)}`)}
+  <div class="modal-b">
+    <div style="display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap">${pill(i.status, INQ_TONE[i.status])}
+      <div style="display:flex;gap:8px;align-items:center"><label for="im-status" class="hint">Status</label><select class="inp" id="im-status" data-live="inq-status" data-id="${i.id}" style="width:auto">${opts(INQ_STATUSES, i.status)}</select></div></div>
+    <dl class="dl">
+      <div><dt>Email</dt><dd>${esc(i.email)}</dd></div><div><dt>Phone</dt><dd class="num">${esc(i.phone)}</dd></div><div><dt>Source</dt><dd>${esc(i.source)}</dd></div>
+      <div><dt>Request type</dt><dd>${esc(i.type || 'Project inquiry')}</dd></div>
+      ${i.preferredDate ? `<div><dt>Preferred consultation</dt><dd>${fdate(i.preferredDate)}${i.preferredTime ? ' · ' + esc(i.preferredTime) : ''}</dd></div>` : ''}
+      <div><dt>Service required</dt><dd>${esc(i.service)}</dd></div><div><dt>Estimated budget</dt><dd>${esc(i.budget)}</dd></div><div><dt>Preferred timeline</dt><dd>${esc(i.timeline)}</dd></div>
+    </dl>
+    <div><div class="hint" style="font-weight:600;margin-bottom:6px">Project description</div><div style="background:var(--panel2);border-radius:10px;padding:12px;white-space:pre-line">${esc(i.description)}</div></div>
+    ${i.notes ? `<div><div class="hint" style="font-weight:600;margin-bottom:6px">Additional notes</div><div>${esc(i.notes)}</div></div>` : ''}
+    <div class="hint">Attachment: ${i.attachment ? `<span class="mono">${esc(i.attachment)}</span>` : 'none'}</div>
+  </div>
+  <div class="modal-f">${existing ? `<button class="btn" data-action="open-client" data-id="${existing.id}">View client ${existing.id}</button>` : `<button class="btn" data-action="inq-client" data-id="${i.id}">Create client</button>`}
+    <button class="btn p" data-action="inq-booking" data-id="${i.id}">${ic('arrow', 16)} Convert to booking</button></div>`, 'lg');
+}
+function inquiryForm() {
+  modal(`${modalHead('Add inquiry', 'The same fields as the website inquiry form')}
+  <form data-form="inquiry" novalidate><div class="modal-b"><div class="grid2">
+    ${field('Full name', input('if-name', 'name', '', 'text', 'required'), 'if-name')}
+    ${field('Company name', input('if-company', 'company', ''), 'if-company')}
+    ${field('Email', input('if-email', 'email', '', 'email', 'required'), 'if-email')}
+    ${field('Phone number', input('if-phone', 'phone', '', 'tel', 'required'), 'if-phone')}
+    ${field('Service required', select('if-service', 'service', SERVICES, SERVICES[0]), 'if-service')}
+    ${field('Source', select('if-source', 'source', SOURCES, 'Website'), 'if-source')}
+    ${field('Estimated budget', input('if-budget', 'budget', '', 'text', 'placeholder="e.g. ৳ 3–5 lakh"'), 'if-budget')}
+    ${field('Preferred timeline', input('if-timeline', 'timeline', '', 'text', 'placeholder="e.g. 3 months"'), 'if-timeline')}
+  </div>
+  ${field('Project description', area('if-desc', 'description', '', 'rows="4" required'), 'if-desc')}
+  ${field('File attachment', '<input class="inp" id="if-file" name="attachment" type="file">', 'if-file', 'File name is recorded; files are stored once the server is connected')}
+  ${field('Additional notes', area('if-notes', 'notes', '', 'rows="2"'), 'if-notes')}
+  <div class="hint" id="if-err" style="color:var(--bad)" role="alert"></div></div>
+  <div class="modal-f"><button type="button" class="btn" data-action="close">Cancel</button><button class="btn p" type="submit">Save inquiry</button></div></form>`, 'lg');
+}
+
+let QE = null;
+function quoteForm(id, clientId) {
+  const q = id ? getQ(id) : null;
+  QE = q ? JSON.parse(JSON.stringify(q)) : { id: '', clientId: clientId || (S.clients[0] || {}).id, bookingId: '', project: '', service: SERVICES[0], date: today(), validDays: 30, status: 'Draft', discount: 0, taxRate: +S.settings.taxRate || 0, scope: '', timeline: '', items: [{ d: '', qty: 1, rate: 0 }], terms: S.settings.terms };
+  modal(`${modalHead(id ? 'Edit quotation' : 'New quotation', id ? `<span class="mono">${id}</span>` : 'Company details come from Settings')}
+  <form data-form="quote" novalidate><div class="modal-b">
+    <div class="grid2">
+      ${field('Client', `<select class="inp" id="qf-client" name="clientId">${S.clients.map(c => `<option value="${c.id}"${c.id === QE.clientId ? ' selected' : ''}>${esc(c.company)} · ${esc(c.name)}</option>`).join('')}</select>`, 'qf-client')}
+      ${field('Project name', input('qf-project', 'project', QE.project, 'text', 'required'), 'qf-project')}
+      ${field('Service', select('qf-service', 'service', SERVICES, QE.service), 'qf-service')}
+      ${field('Timeline', input('qf-timeline', 'timeline', QE.timeline, 'text', 'placeholder="e.g. 12 weeks"'), 'qf-timeline')}
+      ${field('Issue date', input('qf-date', 'date', QE.date, 'date'), 'qf-date')}
+      ${field('Valid for (days)', input('qf-valid', 'validDays', QE.validDays, 'number', 'min="1"'), 'qf-valid')}
+    </div>
+    ${field('Scope of work', area('qf-scope', 'scope', QE.scope, 'rows="4"'), 'qf-scope')}
+    <div><div class="hint" style="font-weight:600;margin-bottom:8px">Cost breakdown</div><div id="qe-items">${qeItems()}</div>
+      <button type="button" class="btn sm" data-action="qe-add" style="margin-top:8px">${ic('plus', 14)} Add line</button></div>
+    <div class="grid2">
+      ${field('Discount (BDT)', input('qf-discount', 'discount', QE.discount, 'number', 'min="0" step="1" data-live="qe-totals"'), 'qf-discount')}
+      ${field(`${esc(S.settings.taxLabel)} rate (%)`, input('qf-tax', 'taxRate', QE.taxRate, 'number', 'min="0" step="0.01" data-live="qe-totals"'), 'qf-tax')}
+    </div>
+    <div id="qe-totals">${qeTotals()}</div>
+    ${field('Terms &amp; conditions', area('qf-terms', 'terms', QE.terms, 'rows="5"'), 'qf-terms')}
+    <div class="hint" id="qf-err" style="color:var(--bad)" role="alert"></div>
+  </div>
+  <div class="modal-f"><button type="button" class="btn" data-action="close">Cancel</button><button class="btn p" type="submit">${id ? 'Save changes' : 'Create quotation'}</button></div></form>`, 'lg');
+}
+function qeItems() {
+  return `<div style="display:flex;flex-direction:column;gap:8px">${QE.items.map((it, k) => `<div style="display:grid;grid-template-columns:minmax(0,1fr) 70px 130px 40px;gap:8px;align-items:center">
+    <input class="inp" id="qi-d-${k}" data-qi="${k}" data-qf="d" value="${esc(it.d)}" placeholder="Description" aria-label="Line ${k + 1} description">
+    <input class="inp num" id="qi-q-${k}" data-qi="${k}" data-qf="qty" type="number" min="0" value="${esc(it.qty)}" aria-label="Line ${k + 1} quantity">
+    <input class="inp num" id="qi-r-${k}" data-qi="${k}" data-qf="rate" type="number" min="0" step="1" value="${esc(it.rate)}" aria-label="Line ${k + 1} rate in BDT">
+    <button type="button" class="iconbtn" data-action="qe-del" data-k="${k}" aria-label="Remove line ${k + 1}" ${QE.items.length < 2 ? 'disabled' : ''}>${ic('trash', 15)}</button></div>`).join('')}</div>`;
+}
+function qeTotals() {
+  const t = calcQuote(QE), sp = splitStages(t.total);
+  return `<div style="border:1px solid var(--ln);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:6px">
+    <div style="display:flex;justify-content:space-between"><span class="hint">Subtotal</span><span class="num">${money(t.subtotal)}</span></div>
+    ${t.discount ? `<div style="display:flex;justify-content:space-between"><span class="hint">Discount</span><span class="num">− ${money(t.discount)}</span></div>` : ''}
+    ${t.taxRate ? `<div style="display:flex;justify-content:space-between"><span class="hint">${esc(S.settings.taxLabel)} ${t.taxRate}%</span><span class="num">${money(t.tax)}</span></div>` : ''}
+    <div style="display:flex;justify-content:space-between;border-top:1px solid var(--ln);padding-top:6px"><b>Total</b><b class="num">${money(t.total)}</b></div>
+    <div class="hint num">Advance ${money(sp[0])} · Midway ${money(sp[1])} · Final ${money(sp[2])}</div></div>`;
+}
+function quoteModal(id) {
+  const q = getQ(id); if (!q) return; CUR = { type: 'quote', id };
+  const b = q.bookingId && getB(q.bookingId);
+  modal(`${modalHead(`${esc(q.project)}`, `<span class="mono">${q.id}</span> · ${esc(getC(q.clientId).company)} · ${pill(q.status, Q_TONE[q.status])}`)}
+  <div class="modal-b" style="padding:0"><div class="sheet-wrap" style="border:0;border-radius:0"><div class="sheet-scale">${quoteDoc(q)}</div></div></div>
+  <div class="modal-f" style="justify-content:space-between">
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      ${q.status === 'Draft' ? `<button class="btn" data-action="quote-status" data-id="${q.id}" data-s="Sent">Mark as sent</button>` : ''}
+      ${q.status === 'Draft' || q.status === 'Sent' ? `<button class="btn" data-action="quote-status" data-id="${q.id}" data-s="Accepted">${ic('check', 16)} Accept${b ? '' : ' & create booking'}</button><button class="btn danger" data-action="quote-status" data-id="${q.id}" data-s="Rejected">Reject</button>` : ''}
+      ${b ? `<button class="btn" data-action="open-booking" data-id="${b.id}">Booking ${b.id}</button>` : ''}
+      <button class="btn" data-action="edit-quote" data-id="${q.id}">Edit</button>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" data-action="quote-email" data-id="${q.id}">${ic('mail', 16)} Email</button>
+      <button class="btn" data-action="quote-pdf" data-id="${q.id}">${ic('download', 16)} PDF</button>
+      <button class="btn p" data-action="quote-print" data-id="${q.id}">${ic('print', 16)} Print</button>
+    </div></div>`, 'lg');
+}
+
+/* ───────────────────────── Actions ───────────────────────── */
+function issueSlip() {
+  if (G.loaded) return G.loaded;
+  const snap = slipSnapshot(G.bookingId, G.stage, G.issue || today(), G.due || null, G.note);
+  snap.no = nextId('PS', S.slips);
+  S.slips.unshift(snap);
+  logClient(snap.client.id, 'Slip', `Payment slip ${snap.no} issued for ${snap.bookingId}, stage ${snap.stage} (${money(snap.balance)} payable)`);
+  save(); G.loaded = snap; render(); toast('Issued ' + snap.no);
+  return snap;
+}
+function slipEmailText(d) {
+  const s = S.settings;
+  return {
+    to: d.client.email,
+    subject: `Payment slip ${d.no} · ${d.project} · Stage ${d.stage} ${d.stageLabel}`,
+    body: `Dear ${d.client.name},\n\nPlease find payment slip ${d.no} for ${d.project} (${d.bookingId}).\n\nStage ${d.stage} of 3: ${d.stageLabel} (${d.pct}% of ${plainMoney(d.cost)})\nAmount due: ${plainMoney(d.amountDue)}\nAmount paid: ${plainMoney(d.amountPaid)}\nBalance payable: ${plainMoney(d.balance)}\nDue date: ${fdate(d.due)}\n\nHow to pay:\n${s.payInfo}\n\nThank you,\n${s.company}\n${s.phone} · ${s.email}`,
+    hint: d.no,
+  };
+}
+const A = {
+  close: () => closeModal(),
+  logout: () => { setSession(null); showAuth('login', ''); toast('Signed out'); },
+  page: el => { const st = tstate(el.dataset.key); st.page = Math.max(1, st.page + +el.dataset.dir); render(); },
+  'open-booking': el => bookingModal(el.dataset.id),
+  'open-client': el => clientModal(el.dataset.id),
+  'open-inquiry': el => inquiryModal(el.dataset.id),
+  'open-quote': el => quoteModal(el.dataset.id),
+  'new-booking': el => bookingForm(null, { clientId: el.dataset.client }),
+  'edit-booking': el => bookingForm(el.dataset.id),
+  'new-client': () => clientForm(null),
+  'edit-client': el => clientForm(el.dataset.id),
+  'new-inquiry': () => inquiryForm(),
+  'new-quote': el => quoteForm(null, el.dataset.client),
+  'edit-quote': el => quoteForm(el.dataset.id),
+  'new-payment': el => paymentModal(el.dataset.id, +el.dataset.stage || 0, CUR && CUR.type === 'booking' ? CUR.id : ''),
+  'del-payment': el => {
+    if (el.dataset.armed !== '1') { el.dataset.armed = '1'; el.innerHTML = 'Delete?'; el.classList.remove('ghost'); return; }
+    const p = S.payments.find(x => x.id === el.dataset.id); if (!p) return;
+    S.payments = S.payments.filter(x => x.id !== p.id); save(); render(); bookingModal(p.bookingId); toast('Deleted ' + p.id);
+  },
+  'slip-for': el => { Object.assign(G, { bookingId: el.dataset.id, stage: +el.dataset.stage || 0, issue: today(), due: '', note: '', loaded: null }); closeModal(); if (route() === 'slips') render(); else location.hash = 'slips'; window.scrollTo({ top: 0 }); },
+  'slip-new': () => { G.loaded = null; G.due = ''; G.note = ''; render(); },
+  'slip-load': el => { const s = S.slips.find(x => x.no === el.dataset.no); if (s) { G.loaded = s; G.bookingId = s.bookingId; G.stage = s.stage; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); } },
+  'slip-issue': () => issueSlip(),
+  'slip-print': () => { const d = issueSlip(); printDoc(slipDoc(d)); },
+  'slip-pdf': () => { const d = issueSlip(); savePDF(slipDoc(d), d.no + '.pdf'); },
+  'slip-email': () => { const d = issueSlip(); emailModal(slipEmailText(d)); },
+  'email-copy': () => {
+    const t = `To: ${$('#em-to').value}\nSubject: ${$('#em-sub').value}\n\n${$('#em-body').value}`;
+    const done = () => toast('Message copied');
+    if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, () => { $('#em-body').select(); toast('Select the message and copy it'); });
+    else { $('#em-body').select(); toast('Select the message and copy it'); }
+  },
+  'quote-print': el => printDoc(quoteDoc(getQ(el.dataset.id))),
+  'quote-pdf': el => savePDF(quoteDoc(getQ(el.dataset.id)), el.dataset.id + '.pdf'),
+  'quote-email': el => {
+    const q = getQ(el.dataset.id), c = getC(q.clientId), t = calcQuote(q), s = S.settings, sp = splitStages(t.total);
+    emailModal({ to: c.email, hint: q.id, subject: `Quotation ${q.id} · ${q.project}`,
+      body: `Dear ${c.name},\n\nThank you for considering ${s.company}. Please find our quotation ${q.id} for ${q.project}.\n\nTotal: ${plainMoney(t.total)}\nTimeline: ${q.timeline || 'as discussed'}\nPayment: 30% advance (${plainMoney(sp[0])}), 30% midway (${plainMoney(sp[1])}), 40% on delivery (${plainMoney(sp[2])})\nValid until: ${fdate(addDays(q.date, q.validDays || 30))}\n\nWe would be glad to walk you through it.\n\nBest regards,\n${s.company}\n${s.phone} · ${s.email}` });
+  },
+  'quote-status': el => {
+    const q = getQ(el.dataset.id), s = el.dataset.s; q.status = s;
+    logClient(q.clientId, 'Quotation', `${q.id} marked ${s.toLowerCase()}`);
+    let msg = `${q.id} marked ${s.toLowerCase()}`;
+    if (s === 'Sent' && q.bookingId) { const b = getB(q.bookingId); if (b && b.status === 'Inquiry') b.status = 'Quotation Sent'; }
+    if (s === 'Accepted') {
+      const total = calcQuote(q).total;
+      let b = q.bookingId && getB(q.bookingId);
+      if (b) { b.cost = total; if (!CONTRACTED.includes(b.status)) b.status = 'Approved'; }
+      else {
+        b = { id: nextId('BK', S.bookings), clientId: q.clientId, project: q.project, service: q.service, cost: total, start: today(), delivery: addDays(today(), 90), status: 'Approved', created: today(), notes: '' };
+        S.bookings.push(b); q.bookingId = b.id; msg = `Accepted. Booking ${b.id} created with a 30 / 30 / 40 schedule`;
+      }
+    }
+    save(); render(); quoteModal(q.id); toast(msg);
+  },
+  'qe-add': () => { syncQE(); QE.items.push({ d: '', qty: 1, rate: 0 }); $('#qe-items').innerHTML = qeItems(); $('#qe-totals').innerHTML = qeTotals(); $('#qi-d-' + (QE.items.length - 1)).focus(); },
+  'qe-del': el => { syncQE(); QE.items.splice(+el.dataset.k, 1); $('#qe-items').innerHTML = qeItems(); $('#qe-totals').innerHTML = qeTotals(); },
+  'inq-client': el => { const i = getI(el.dataset.id); clientForm(null, { ...i, inquiryId: i.id }); },
+  'inq-booking': el => {
+    const i = getI(el.dataset.id);
+    let c = S.clients.find(x => x.email.toLowerCase() === i.email.toLowerCase());
+    if (!c) { c = { id: nextId('CL', S.clients, false), name: i.name, company: i.company || i.name, email: i.email, phone: i.phone, address: '', notes: `From inquiry ${i.id}`, created: today(), log: [] }; S.clients.push(c); logClient(c.id, 'Note', `Client created from inquiry ${i.id}`); save(); }
+    bookingForm(null, { clientId: c.id, project: `${i.service} for ${i.company || i.name}`, service: i.service, status: 'Inquiry', inquiryId: i.id });
+  },
+  'report-csv': el => { const [t, h, rows] = reportData(el.dataset.r); download(t.toLowerCase().replace(/\s+/g, '-') + '-' + today() + '.csv', '﻿' + [h, ...rows].map(r => r.map(csvCell).join(',')).join('\r\n'), 'text/csv;charset=utf-8'); },
+  'report-pdf': el => { const [t, h, rows] = reportData(el.dataset.r); printDoc(reportDoc(t, h, rows.map(r => r.map(v => typeof v === 'number' && h.join('').includes('BDT') && v > 999 ? Math.round(v).toLocaleString('en-IN') : v)))); },
+  backup: () => download('petra-crm-backup-' + today() + '.json', JSON.stringify(S, null, 2), 'application/json'),
+  reset: el => {
+    if (el.dataset.armed !== '1') { el.dataset.armed = '1'; el.textContent = 'Click again to erase all records'; return; }
+    S = seed(); save(); Object.keys(TS).forEach(k => delete TS[k]); Object.assign(G, { bookingId: '', stage: 0, issue: '', due: '', note: '', loaded: null }); render(); toast('Demo data restored');
+  },
+  'logo-clear': () => { S.settings.logo = ''; save(); render(); toast('Using the PETRA mark'); },
+};
+function syncQE() {
+  document.querySelectorAll('[data-qi]').forEach(inp => { const it = QE.items[+inp.dataset.qi]; if (it) it[inp.dataset.qf] = inp.dataset.qf === 'd' ? inp.value : +inp.value || 0; });
+  const d = $('#qf-discount'), t = $('#qf-tax'); if (d) QE.discount = +d.value || 0; if (t) QE.taxRate = +t.value || 0;
+}
+
+/* Forms */
+const F = {
+  login: f => {
+    const d = Object.fromEntries(new FormData(f)); const err = $('#al-err');
+    if (Date.now() < lockUntil) return err.textContent = `Too many attempts. Try again in ${Math.ceil((lockUntil - Date.now()) / 1000)} seconds.`;
+    const u = getAuth().users.find(x => x.username.toLowerCase() === d.username.trim().toLowerCase());
+    if (!u || hashPassword(d.password, u.salt) !== u.hash) {
+      failCount++; if (failCount >= 5) { lockUntil = Date.now() + 30000; failCount = 0; }
+      $('#al-pass').value = ''; $('#al-pass').focus();
+      return err.textContent = 'That username and password do not match.';
+    }
+    failCount = 0;
+    setSession({ u: u.username, exp: Date.now() + SESSION_HOURS * 3600e3 });
+    enterApp();
+  },
+  'first-password': f => {
+    const d = Object.fromEntries(new FormData(f)); const s = getSession(); if (!s) return showAuth('login');
+    const problem = passwordProblem(d.pw, d.confirm, s.u); if (problem) return $('#ap-err').textContent = problem;
+    const a = getAuth(), u = a.users.find(x => x.username === s.u);
+    u.salt = randomSalt(); u.hash = hashPassword(d.pw, u.salt); u.mustChange = false; u.changed = today();
+    setAuth(a); enterApp(); toast('Password saved');
+  },
+  password: f => {
+    const d = Object.fromEntries(new FormData(f)); const err = $('#pw-err'); const s = getSession();
+    const a = getAuth(), u = a.users.find(x => x.username === s.u);
+    if (hashPassword(d.current, u.salt) !== u.hash) return err.textContent = 'Your current password is not correct.';
+    const problem = passwordProblem(d.pw, d.confirm, s.u); if (problem) return err.textContent = problem;
+    u.salt = randomSalt(); u.hash = hashPassword(d.pw, u.salt); u.changed = today();
+    setAuth(a); f.reset(); err.textContent = ''; toast('Password changed');
+  },
+  'slip-noop': () => {},
+  booking: f => {
+    const d = Object.fromEntries(new FormData(f)); const err = $('#bf-err');
+    const cost = Math.round(+d.cost);
+    if (!d.project.trim()) return err.textContent = 'Enter a project name.';
+    if (!(cost > 0)) return err.textContent = 'Enter an estimated cost above zero.';
+    if (!d.start || !d.delivery) return err.textContent = 'Choose a start and delivery date.';
+    if (d.delivery < d.start) return err.textContent = 'The delivery date must be on or after the start date.';
+    if (d.id) {
+      const b = getB(d.id), amts = splitStages(cost);
+      const clash = STAGES.find((s, i) => paidFor(b.id, s.n) > amts[i]);
+      if (clash) return err.textContent = `Stage ${clash.n} already has ${money(paidFor(b.id, clash.n))} paid, more than its new ${clash.pct}% share. Raise the cost or delete that payment first.`;
+      Object.assign(b, { clientId: d.clientId, project: d.project.trim(), service: d.service, cost, start: d.start, delivery: d.delivery, status: d.status });
+      save(); render(); bookingModal(b.id); toast('Booking updated');
+    } else {
+      const b = { id: nextId('BK', S.bookings), clientId: d.clientId, project: d.project.trim(), service: d.service, cost, start: d.start, delivery: d.delivery, status: d.status, created: today(), notes: '' };
+      S.bookings.push(b);
+      logClient(b.clientId, 'Note', `Booking ${b.id} created: ${b.project} (${money(cost)})`);
+      if (d.inquiryId) { const i = getI(d.inquiryId); if (i) i.status = 'Converted'; }
+      save(); render(); bookingModal(b.id); toast(`Booking ${b.id} created`);
+    }
+  },
+  payment: f => {
+    const d = Object.fromEntries(new FormData(f)); const err = $('#pf-err');
+    const b = getB(d.bookingId), stage = +d.stage, amount = Math.round(+d.amount);
+    const st = summaryOf(b).stages[stage - 1];
+    if (!(amount > 0)) return err.textContent = 'Enter an amount above zero.';
+    if (amount > st.balance) return err.textContent = `Stage ${stage} only has ${money(st.balance)} left. Record the rest against the next stage.`;
+    if (!d.date) return err.textContent = 'Choose the payment date.';
+    const p = { id: nextId('PAY', S.payments, false), bookingId: b.id, stage, amount, date: d.date, method: d.method, ref: d.ref.trim(), note: '' };
+    S.payments.push(p);
+    logClient(b.clientId, 'Payment', `${money(amount)} received for ${b.id}, stage ${stage} (${p.method})`, p.date);
+    save(); render();
+    if (d.back) bookingModal(d.back); else closeModal();
+    toast(`Saved ${p.id}: ${money(amount)} to stage ${stage}`);
+  },
+  client: f => {
+    const d = Object.fromEntries(new FormData(f)); const err = $('#cf-err');
+    if (!d.name.trim() || !d.company.trim()) return err.textContent = 'Enter the name and company.';
+    if (!/^\S+@\S+\.\S+$/.test(d.email)) return err.textContent = 'Enter a valid email address.';
+    if (!d.phone.trim()) return err.textContent = 'Enter a phone number.';
+    const data = { name: d.name.trim(), company: d.company.trim(), email: d.email.trim(), phone: d.phone.trim(), address: d.address.trim(), notes: d.notes.trim() };
+    let id = d.id;
+    if (id) Object.assign(getC(id), data);
+    else { id = nextId('CL', S.clients, false); S.clients.push({ id, ...data, created: today(), log: [{ date: today(), type: 'Note', text: d.inquiryId ? `Client created from inquiry ${d.inquiryId}` : 'Client created' }] }); }
+    save(); render(); clientModal(id); toast(d.id ? 'Client updated' : `Client ${id} created`);
+  },
+  'client-note': f => {
+    const d = Object.fromEntries(new FormData(f)); if (!d.text.trim()) return;
+    logClient(d.id, d.type, d.text.trim()); save(); clientModal(d.id);
+  },
+  inquiry: f => {
+    const fd = new FormData(f), d = Object.fromEntries(fd); const err = $('#if-err');
+    if (!d.name.trim()) return err.textContent = 'Enter the full name.';
+    if (!/^\S+@\S+\.\S+$/.test(d.email)) return err.textContent = 'Enter a valid email address.';
+    if (!d.phone.trim()) return err.textContent = 'Enter a phone number.';
+    if (!d.description.trim()) return err.textContent = 'Describe the project.';
+    const file = fd.get('attachment');
+    const i = { id: nextId('INQ', S.inquiries), name: d.name.trim(), company: d.company.trim(), email: d.email.trim(), phone: d.phone.trim(), service: d.service, budget: d.budget.trim(), timeline: d.timeline.trim(), source: d.source, status: 'New', date: today(), description: d.description.trim(), attachment: file && file.name ? file.name : '', notes: d.notes.trim() };
+    S.inquiries.push(i); save(); render(); inquiryModal(i.id); toast(`Inquiry ${i.id} saved`);
+  },
+  quote: f => {
+    syncQE(); const d = Object.fromEntries(new FormData(f)); const err = $('#qf-err');
+    if (!d.project.trim()) return err.textContent = 'Enter a project name.';
+    const items = QE.items.filter(i => i.d.trim() && i.qty > 0);
+    if (!items.length) return err.textContent = 'Add at least one cost line with a description and quantity.';
+    Object.assign(QE, { clientId: d.clientId, project: d.project.trim(), service: d.service, timeline: d.timeline.trim(), date: d.date || today(), validDays: +d.validDays || 30, scope: d.scope.trim(), terms: d.terms.trim(), items });
+    if (QE.id) { Object.assign(getQ(QE.id), QE); }
+    else { QE.id = nextId('QT', S.quotations); S.quotations.push(QE); logClient(QE.clientId, 'Quotation', `${QE.id} created for ${QE.project}`); }
+    const id = QE.id; QE = null; save(); render(); quoteModal(id); toast(`Saved ${id}`);
+  },
+  settings: f => {
+    const d = Object.fromEntries(new FormData(f));
+    if (!d.company.trim()) return toast('Enter the company name.');
+    Object.assign(S.settings, { company: d.company.trim(), tagline: d.tagline.trim(), email: d.email.trim(), phone: d.phone.trim(), website: d.website.trim(), address: d.address.trim(), taxLabel: d.taxLabel.trim() || 'VAT', taxRate: Math.max(0, +d.taxRate || 0), payInfo: d.payInfo, terms: d.terms });
+    save(); render(); toast('Settings saved');
+  },
+};
+
+/* Live inputs */
+const L = {
+  bf: () => { $('#bf-preview').innerHTML = schedulePreview($('#bf-cost').value, $('#bf-start').value, $('#bf-delivery').value); },
+  pf: el => { const bid = $('#pf-booking').value; const stage = el.id === 'pf-stage' ? +el.value : 0; paymentModal(bid, stage, (CUR && CUR.back) || ''); },
+  'slip-booking': el => { Object.assign(G, { bookingId: el.value, stage: 0, due: '', loaded: null }); render(); },
+  'slip-field': () => {
+    const stage = +$('#sg-stage').value;
+    if (stage !== G.stage) { G.stage = stage; G.due = ''; render(); return; }
+    G.issue = $('#sg-issue').value || today(); G.due = $('#sg-due').value; G.note = $('#sg-note').value;
+    $('#slip-preview').innerHTML = slipDoc(slipSnapshot(G.bookingId, G.stage, G.issue, G.due || null, G.note), true);
+  },
+  'booking-status': el => {
+    const b = getB(el.dataset.id); const old = b.status; b.status = el.value;
+    logClient(b.clientId, 'Note', `${b.id} status changed from ${old} to ${b.status}`);
+    save(); render(); bookingModal(b.id); toast(`${b.id} is now ${b.status}`);
+  },
+  'inq-status': el => { const i = getI(el.dataset.id); i.status = el.value; save(); render(); inquiryModal(i.id); toast(`${i.id} marked ${i.status.toLowerCase()}`); },
+  'qe-totals': () => { syncQE(); $('#qe-totals').innerHTML = qeTotals(); },
+  email: () => updateMailto(),
+  logo: el => {
+    const file = el.files && el.files[0]; if (!file) return;
+    if (file.size > 300 * 1024) { toast('That logo is over 300 KB. Use a smaller file.'); return; }
+    const r = new FileReader(); r.onload = () => { S.settings.logo = r.result; save(); render(); toast('Logo updated'); }; r.readAsDataURL(file);
+  },
+  restore: el => {
+    const file = el.files && el.files[0]; if (!file) return;
+    const r = new FileReader();
+    r.onload = () => { try { const d = JSON.parse(r.result); if (!d.bookings || !d.clients || !d.payments) throw 0; S = d; save(); render(); toast('Backup restored'); } catch (e) { toast('That file is not a PETRA CRM backup.'); } };
+    r.readAsText(file);
+  },
+};
+
+/* ───────────────────────── Render & events ───────────────────────── */
+function renderShell() {
+  $('#brand').innerHTML = `${logoMark(30)}<div><b>PETRA</b><small>CRM &amp; Bookings</small></div>`;
+  $('#menu-btn').innerHTML = ic('menu');
+  $('#top-pay').innerHTML = `${ic('plus', 16)}<span>Record payment</span>`;
+}
+function renderNav(r) {
+  const newInq = S.inquiries.filter(i => i.status === 'New').length;
+  $('#nav').innerHTML = NAV.map(([g, items]) => `<div class="navgroup">${g}</div>` + items.map(([k, t, i]) => `<a href="#${k}" class="${k === r ? 'on' : ''}" ${k === r ? 'aria-current="page"' : ''}>${ic(i)}<span>${t}</span>${k === 'inquiries' && newInq ? `<span class="cnt">${newInq}</span>` : ''}</a>`).join('')).join('')
+    + `<div class="navgroup">Public</div><a href="index.html">${ic('globe')}<span>View website</span></a>`;
+  $('#crumb').innerHTML = `<span>PETRA CRM /</span> ${TITLES[r]}`;
+}
+function render() {
+  if (!getSession()) { showAuth('login', 'Your session ended. Sign in again.'); return; }
+  const r = route();
+  const ae = document.activeElement; let focusId = ae && ae.id && $('#view').contains(ae) ? ae.id : null; let sel = null;
+  try { if (focusId && typeof ae.selectionStart === 'number') sel = [ae.selectionStart, ae.selectionEnd]; } catch (e) {}
+  renderNav(r);
+  $('#view').innerHTML = V[r]();
+  document.title = TITLES[r] + ' · PETRA CRM';
+  if (focusId) { const n = document.getElementById(focusId); if (n) { n.focus({ preventScroll: true }); try { if (sel) n.setSelectionRange(sel[0], sel[1]); } catch (e) {} } }
+}
+function fitSheets() {
+  document.querySelectorAll('.sheet-wrap').forEach(w => {
+    const s = w.querySelector('.sheet-scale'); if (!s) return;
+    const z = Math.min(1, (w.clientWidth - 40) / 794);
+    s.style.zoom = z > 0.3 ? z : 0.3; w.classList.toggle('fit', z >= 0.3);
+  });
+}
+window.addEventListener('resize', fitSheets);
+new MutationObserver(() => fitSheets()).observe(document.body, { childList: true, subtree: true });
+function setTheme(t) {
+  if (t) document.documentElement.setAttribute('data-theme', t); else document.documentElement.removeAttribute('data-theme');
+  const dark = t ? t === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  $('#theme-btn').innerHTML = ic(dark ? 'sun' : 'moon');
+  $('#theme-btn').setAttribute('aria-label', dark ? 'Switch to light theme' : 'Switch to dark theme');
+}
+
+document.addEventListener('click', e => {
+  if (e.target.matches('[data-modal-bg]')) { closeModal(); return; }
+  const el = e.target.closest('[data-action]');
+  if (!el) {
+    if (e.target.closest('#nav a')) { $('#side').classList.remove('open'); $('#scrim').classList.remove('open'); }
+    return;
+  }
+  const fn = A[el.dataset.action];
+  if (fn) { e.preventDefault(); if (el.closest('.side')) { $('#side').classList.remove('open'); $('#scrim').classList.remove('open'); } fn(el, e); }
+});
+document.addEventListener('submit', e => { const h = F[e.target.dataset.form]; if (h) { e.preventDefault(); h(e.target); } });
+const onInput = e => {
+  const t = e.target;
+  if (t.dataset.tsearch) { const st = tstate(t.dataset.tsearch); st.q = t.value; st.page = 1; render(); return; }
+  if (t.dataset.tfilter) { if (e.type !== 'change') return; const st = tstate(t.dataset.tfilter); st.f[t.dataset.fk] = t.value; st.page = 1; render(); return; }
+  if (t.dataset.qi !== undefined && QE) { const it = QE.items[+t.dataset.qi]; if (it) { it[t.dataset.qf] = t.dataset.qf === 'd' ? t.value : +t.value || 0; } if (t.dataset.qf !== 'd') $('#qe-totals').innerHTML = qeTotals(); return; }
+  const live = t.dataset.live; if (!live || !L[live]) return;
+  const changeOnly = t.tagName === 'SELECT' || t.type === 'file' || t.type === 'date';
+  if (changeOnly && e.type !== 'change') return;
+  if (!changeOnly && e.type !== 'input') return;
+  L[live](t);
+};
+document.addEventListener('input', onInput);
+document.addEventListener('change', onInput);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && $('#modal-root').innerHTML) closeModal(); });
+window.addEventListener('hashchange', () => { closeModal(); render(); window.scrollTo({ top: 0 }); });
+$('#menu-btn').addEventListener('click', () => { $('#side').classList.add('open'); $('#scrim').classList.add('open'); });
+$('#scrim').addEventListener('click', () => { $('#side').classList.remove('open'); $('#scrim').classList.remove('open'); });
+$('#theme-btn').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const next = cur === 'dark' ? 'light' : 'dark'; setTheme(next); try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+});
+
+/* Boot */
+let savedTheme = null; try { savedTheme = localStorage.getItem(THEME_KEY); } catch (e) {}
+renderShell(); setTheme(savedTheme);
+$('#logout-btn').innerHTML = ic('logout', 17);
+window.addEventListener('storage', e => { if (e.key === INBOX_KEY && booted && getSession()) { const n = importInbox(); if (n) { render(); toast(`${n} new website inquir${n === 1 ? 'y' : 'ies'} added`); } } });
+enterApp();
+
+})();
+
+</script>
+</body>
+</html>
